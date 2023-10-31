@@ -18,6 +18,15 @@ export default async function Home() {
           <div className="mx-5">
             <Feed />
           </div>
+          <div className="mb-10">
+            <h2 className="text-accent text-xl font-bold">join the waitlist!!</h2>
+            <div className="my-4">
+              <input className="border border-primary p-2 rounded drop-shadow-hard" type="email" placeholder="enter you're email" />
+            </div>
+            <button
+              className="rounded-sm border border-primary bg-primary/20 px-2 py-0.5 text-primary-darker transition hover:bg-primary/10"
+            >sign me up, scotty</button>
+          </div>
         </div>
       </div>
     </main>

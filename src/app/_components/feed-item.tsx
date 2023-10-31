@@ -1,12 +1,14 @@
+'use client'
+import { useState } from 'react';
 import type { RecipeFeedItem } from "@/types";
-import { FaHeart, FaBookmark } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { CiBookmarkPlus } from "react-icons/ci";
-import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { AiOutlineLeftCircle, AiOutlineRightCircle } from "react-icons/ai";
 import Link from "next/link";
 // import Image from "next/image";
 
 export function FeedItem(props: { item: RecipeFeedItem }) {
+  const [imageIdx, setImageIdx] = useState(0);
   const likes = props.item.reactions.find(
     (reaction) => reaction.type === "like",
   );
@@ -22,13 +24,6 @@ export function FeedItem(props: { item: RecipeFeedItem }) {
               className="rounded-full"
             />
             <div className="px-3">{props.item.author.name}</div>
-            {/* <div> */}
-            {/* dots for each image
-							{props.item.media.map((media) => (
-								<div key={media.id} className="w-3 h-3 bg-primary rounded-full"></div>
-							))
-								}
-						</div> */}
           </div>
           <div className="px-3 underline decoration-accent">
             {props.item.title}
@@ -36,22 +31,28 @@ export function FeedItem(props: { item: RecipeFeedItem }) {
         </div>
       </Link>
       <div className="relative">
-        <img src={props.item.media[0]!.url} alt={props.item.title} />
+        <img src={props.item.media[imageIdx]!.url} alt={props.item.title} width={600} />
         <div className="absolute bottom-0 flex w-full justify-center gap-1">
           {/* dots for each image */}
           {props.item.media.map((media, index) => (
             <div
               key={index}
-              className="mb-1 h-3 w-3 rounded-full bg-background/60"
+              className={`mb-1 h-3 w-3 rounded-full cursor-pointer ${index === imageIdx ? 'bg-background/90' : 'bg-background/60'}`}
+              onClick={() => { setImageIdx(index) }}
             ></div>
           ))}
         </div>
-        <div className="absolute left-0 top-0 flex h-full items-center pl-1.5">
+        { !!imageIdx &&
+          <div className="absolute left-0 top-0 flex h-full items-center pl-1.5 cursor-pointer drop-shadow"
+            onClick={() => setImageIdx(imageIdx - 1)}>
           <AiOutlineLeftCircle className="text-background/80" size={30} />
-        </div>
-        <div className="absolute right-0 top-0 flex h-full items-center pr-1.5">
-          <AiOutlineRightCircle className="text-background/80" size={30} />
-        </div>
+        </div>}
+        { imageIdx < props.item.media.length - 1 &&
+          <div className="absolute right-0 top-0 flex h-full items-center pr-1.5 cursor-pointer"
+           onClick={() => setImageIdx(imageIdx + 1)}>
+            <AiOutlineRightCircle className="text-background/80" size={30} />
+          </div>
+        }
       </div>
       <div className="flex items-center justify-between px-3">
         <div className="flex items-center">
