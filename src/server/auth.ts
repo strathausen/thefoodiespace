@@ -10,7 +10,7 @@ import { Resend } from "resend";
 import { env } from "@/env.mjs";
 import { db } from "@/server/db";
 
-const resend = new Resend(env.RESEND_KEY as string);
+const resend = new Resend(env.RESEND_KEY);
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
