@@ -1,5 +1,5 @@
-'use client'
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 import type { RecipeFeedItem } from "@/types";
 import { FaHeart } from "react-icons/fa";
 import { CiBookmarkPlus } from "react-icons/ci";
@@ -31,33 +31,46 @@ export function FeedItem(props: { item: RecipeFeedItem }) {
         </div>
       </Link>
       <div className="relative">
-        <img src={props.item.media[imageIdx]!.url} alt={props.item.title} width={600} />
+        <img
+          src={props.item.media[imageIdx]!.url}
+          alt={props.item.title}
+          width={600}
+        />
         <div className="absolute bottom-0 flex w-full justify-center gap-1">
           {/* dots for each image */}
           {props.item.media.map((media, index) => (
             <div
               key={index}
-              className={`mb-1 h-3 w-3 rounded-full cursor-pointer ${index === imageIdx ? 'bg-background/90' : 'bg-background/60'}`}
-              onClick={() => { setImageIdx(index) }}
+              className={`mb-1 h-3 w-3 cursor-pointer rounded-full ${
+                index === imageIdx ? "bg-background/90" : "bg-background/60"
+              }`}
+              onClick={() => {
+                setImageIdx(index);
+              }}
             ></div>
           ))}
         </div>
-        { !!imageIdx &&
-          <div className="absolute left-0 top-0 flex h-full items-center pl-1.5 cursor-pointer drop-shadow"
-            onClick={() => setImageIdx(imageIdx - 1)}>
-          <AiOutlineLeftCircle className="text-background/80" size={30} />
-        </div>}
-        { imageIdx < props.item.media.length - 1 &&
-          <div className="absolute right-0 top-0 flex h-full items-center pr-1.5 cursor-pointer"
-           onClick={() => setImageIdx(imageIdx + 1)}>
+        {!!imageIdx && (
+          <div
+            className="absolute left-0 top-0 flex h-full cursor-pointer items-center pl-1.5 drop-shadow"
+            onClick={() => setImageIdx(imageIdx - 1)}
+          >
+            <AiOutlineLeftCircle className="text-background/80" size={30} />
+          </div>
+        )}
+        {imageIdx < props.item.media.length - 1 && (
+          <div
+            className="absolute right-0 top-0 flex h-full cursor-pointer items-center pr-1.5"
+            onClick={() => setImageIdx(imageIdx + 1)}
+          >
             <AiOutlineRightCircle className="text-background/80" size={30} />
           </div>
-        }
+        )}
       </div>
       <div className="flex items-center justify-between px-3">
-        <div className="flex items-center">
+        <div className="flex items-center text-text">
           {likes?.count ?? 0}&nbsp;
-          <FaHeart />
+          <FaHeart className="text-primary-dark" />
         </div>
         <div>
           <CiBookmarkPlus />

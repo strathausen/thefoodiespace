@@ -4,7 +4,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 const recipes: RecipeFeedItem[] = [
   {
     id: 1,
-    title: "grannies angry scary tomato pumkin",
+    title: "granny's angry scary tomato pumkin",
     media: [
       {
         type: "image",

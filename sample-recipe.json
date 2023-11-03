@@ -1,0 +1,85 @@
+{
+  "@context": "http://schema.org",
+  "@type": "Recipe",
+  "author": { "@type": "Person", "name": "Jennifer Segal" },
+  "name": "Vietnamese-Style Meatballs with Chili Sauce",
+  "description": "My husband calls these Vietnamese-style meatballs \"flavor bombs.\" Serve them over rice for a quick weeknight dinner.",
+  "prepTime": "PT20M",
+  "cookTime": "PT25M",
+  "totalTime": "PT45M",
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "servingSize": "",
+    "calories": "488",
+    "fatContent": "29 g",
+    "carbohydrateContent": "27 g",
+    "proteinContent": "30 g",
+    "saturatedFatContent": "9 g",
+    "unsaturatedFatContent": "",
+    "sugarContent": "11 g",
+    "fiberContent": "2 g",
+    "sodiumContent": "2046 mg",
+    "cholesterolContent": "141 mg"
+  },
+  "recipeInstructions": [
+    {
+      "@type": "HowToStep",
+      "text": "Preheat the oven to 400\u00b0F and set an oven rack in the middle position."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "In a large bowl, combine the eggs, fish sauce, garlic, ginger, red pepper flakes, scallions, lime zest, cilantro, and mint. Whisk to combine. Add the beef, pork, and panko. Using your hands, mix until evenly combined. Roll the mixture into golf ball-sized balls and arrange on an unlined baking sheet. The mixture will be a bit sticky; dampen your hands every so often while rolling the meatballs if necessary. Bake for 25 minutes, flipping once with a metal spatula halfway through the cooking time, until the meatballs are browned and cooked through. (If the meatballs stick a bit to the pan, simply slide the metal spatula underneath them and they should release.)  "
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Meanwhile make the sauce by whisking all of the ingredients together in a medium bowl. Be sure the sugar is completely dissolved and not stuck to the bottom of the bowl. Taste and add more chili sauce if desired."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Serve the meatballs drizzled with the sauce and sprinkled with scallions, cilantro, mint, and peanuts. (Be judicious with the sauce; it's very strong in flavor.)"
+    },
+    {
+      "@type": "HowToStep",
+      "text": "Note: Check out easy guidance on how to peel, grate, and chop fresh ginger <a href=\"https://www.onceuponachef.com/how-to/how-to-peel-and-grate-ginger.html\" target=\"_blank\" rel=\"noopener\">here</a>."
+    },
+    {
+      "@type": "HowToStep",
+      "text": "<strong>Make Ahead:</strong> The meatballs can be made completely ahead of time and refrigerated in a tightly sealed container for 2 to 3 days. Reheat in the microwave. "
+    },
+    {
+      "@type": "HowToStep",
+      "text": "<strong>Freezer-Friendly Instructions:</strong> The meatballs can be frozen for up to 3 months. When you\u2019re ready to serve them, reheat them in the microwave."
+    }
+  ],
+  "recipeIngredient": [
+    "2 large eggs",
+    "3 tablespoons  fish sauce",
+    "2  cloves garlic, minced",
+    "1 tablespoon finely grated fresh ginger (see note)",
+    "&frac14; teaspoon crushed red pepper flakes ",
+    "3 scallions, finely chopped (about &frac14; cup), plus a few more for serving",
+    "2 teaspoons lime zest, from 2 limes",
+    "3 tablespoons  chopped fresh cilantro leaves, plus more for serving",
+    "3 tablespoons  chopped fresh mint, plus more for serving",
+    "&frac34; lb 85% lean ground beef",
+    "&frac34; lb ground pork",
+    "1 cup panko ",
+    "&frac12; cup chopped unsalted peanuts, for serving",
+    "2 tablespoons Asian chili sauce, such as Sambal Oelek, or Asian chili garlic sauce (available in Asian aisle of most supermarkets)",
+    "&frac14; cup soy sauce",
+    "2 tablespoons fish sauce",
+    "&frac14; cup lime juice, from 2 to 3 limes",
+    "&frac14; cup sugar"
+  ],
+  "recipeYield": "22 to 24 small meatballs (Serves 6)",
+  "image": "https://www.onceuponachef.com/images/2018/04/vietnamese-style-meatballs-1200x1552.jpg",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 5,
+    "ratingCount": "261"
+  },
+  "datePublished": "2018-04-04T19:49:19-04:00",
+  "keywords": "All Seasons, Asian Chili Sauce, Cookbook 2 Recipe, Fish Sauce, Ginger, Ground Meat, Limes, Meatballs, Nuts, Panko",
+  "recipeCuisine": "Asian, Vietnamese",
+  "recipeCategory": "Dinner"
+}

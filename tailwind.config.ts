@@ -9,11 +9,12 @@ export default {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       colors: {
-        text: "#102310",
+        text: "#1e354b", //"#102310",
         background: "#eef7ed",
         primary: "#4c7ca9",
         "primary-dark": "#3a5e81",
         "primary-darker": "#2c4a6e",
+        "primary-darkest": "#1e354b",
         "primary-light": "#a3c1d9",
         secondary: "#e5c7e6",
         accent: "#E97101",
