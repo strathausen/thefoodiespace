@@ -12,6 +12,9 @@ export default function ProfilePage() {
   const [pronouns, setPronouns] = useState("");
   const [success, setSuccess] = useState(false);
   const [image, setImage] = useState<string>();
+  const [validationError, setValidationError] = useState<string | undefined>(
+    undefined,
+  );
 
   const profileQuery = api.profile.get.useQuery();
   const profileUpdateMutation = api.profile.update.useMutation();
@@ -28,7 +31,7 @@ export default function ProfilePage() {
 
   const handleSubmit = () => {
     if (!name) {
-      alert("name is required");
+      setValidationError("name is required");
       return;
     }
 
@@ -129,7 +132,9 @@ export default function ProfilePage() {
                 Something went wrong! {error.message}
               </p>
             )}
-
+            {validationError && (
+              <p className="text-accent">{validationError}</p>
+            )}
             <p
               className={`text-accent-alt ${
                 success ? "opacity-100" : "opacity-0"
