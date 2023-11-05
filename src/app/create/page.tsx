@@ -20,15 +20,15 @@ export default function RecipePage() {
         >
           <h3 className="text-lg underline">recipe</h3>
           <p>ingredients</p>
-          <div className="flex flex-row">
-            <div>
-              {ingredients.map((ingredient, i) => (
-                <div key={i}>*</div>
+          <div className="flex flex-row bg-white rounded px-3">
+            <div className="w-4">
+              {ingredients.map((_ingredient, i) => (
+                <div key={i} className="flex">•</div>
               ))}
             </div>
             <textarea
               value={ingredientsText}
-              className="flex-grow"
+              className="flex-grow outline-none"
               onChange={(e) => {
                 setIngredientsText(e.target.value.replace(/\n\n\n/g, "\n\n"));
                 setIngredients(e.target.value.split(/[\n|\r]+/));

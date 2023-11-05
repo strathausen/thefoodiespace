@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import { InputField } from "../_components/input-field";
 import { api } from "@/trpc/react";
 import { UploadButton } from "@/utils/uploadthing";
+import Link from "next/link";
+import { AuthPage } from "../api/auth/auth-page";
 
 const size = 130;
 
@@ -52,106 +55,108 @@ export default function ProfilePage() {
 
   return (
     <main>
-      <div className="mt-10 max-w-xl">
-        <h1 className="py-6 text-xl underline decoration-accent">
-          profile page
-        </h1>
-        <form
-          onSubmit={(e) => {
-            handleSubmit();
-            e.preventDefault();
-          }}
-          className="rounded border border-accent-alt p-4"
-        >
-          <div className="mb-2 flex justify-center">
-            {image ? (
-              <img src={image} width={size} className="rounded-full" />
-            ) : (
+      <AuthPage>
+        <div className="mt-10 max-w-xl">
+          <h1 className="py-6 text-xl underline decoration-accent">
+            profile page
+          </h1>
+          <form
+            onSubmit={(e) => {
+              handleSubmit();
+              e.preventDefault();
+            }}
+            className="rounded border border-accent-alt p-4"
+          >
+            <div className="mb-2 flex justify-center">
               <div
                 className="rounded-full bg-primary-light"
                 style={{ width: size, height: size }}
-              />
-            )}
-          </div>
-          <UploadButton
-            endpoint="imageUploader"
-            onClientUploadComplete={(res) => {
-              if (res) {
-                setImage(res[0]?.url);
-                handleSubmit();
-              }
-            }}
-            onUploadError={(error: Error) => {
-              // Do something with the error.
-              alert(`ERROR! ${error.message}`);
-            }}
-            className="mb-4"
-            appearance={{
-              button({ ready, isUploading }) {
-                return "bg-primary/20 border-primary text-primary-darker hover:bg-primary/10 rounded border text-md h-8";
-              },
-              allowedContent() {
-                return "text-pink";
-              },
-            }}
-            content={{ button: "upload profile pic" }}
-          />
-          <InputField
-            label="name"
-            name="name"
-            description="what should we call you?"
-            type="text"
-            placeholder="name"
-            value={name}
-            onChange={setName}
-            disabled={loading}
-          />
-          <InputField
-            label="bio"
-            name="bio"
-            description="brag about yourself!" // TODO enable markdown
-            type="textarea"
-            placeholder="bio"
-            value={bio}
-            onChange={setBio}
-            disabled={loading}
-          />
-          <InputField
-            label="pronouns"
-            name="pronouns"
-            description="how do you identify?"
-            type="text"
-            placeholder="pronouns"
-            value={pronouns}
-            onChange={setPronouns}
-            disabled={loading}
-          />
-          <div className="mt-4 flex flex-row items-center justify-end gap-3">
-            {error && (
-              <p className="text-accent">
-                Something went wrong! {error.message}
-              </p>
-            )}
-            {validationError && (
-              <p className="text-accent">{validationError}</p>
-            )}
-            <p
-              className={`text-accent-alt ${
-                success ? "opacity-100" : "opacity-0"
-              } transition-opacity duration-700 ease-out`}
-            >
-              profile updated!
-            </p>
-            <button
-              className="rounded border border-accent px-3 py-1"
-              type="submit"
+              >
+                {image && (
+                  <img src={image} width={size} className="rounded-full" />
+                )}
+              </div>
+            </div>
+            <UploadButton
+              endpoint="imageUploader"
+              onClientUploadComplete={(res) => {
+                if (res) {
+                  setImage(res[0]?.url);
+                  handleSubmit();
+                }
+              }}
+              onUploadError={(error: Error) => {
+                // Do something with the error.
+                alert(`ERROR! ${error.message}`);
+              }}
+              className="mb-4"
+              appearance={{
+                button({ ready, isUploading }) {
+                  return "bg-primary/20 border-primary text-primary-darker hover:bg-primary/10 rounded border text-md h-8";
+                },
+                allowedContent() {
+                  return "text-pink";
+                },
+              }}
+              content={{ button: "upload profile pic" }}
+            />
+            <InputField
+              label="name"
+              name="name"
+              description="what should we call you?"
+              type="text"
+              placeholder="name"
+              value={name}
+              onChange={setName}
               disabled={loading}
-            >
-              submit
-            </button>
-          </div>
-        </form>
-      </div>
+            />
+            <InputField
+              label="bio"
+              name="bio"
+              description="brag about yourself!" // TODO enable markdown
+              type="textarea"
+              placeholder="bio"
+              value={bio}
+              onChange={setBio}
+              disabled={loading}
+            />
+            <InputField
+              label="pronouns"
+              name="pronouns"
+              description="how do you identify?"
+              type="text"
+              placeholder="pronouns"
+              value={pronouns}
+              onChange={setPronouns}
+              disabled={loading}
+            />
+            <div className="mt-4 flex flex-row items-center justify-end gap-3">
+              {error && (
+                <p className="text-accent">
+                  Something went wrong! {error.message}
+                </p>
+              )}
+              {validationError && (
+                <p className="text-accent">{validationError}</p>
+              )}
+              <p
+                className={`text-accent-alt ${
+                  success ? "opacity-100" : "opacity-0"
+                } transition-opacity duration-700 ease-out`}
+              >
+                profile updated!
+              </p>
+              <button
+                className="rounded border border-accent px-3 py-1"
+                type="submit"
+                disabled={loading}
+              >
+                submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </AuthPage>
     </main>
   );
 }
