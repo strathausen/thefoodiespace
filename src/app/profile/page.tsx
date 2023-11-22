@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { InputField } from "../_components/input-field";
 import { api } from "@/trpc/react";
 import { UploadButton } from "@/utils/uploadthing";
-import Link from "next/link";
 import { AuthPage } from "../api/auth/auth-page";
 
 const size = 130;
