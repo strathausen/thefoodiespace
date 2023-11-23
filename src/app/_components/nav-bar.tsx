@@ -26,7 +26,7 @@ export function NavBar(props: Props) {
         />
       </div>
       <div className="flex flex-row items-center justify-end gap-4">
-        {["create", "recipes", "profile"].map((link) => (
+        {["create", "profile"].map((link) => (
           <Link
             key={link}
             href={`/${link}`}

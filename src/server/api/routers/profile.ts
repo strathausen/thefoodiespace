@@ -2,16 +2,19 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 import { isNil, omitBy } from "lodash";
 
+const select = {
+  id: true,
+  name: true,
+  bio: true,
+  pronouns: true,
+  image: true,
+};
+
 export const profileRouter = createTRPCRouter({
   get: protectedProcedure.query(({ ctx }) => {
     return ctx.db.user.findUniqueOrThrow({
       where: { id: ctx.session.user.id },
-      select: {
-        name: true,
-        bio: true,
-        pronouns: true,
-        image: true,
-      },
+      select,
     });
   }),
   update: protectedProcedure
@@ -26,15 +29,8 @@ export const profileRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.user.update({
         where: { id: ctx.session.user.id },
-        data: omitBy(
-          {
-            name: input.name,
-            bio: input.bio,
-            pronouns: input.pronouns,
-            image: input.image,
-          },
-          isNil,
-        ),
+        data: omitBy(input, isNil),
+        select,
       });
     }),
 });

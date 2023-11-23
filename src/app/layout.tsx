@@ -10,11 +10,11 @@ import { getServerAuthSession } from "@/server/auth";
 import { NavBar } from "./_components/nav-bar";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
-import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata = {

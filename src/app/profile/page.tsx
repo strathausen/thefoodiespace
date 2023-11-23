@@ -68,12 +68,13 @@ export default function ProfilePage() {
             <div className="mb-2 flex justify-center">
               <div
                 className="rounded-full bg-primary-light"
-                style={{ width: size, height: size }}
-              >
-                {image && (
-                  <img src={image} width={size} className="rounded-full" />
-                )}
-              </div>
+                style={{
+                  width: size,
+                  height: size,
+                  backgroundImage: image ? `url(${image})` : undefined,
+                  backgroundSize: "cover",
+                }}
+              ></div>
             </div>
             <UploadButton
               endpoint="imageUploader"

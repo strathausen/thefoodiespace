@@ -71,7 +71,7 @@ const RecipeInfos: RecipeInfo[] = [
 ];
 
 export default function RecipePage() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([emptyIngredient]);
   const [steps, setSteps] = useState<RecipeStep[]>([emptyRecipeStep]);
 
   useEffect(() => {
