@@ -84,8 +84,26 @@ export const recipeRouter = createTRPCRouter({
           .optional(),
       }),
     )
-    .mutation(({ ctx, input }) => {
-      const userId = ctx.session.user.id;
-      return ctx.db;
+    .mutation(async ({ ctx, input }) => {
+      const createdById = ctx.session.user.id;
+      const { name, text, images, ingredients, steps, recipeInfos } = input;
+      const info = recipeInfos?.reduce(
+        (acc, { key, value }) => {
+          acc[key] = value;
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
+      return await ctx.db.recipe.create({
+        data: {
+          createdById,
+          name: name ?? "",
+          text,
+          images,
+          steps,
+          ingredients,
+          info,
+        },
+      });
     }),
 });

@@ -124,15 +124,16 @@ model User {
 }
 
 model Recipe {
-    id          Int      @id @default(autoincrement())
+    id          String     @id @default(cuid())
     name        String
-    description String?
-    createdAt   DateTime @default(now()) @map("created_at")
-    updatedAt   DateTime @updatedAt @map("updated_at")
+    text        String?
+    createdAt   DateTime   @default(now()) @map("created_at")
+    updatedAt   DateTime   @updatedAt @map("updated_at")
     images      String[]
     steps       Json[]
     ingredients Json[]
     info        Json       @default("{}")
+    status      PostStatus @default(DRAFT)
 
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String @map("created_by")
