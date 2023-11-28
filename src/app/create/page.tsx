@@ -1,29 +1,28 @@
 "use client";
-import { on } from "events";
+import { api } from "@/trpc/react";
+import type { RecipeStep } from "@/types";
 import { useEffect, useState } from "react";
+import { RecipeStepEditor } from "../_components/recipe-step-editor";
+
+// https://developers.google.com/search/docs/appearance/structured-data/recipe#supply-tool
 
 type Ingredient = {
-  amount: string;
+  quantity: string;
   unit: string;
   name: string;
   notes?: string;
 };
 
 const emptyIngredient: Ingredient = {
-  amount: "",
+  quantity: "",
   unit: "",
   name: "",
 };
 
-type RecipeStep = {
-  title?: string;
-  description: string;
-  usedIngredients: Ingredient[];
-};
-
 const emptyRecipeStep: RecipeStep = {
-  description: "",
-  usedIngredients: [],
+  name: "",
+  text: "",
+  usedIngredients: "",
 };
 
 const SubHead = ({ children }: { children: React.ReactNode }) => (
@@ -32,47 +31,89 @@ const SubHead = ({ children }: { children: React.ReactNode }) => (
 
 type RecipeInfo = {
   label: string;
-  key?: string;
+  key: string;
   value: string;
 };
 
 // "prep time", "resting time", "baking time", "cooking time", "calories", "portions",
-const RecipeInfos: RecipeInfo[] = [
+/**
+ * "prepTime": "PT20M",
+ * "cookTime": "PT30M",
+ * "totalTime": "PT50M",
+ * "keywords": "cake for a party, coffee",
+ * "recipeYield": "10",
+ * "recipeCategory": "Dessert",
+ * "recipeCuisine": "American",
+ * "nutrition": {
+ *   "@type": "NutritionInformation",
+ *   "calories": "270 calories"
+ * },
+ */
+const defaultRecipeInfos: RecipeInfo[] = [
   {
     label: "prep time",
     key: "prepTime",
     value: "",
   },
   {
-    label: "resting time",
-    key: "restingTime",
+    label: "cook time",
+    key: "cookTime",
     value: "",
   },
   {
-    label: "baking time",
-    key: "bakingTime",
-    value: "",
-  },
-  {
-    label: "cooking time",
-    key: "cookingTime",
+    label: "total time",
+    key: "totalTime",
     value: "",
   },
   {
     label: "calories",
-    key: "calories",
+    key: "nutrition.calories",
+    value: "",
+  },
+  {
+    label: "category",
+    key: "recipeCategory",
+    value: "",
+  },
+  {
+    label: "cuisine",
+    key: "recipeCuisine",
     value: "",
   },
   {
     label: "portions",
-    key: "portions",
+    key: "recipeYield",
+    value: "",
+  },
+  {
+    label: "keywords",
+    key: "keywords",
     value: "",
   },
 ];
 
 export default function RecipePage() {
-  const [ingredients, setIngredients] = useState<Ingredient[]>([emptyIngredient]);
-  const [steps, setSteps] = useState<RecipeStep[]>([emptyRecipeStep]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([
+    { ...emptyIngredient },
+  ]);
+  const [steps, setSteps] = useState<RecipeStep[]>([{ ...emptyRecipeStep }]);
+  const [images, setImages] = useState<string[]>([]);
+  const [text, setText] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [recipeInfos, setRecipeInfos] =
+    useState<RecipeInfo[]>(defaultRecipeInfos);
+  const create = api.recipe.create.useMutation();
+
+  const saveRecipe = () => {
+    create.mutate({
+      name,
+      text,
+      images,
+      ingredients,
+      steps,
+      recipeInfos,
+    });
+  };
 
   useEffect(() => {
     // if the last ingredient is not empty, add a new empty ingredient
@@ -112,7 +153,7 @@ export default function RecipePage() {
 
   return (
     <main>
-      <div className="max-w-xxl mt-10">
+      <div className="max-w-xxl my-10">
         <h1 className="py-6 text-xl underline decoration-accent">
           create a recipe
         </h1>
@@ -144,25 +185,34 @@ export default function RecipePage() {
                 />
               </div>
             </div>
-            <div className="mt-4 flex flex-row gap-2 text-center">
-              {[
-                "prep time",
-                "resting time",
-                "baking time",
-                "cooking time",
-                "calories",
-                "portions",
-              ].map((label, i) => (
-                <div key={i} className="rounded-sm border border-primary">
-                  <div className="text-sm text-primary">{label}</div>
-                  <input className="w-full" />
+            <div className="mt-4 grid grid-cols-5 gap-2 text-center">
+              {recipeInfos.map((info, i) => (
+                <div
+                  key={i}
+                  className={`rounded-sm border border-primary ${
+                    !info.value && "opacity-50"
+                  } duration-400 transition-opacity hover:opacity-100`}
+                >
+                  <label className="text-sm text-primary" htmlFor={`info-${i}`}>
+                    {info.label}
+                  </label>
+                  <input
+                    id={`info-${i}`}
+                    className="w-full px-2 py-1 text-text outline-none"
+                    value={info.value}
+                    onChange={(e) => {
+                      const newRecipeInfos = [...recipeInfos];
+                      newRecipeInfos[i]!.value = e.target.value;
+                      setRecipeInfos(newRecipeInfos);
+                    }}
+                  />
                 </div>
               ))}
             </div>
           </section>
           <section>
             <SubHead>ingredients</SubHead>
-            <div className="grid grid-cols-[100px_1fr_1fr_auto] gap-2 text-sm text-primary">
+            <div className="grid grid-cols-[100px_100px_1fr_auto] gap-2 text-sm text-primary">
               <div className="px-2">amount</div>
               <div className="px-2">unit</div>
               <div className="px-2">ingredient</div>
@@ -170,29 +220,29 @@ export default function RecipePage() {
             </div>
             {ingredients.map((ingredient, i) => (
               <div
-                className="mb-2 mt-1 grid grid-cols-[100px_1fr_1fr_auto] gap-2"
+                className="mb-2 mt-1 grid grid-cols-[100px_100px_1fr_auto] gap-2"
                 key={i}
               >
                 <input
-                  className="rounded-sm px-2 py-1"
+                  className="rounded-sm px-2 py-1 text-sm"
                   placeholder="1, 1/2, a bit"
-                  value={ingredient.amount}
-                  onChange={onChangeIngredient(i, "amount")}
+                  value={ingredient.quantity}
+                  onChange={onChangeIngredient(i, "quantity")}
                 />
                 <input
-                  className="rounded-sm px-2 py-1"
+                  className="rounded-sm px-2 py-1 text-sm"
                   placeholder="scoop, gram, pinch..."
                   value={ingredient.unit}
                   onChange={onChangeIngredient(i, "unit")}
                 />
                 <input
-                  className="rounded-sm px-2 py-1"
+                  className="rounded-sm px-2 py-1 text-sm"
                   placeholder="flour, salt, tomato..."
                   value={ingredient.name}
                   onChange={onChangeIngredient(i, "name")}
                 />
                 <input
-                  className="rounded-sm px-2 py-1"
+                  className="rounded-sm px-2 py-1 text-sm"
                   placeholder="to taste, optional..."
                   value={ingredient.notes}
                   onChange={onChangeIngredient(i, "notes")}
@@ -203,23 +253,46 @@ export default function RecipePage() {
           <section>
             <SubHead>steps</SubHead>
             <div className="flex flex-col gap-2">
-              <div className="flex flex-row gap-2">
-                <div className="block h-[200px] w-[200px] cursor-pointer rounded-sm border border-primary bg-primary/20 text-center text-gray-400">
-                  add picture
-                </div>
-                <div className="flex grow flex-col gap-2">
-                  <input
-                    className="w-full rounded-sm px-2 py-1"
-                    placeholder="title (optional)"
-                  />
-                  <textarea
-                    className="h-full w-full rounded-sm px-2 py-1"
-                    placeholder="what do you do in this step?"
-                  />
-                  <input placeholder="ingredients used" className="px-2 py-1" />
-                </div>
-              </div>
-              <button className="rounded-sm border border-accent-alt bg-accent-alt/20 text-accent-alt">
+              {steps.map((step, i) => (
+                <RecipeStepEditor
+                  key={i}
+                  step={step}
+                  number={i + 1}
+                  isFirst={i === 0}
+                  isLast={i === steps.length - 1}
+                  enableDelete={steps.length > 1}
+                  onChanged={(step) => {
+                    const newSteps = [...steps];
+                    newSteps[i] = step;
+                    setSteps(newSteps);
+                  }}
+                  onMovedDown={() => {
+                    const newSteps = [...steps];
+                    const temp = newSteps[i]!;
+                    newSteps[i] = newSteps[i + 1]!;
+                    newSteps[i + 1] = temp;
+                    setSteps(newSteps);
+                  }}
+                  onMovedUp={() => {
+                    const newSteps = [...steps];
+                    const temp = newSteps[i]!;
+                    newSteps[i] = newSteps[i - 1]!;
+                    newSteps[i - 1] = temp;
+                    setSteps(newSteps);
+                  }}
+                  onDeleted={() => {
+                    const newSteps = [...steps];
+                    newSteps.splice(i, 1);
+                    setSteps(newSteps);
+                  }}
+                />
+              ))}
+              <button
+                className="rounded-sm border border-accent-alt bg-accent-alt/20 text-accent-alt"
+                onClick={() => {
+                  setSteps([...steps, { ...emptyRecipeStep }]);
+                }}
+              >
                 add step
               </button>
             </div>

@@ -118,8 +118,27 @@ model User {
     sessions      Session[]
     posts         Post[]
     reactions     Reaction[]
+    recipes       Recipe[]
 
     @@map("users")
+}
+
+model Recipe {
+    id          Int      @id @default(autoincrement())
+    name        String
+    description String?
+    createdAt   DateTime @default(now()) @map("created_at")
+    updatedAt   DateTime @updatedAt @map("updated_at")
+    images      String[]
+    steps       Json[]
+    ingredients Json[]
+    info        Json       @default("{}")
+
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String @map("created_by")
+
+    @@index([name])
+    @@map("recipes")
 }
 
 model Waitlist {

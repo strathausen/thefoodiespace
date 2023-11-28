@@ -79,3 +79,9 @@ export type RecipeFeedItem = {
     liked?: boolean;
   }[];
 };
+
+export type RecipeStep = {
+  name: string;
+  text: string;
+  usedIngredients?: string;
+};

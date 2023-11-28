@@ -1,5 +1,6 @@
 import type { RecipeFeedItem } from "@/types";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { z } from "zod";
 
 const recipes: RecipeFeedItem[] = [
   {
@@ -49,4 +50,42 @@ export const recipeRouter = createTRPCRouter({
   list: publicProcedure.query(() => {
     return recipes;
   }),
+  create: protectedProcedure
+    .input(
+      z.object({
+        name: z.string().optional(),
+        text: z.string().optional(),
+        images: z.array(z.string()).optional(),
+        ingredients: z
+          .array(
+            z.object({
+              quantity: z.string(),
+              unit: z.string(),
+              name: z.string(),
+              notes: z.string().optional(),
+            }),
+          )
+          .optional(),
+        steps: z
+          .array(
+            z.object({
+              text: z.string(),
+              images: z.array(z.string()).optional(),
+            }),
+          )
+          .optional(),
+        recipeInfos: z
+          .array(
+            z.object({
+              key: z.string(),
+              value: z.string(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      return ctx.db;
+    }),
 });

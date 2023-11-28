@@ -25,7 +25,6 @@ export default function ProfilePage() {
       setName(profileQuery.data.name!);
       setPronouns(profileQuery.data.pronouns!);
       setBio(profileQuery.data.bio!);
-      setPronouns(profileQuery.data.pronouns!);
       setImage(profileQuery.data.image!);
     }
   }, [profileQuery.data]);
@@ -35,7 +34,7 @@ export default function ProfilePage() {
       setValidationError("name is required");
       return;
     }
-
+    setValidationError(undefined);
     profileUpdateMutation.mutate({ name, bio, pronouns, image });
     setSuccess(true);
   };
@@ -91,10 +90,11 @@ export default function ProfilePage() {
               className="mb-4"
               appearance={{
                 button({ ready, isUploading }) {
-                  return "bg-primary/20 border-primary text-primary-darker hover:bg-primary/10 rounded border text-md h-8";
-                },
-                allowedContent() {
-                  return "text-pink";
+                  return `bg-primary/20 ${
+                    ready ? "border-green" : "border-primary"
+                  } text-primary-darker hover:bg-primary/10 rounded border text-md h-8 ${
+                    isUploading ? "opacity-50" : ""
+                  }`;
                 },
               }}
               content={{ button: "upload profile pic" }}
