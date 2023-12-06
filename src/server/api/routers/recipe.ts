@@ -5,7 +5,6 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { RecipeValidator } from "@/validators";
-import { isNil, omitBy } from "lodash";
 
 export const recipeRouter = createTRPCRouter({
   list: publicProcedure.query(({ ctx }) => {
@@ -13,6 +12,22 @@ export const recipeRouter = createTRPCRouter({
       where: { status: "PUBLISHED", featured: true },
       take: 10,
       orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        images: true,
+        info: true,
+        createdAt: true,
+        updatedAt: true,
+        createdById: true,
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
+      },
     });
   }),
   get: publicProcedure.input(z.string()).query(({ ctx, input }) => {

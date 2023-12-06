@@ -1,5 +1,3 @@
-import { type } from "os";
-
 // <script type="application/ld+json">
 export type Recipe = {
   "@context": "https://schema.org/";

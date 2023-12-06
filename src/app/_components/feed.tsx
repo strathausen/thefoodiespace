@@ -9,7 +9,11 @@ export async function Feed() {
         <div className="flex flex-col items-center gap-2"></div>
         <div className="container">
           {feed.map((recipe) => (
-            <FeedItem key={recipe.id} item={recipe} />
+            // <FeedItem key={recipe.id} item={recipe} />
+            <div key={recipe.id}>
+              <h1>{recipe.name}</h1>
+              {/* <p>{recipe.}</p> */}
+            </div>
           ))}
         </div>
       </div>
