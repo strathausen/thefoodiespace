@@ -10,6 +10,8 @@
 - steps
   - choose things from ingredients list (nice!)
   - utensils
+- maybe migrate to thefoodie-dot-network or dot-space?
+- prevent browser navigation when unsaved changes are present
 
 ## future feature ideas
 

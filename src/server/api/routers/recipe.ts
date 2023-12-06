@@ -1,92 +1,55 @@
-import type { RecipeFeedItem } from "@/types";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
-
-const recipes: RecipeFeedItem[] = [
-  {
-    id: 1,
-    title: "granny's angry scary tomato pumkin",
-    media: [
-      {
-        type: "image",
-        url: "scary-tomato-pumpkin-1.png",
-      },
-      {
-        type: "image",
-        url: "scary-tomato-pumpkin-2.png",
-      },
-      {
-        type: "image",
-        url: "scary-tomato-pumpkin-3.png",
-      },
-      {
-        type: "image",
-        url: "scary-tomato-pumpkin-4.png",
-      },
-    ],
-    author: {
-      name: "Jane Doe",
-      avatar: "https://avatars.githubusercontent.com/u/201042?v=4",
-    },
-    reactions: [
-      {
-        type: "like",
-        count: 10,
-        liked: true,
-      },
-      {
-        type: "love",
-        count: 2,
-      },
-      {
-        type: "haha",
-        count: 1,
-      },
-    ],
-  },
-];
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
+import { RecipeValidator } from "@/validators";
+import { isNil, omitBy } from "lodash";
 
 export const recipeRouter = createTRPCRouter({
-  list: publicProcedure.query(() => {
-    return recipes;
+  list: publicProcedure.query(({ ctx }) => {
+    return ctx.db.recipe.findMany({
+      where: { status: "PUBLISHED", featured: true },
+      take: 10,
+      orderBy: { createdAt: "desc" },
+    });
   }),
-  create: protectedProcedure
+  get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return input
+      ? ctx.db.recipe.findFirst({
+          where: { id: input, status: "PUBLISHED" },
+        })
+      : null;
+  }),
+  listMine: protectedProcedure
     .input(
       z.object({
-        name: z.string().optional(),
-        text: z.string().optional(),
-        images: z.array(z.string()).optional(),
-        ingredients: z
-          .array(
-            z.object({
-              quantity: z.string(),
-              unit: z.string(),
-              name: z.string(),
-              notes: z.string().optional(),
-            }),
-          )
-          .optional(),
-        steps: z
-          .array(
-            z.object({
-              text: z.string(),
-              images: z.array(z.string()).optional(),
-            }),
-          )
-          .optional(),
-        recipeInfos: z
-          .array(
-            z.object({
-              key: z.string(),
-              value: z.string(),
-            }),
-          )
-          .optional(),
+        take: z.number().optional().default(10),
+        skip: z.number().optional().default(0),
       }),
     )
+    .query(({ ctx, input }) => {
+      const createdById = ctx.session.user.id;
+      return ctx.db.recipe.findMany({
+        where: { createdById },
+        ...input,
+        orderBy: { createdAt: "desc" },
+      });
+    }),
+  getMine: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const createdById = ctx.session.user.id;
+      return ctx.db.recipe.findFirst({
+        where: { createdById, id: input },
+      });
+    }),
+  create: protectedProcedure
+    .input(RecipeValidator)
     .mutation(async ({ ctx, input }) => {
       const createdById = ctx.session.user.id;
-      const { name, text, images, ingredients, steps, recipeInfos } = input;
+      const { recipeInfos, ...update } = input;
       const info = recipeInfos?.reduce(
         (acc, { key, value }) => {
           acc[key] = value;
@@ -97,11 +60,7 @@ export const recipeRouter = createTRPCRouter({
       return await ctx.db.recipe.create({
         data: {
           createdById,
-          name: name ?? "",
-          text,
-          images,
-          steps,
-          ingredients,
+          ...update,
           info,
         },
       });

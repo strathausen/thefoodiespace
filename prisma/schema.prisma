@@ -5,6 +5,10 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
     provider = "postgres"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
@@ -127,11 +131,16 @@ model Recipe {
     id          String     @id @default(cuid())
     name        String
     text        String?
+    featured    Boolean?   @default(false)
+    sourceUrl   String?
     createdAt   DateTime   @default(now()) @map("created_at")
     updatedAt   DateTime   @updatedAt @map("updated_at")
     images      String[]
-    steps       Json[]
+    /// [RecipeSteps]
+    steps       Json
+    /// [RecipeIngredients]
     ingredients Json[]
+    /// [RecipeInfo]
     info        Json       @default("{}")
     status      PostStatus @default(DRAFT)
 

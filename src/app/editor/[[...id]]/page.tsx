@@ -2,7 +2,8 @@
 import { api } from "@/trpc/react";
 import type { RecipeStep } from "@/types";
 import { useEffect, useState } from "react";
-import { RecipeStepEditor } from "../_components/recipe-step-editor";
+import { RecipeStepEditor } from "../../_components/recipe-step-editor";
+import { useRouter } from "next/navigation";
 
 // https://developers.google.com/search/docs/appearance/structured-data/recipe#supply-tool
 
@@ -86,34 +87,62 @@ const defaultRecipeInfos: RecipeInfo[] = [
     value: "",
   },
   {
+    // or should these be in-line hashtags?
     label: "keywords",
     key: "keywords",
     value: "",
   },
 ];
 
-export default function RecipePage() {
+export default function RecipePage({ params }: { params: { id: string[] } }) {
+  const id = params.id ? params.id[0] : undefined;
+  const [text, setText] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [sourceUrl, setSourceUrl] = useState<string>("");
+  const [steps, setSteps] = useState<RecipeStep[]>([{ ...emptyRecipeStep }]);
+  const [images, setImages] = useState<string[]>([]);
+  const [recipeInfos, setRecipeInfos] =
+    useState<RecipeInfo[]>(defaultRecipeInfos);
   const [ingredients, setIngredients] = useState<Ingredient[]>([
     { ...emptyIngredient },
   ]);
-  const [steps, setSteps] = useState<RecipeStep[]>([{ ...emptyRecipeStep }]);
-  const [images, setImages] = useState<string[]>([]);
-  const [text, setText] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [recipeInfos, setRecipeInfos] =
-    useState<RecipeInfo[]>(defaultRecipeInfos);
+
+  const router = useRouter();
+
   const create = api.recipe.create.useMutation();
+  const get = api.recipe.getMine.useQuery(id!, { enabled: !!id });
 
   const saveRecipe = () => {
     create.mutate({
       name,
       text,
+      sourceUrl,
       images,
-      ingredients,
-      steps,
-      recipeInfos,
+      ingredients: ingredients.filter((i) => i.name),
+      steps: steps.filter((s) => s.name || s.text),
+      recipeInfos: recipeInfos.filter((i) => i.value),
     });
   };
+
+  useEffect(() => {
+    if (create.isSuccess && !id) {
+      router.push(`/editor/${create.data.id}`);
+    }
+  }, [create.data, create.isSuccess, id, router]);
+
+  useEffect(() => {
+    const recipe = get.data;
+    if (!get.isSuccess || !recipe) {
+      return;
+    }
+    setName(recipe.name);
+    setText(recipe.text ?? "");
+    setSourceUrl(recipe.sourceUrl ?? "");
+    setImages(recipe.images);
+    // setIngredients(recipe.ingredients);
+    // setSteps(recipe.steps);
+    // setRecipeInfos(recipe.recipeInfos);
+  }, [get.data, get.isSuccess]);
 
   useEffect(() => {
     // if the last ingredient is not empty, add a new empty ingredient
@@ -155,7 +184,7 @@ export default function RecipePage() {
     <main>
       <div className="max-w-xxl my-10">
         <h1 className="py-6 text-xl underline decoration-accent">
-          create a recipe
+          recipe editor
         </h1>
         <form
           onSubmit={(e) => {
@@ -174,18 +203,24 @@ export default function RecipePage() {
                 <input
                   className="w-full rounded-sm px-2 py-1"
                   placeholder="give it a punchy title"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <input
                   className="w-full rounded-sm px-2 py-1"
                   placeholder="source url - did this come from somewhere?"
+                  value={sourceUrl}
+                  onChange={(e) => setSourceUrl(e.target.value)}
                 />
                 <textarea
                   className="h-full w-full rounded-sm px-2 py-1"
                   placeholder="tell us about your recipe. use markdown or #hashtags if you want."
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
                 />
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-5 gap-2 text-center">
+            <div className="mt-4 grid grid-cols-4 gap-2 text-center">
               {recipeInfos.map((info, i) => (
                 <div
                   key={i}
@@ -212,7 +247,7 @@ export default function RecipePage() {
           </section>
           <section>
             <SubHead>ingredients</SubHead>
-            <div className="grid grid-cols-[100px_100px_1fr_auto] gap-2 text-sm text-primary">
+            <div className="grid grid-cols-[100px_100px_200px_auto] gap-2 text-sm text-primary">
               <div className="px-2">amount</div>
               <div className="px-2">unit</div>
               <div className="px-2">ingredient</div>
@@ -220,7 +255,7 @@ export default function RecipePage() {
             </div>
             {ingredients.map((ingredient, i) => (
               <div
-                className="mb-2 mt-1 grid grid-cols-[100px_100px_1fr_auto] gap-2"
+                className="mb-2 mt-1 grid grid-cols-[100px_100px_200px_auto] gap-2"
                 key={i}
               >
                 <input
@@ -297,6 +332,20 @@ export default function RecipePage() {
               </button>
             </div>
           </section>
+          <div className="text-sm text-red-500">
+            {create.error ? `error: ${create.error.message}` : ""}
+          </div>
+          <div className="flex justify-between">
+            <div></div>
+            <button
+              className="rounded-sm border border-primary bg-primary/20 px-2 py-1 text-primary disabled:opacity-50"
+              disabled={create.isLoading || !name}
+              onClick={saveRecipe}
+              title={!name ? "name is required" : ""}
+            >
+              💾 {id ? "update" : "create"} recipe
+            </button>
+          </div>
         </form>
       </div>
     </main>
