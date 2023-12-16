@@ -1,17 +1,17 @@
-import { z } from "zod";
+import {z} from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
-import { RecipeValidator } from "@/validators";
+import {RecipeValidator} from "@/validators";
 
 export const recipeRouter = createTRPCRouter({
-  list: publicProcedure.query(({ ctx }) => {
+  list: publicProcedure.query(({ctx}) => {
     return ctx.db.recipe.findMany({
-      where: { status: "PUBLISHED", featured: true },
+      where: {status: "PUBLISHED", featured: true},
       take: 10,
-      orderBy: { createdAt: "desc" },
+      orderBy: {createdAt: "desc"},
       select: {
         id: true,
         name: true,
@@ -30,11 +30,11 @@ export const recipeRouter = createTRPCRouter({
       },
     });
   }),
-  get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  get: publicProcedure.input(z.string()).query(({ctx, input}) => {
     return input
       ? ctx.db.recipe.findFirst({
-          where: { id: input, status: "PUBLISHED" },
-        })
+        where: {id: input, status: "PUBLISHED"},
+      })
       : null;
   }),
   listMine: protectedProcedure
@@ -44,34 +44,46 @@ export const recipeRouter = createTRPCRouter({
         skip: z.number().optional().default(0),
       }),
     )
-    .query(({ ctx, input }) => {
+    .query(async ({ctx, input}) => {
       const createdById = ctx.session.user.id;
-      return ctx.db.recipe.findMany({
-        where: { createdById },
+      const recipe = await ctx.db.recipe.findMany({
+        where: {createdById},
         ...input,
-        orderBy: { createdAt: "desc" },
+        orderBy: {createdAt: "desc"},
       });
+      console.log(recipe);
+      return recipe;
     }),
   getMine: protectedProcedure
     .input(z.string())
-    .query(async ({ ctx, input }) => {
+    .query(async ({ctx, input}) => {
       const createdById = ctx.session.user.id;
       return ctx.db.recipe.findFirst({
-        where: { createdById, id: input },
+        where: {createdById, id: input},
       });
     }),
-  create: protectedProcedure
+  upsert: protectedProcedure
     .input(RecipeValidator)
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ctx, input}) => {
       const createdById = ctx.session.user.id;
-      const { recipeInfos, ...update } = input;
+      const {recipeInfos, ...update} = input;
       const info = recipeInfos?.reduce(
-        (acc, { key, value }) => {
+        (acc, {key, value}) => {
           acc[key] = value;
           return acc;
         },
         {} as Record<string, string>,
       );
+      if (input.id) {
+        return await ctx.db.recipe.update({
+          where: {id: input.id},
+          data: {
+            createdById,
+            ...update,
+            info,
+          },
+        });
+      }
       return await ctx.db.recipe.create({
         data: {
           createdById,

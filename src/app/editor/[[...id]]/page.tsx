@@ -27,7 +27,7 @@ const emptyRecipeStep: RecipeStep = {
 };
 
 const SubHead = ({ children }: { children: React.ReactNode }) => (
-  <h4 className="mb-2 text-text underline decoration-accent-alt">{children}</h4>
+  <h4 className="mb-2 text-text">{children}</h4>
 );
 
 type RecipeInfo = {
@@ -109,16 +109,18 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
 
   const router = useRouter();
 
-  const create = api.recipe.create.useMutation();
+  const create = api.recipe.upsert.useMutation();
   const get = api.recipe.getMine.useQuery(id!, { enabled: !!id });
 
   const saveRecipe = () => {
     create.mutate({
+      id,
       name,
       text,
       sourceUrl,
       images,
       ingredients: ingredients.filter((i) => i.name),
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       steps: steps.filter((s) => s.name || s.text),
       recipeInfos: recipeInfos.filter((i) => i.value),
     });
@@ -139,9 +141,9 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     setText(recipe.text ?? "");
     setSourceUrl(recipe.sourceUrl ?? "");
     setImages(recipe.images);
-    // setIngredients(recipe.ingredients);
-    // setSteps(recipe.steps);
-    // setRecipeInfos(recipe.recipeInfos);
+    //setIngredients(recipe.ingredients);
+    setSteps(recipe.steps);
+    //setRecipeInfos(recipe.recipeInfos);
   }, [get.data, get.isSuccess]);
 
   useEffect(() => {
@@ -183,7 +185,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   return (
     <main>
       <div className="max-w-xxl my-10">
-        <h1 className="py-6 text-xl underline decoration-accent">
+        <h1 className="py-6 text-xl">
           recipe editor
         </h1>
         <form
@@ -191,7 +193,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
             // handleSubmit();
             e.preventDefault();
           }}
-          className="flex flex-col gap-6 rounded border border-accent-alt p-4"
+          className="flex flex-col gap-6 rounded-md p-4 backdrop-blur-xl bg-white/40 shadow-md"
         >
           <section>
             <SubHead>info</SubHead>

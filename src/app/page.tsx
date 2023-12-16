@@ -5,7 +5,7 @@ export default function Home() {
     <main>
       <div className="container flex flex-col items-center justify-center gap-12 px-4">
         <div className="container mx-auto px-4 py-8 lowercase">
-          <div className="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow-md">
+          <div className="mx-auto max-w-2xl rounded-lg bg-white/30 p-6 shadow-md backdrop-blur-3xl">
             <h2 className="mb-4 text-center text-2xl font-bold text-accent">
               🍳 Join the Culinary Revolution with TomatoVillage! 🌟
             </h2>
@@ -16,8 +16,8 @@ export default function Home() {
             <ul className="mb-4 list-inside list-disc space-y-2">
               <li>
                 <strong>Diverse Culinary Creations</strong>: Whether you&apos;re
-                a vegan, a meat-lover, or have a sweet tooth, there&apos;s always
-                something new to try.
+                a vegan, a meat-lover, or have a sweet tooth, there&apos;s
+                always something new to try.
               </li>
               <li>
                 <strong>Show and Tell</strong>: Don&apos;t just follow recipes;
@@ -32,8 +32,8 @@ export default function Home() {
                 home chefs, exchange tips, and build your foodie network.
               </li>
               <li>
-                <strong>Safe and Inclusive Space</strong>: cooking is
-                for everyone.
+                <strong>Safe and Inclusive Space</strong>: cooking is for
+                everyone.
               </li>
             </ul>
 

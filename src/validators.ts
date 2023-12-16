@@ -19,8 +19,8 @@ export const RecipeValidator = z.object({
   steps: z
     .array(
       z.object({
-        name: z.string(),
-        text: z.string(),
+        name: z.string().optional(),
+        text: z.string().optional(),
         images: z.array(z.string()).optional(),
         usedIngredients: z.string().optional(),
       }),

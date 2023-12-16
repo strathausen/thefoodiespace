@@ -136,9 +136,9 @@ model Recipe {
     createdAt   DateTime   @default(now()) @map("created_at")
     updatedAt   DateTime   @updatedAt @map("updated_at")
     images      String[]
-    /// [RecipeSteps]
-    steps       Json
-    /// [RecipeIngredients]
+    /// [RecipeStep]
+    steps       Json[]
+    /// [RecipeIngredient]
     ingredients Json[]
     /// [RecipeInfo]
     info        Json       @default("{}")
@@ -146,6 +146,9 @@ model Recipe {
 
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String @map("created_by")
+
+    deletedAt   DateTime?
+    publichedAt DateTime?
 
     @@index([name])
     @@map("recipes")

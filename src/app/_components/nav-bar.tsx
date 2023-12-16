@@ -1,6 +1,7 @@
 "use client";
+import {startCase} from "lodash";
 import Link from "next/link";
-import { GiTomato } from "react-icons/gi";
+import {GiTomato} from "react-icons/gi";
 
 type Props = {
   loggedIn: boolean;
@@ -18,7 +19,7 @@ export function NavBar(props: Props) {
       </div>
       <div className="">
         <input
-          className="rounded-sm border border-primary/40 px-2 py-0.5 text-primary-darker transition placeholder:text-primary/60 focus:border-primary focus:outline-none"
+          className="rounded px-2 py-0.5 text-primary-darker transition placeholder:text-darkgrey/60 focus:outline-none bg-white/40"
           size={30}
           placeholder="search"
           value={props.searchQuery}
@@ -26,19 +27,19 @@ export function NavBar(props: Props) {
         />
       </div>
       <div className="flex flex-row items-center justify-end gap-4">
-        {["editor", "profile"].map((link) => (
+        {["myRecipes", "editor", "profile"].map((link) => (
           <Link
             key={link}
             href={`/${link}`}
             className="hover:underline hover:decoration-accent"
           >
-            {link}
+            {startCase(link)}
           </Link>
         ))}
 
         <Link
           href={props.loggedIn ? "/api/auth/signout" : "/api/auth/signin"}
-          className="rounded-sm border border-primary bg-primary/20 px-2 py-0.5 text-primary-darker transition hover:bg-primary/10"
+          className="rounded-sm bg-primary/20 px-2 py-0.5 text-primary-darker transition hover:bg-primary/10"
         >
           {props.loggedIn ? "sign out" : "sign in"}
         </Link>
