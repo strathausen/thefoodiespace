@@ -9,26 +9,32 @@ type Props = {
   onChange: (value: string) => void;
 };
 
+const className =
+  "block max-h-10 flex-1 rounded px-3 shadow sm:text-sm bg-white/90";
+
 export const InputField = (props: Props) => {
   return (
     <div className="mb-3 flex flex-row">
       <label
-        className="mr-4 flex flex-col text-sm font-medium text-gray-700"
+        className="text-stone mr-4 flex flex-col text-sm font-medium"
         htmlFor={props.name}
         style={{ width: "150px" }}
       >
         {props.label}
         {props.description && (
-          <span className="text-xs text-primary">{props.description}</span>
+          <span className="text-xs text-stone-500">{props.description}</span>
         )}
       </label>
       {props.type === "textarea" ? (
         <textarea
           name={props.name}
           id={props.name}
-          className="block flex-1 rounded border border-primary-light px-3 py-2 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+          className={`py-2 ${className}`}
           placeholder={props.placeholder}
           value={props.value}
+          style={{
+            minHeight: (props.value.split(/[\n|\r]/g).length + 1) * 1.5 + "rem",
+          }}
           onChange={(e) => props.onChange(e.target.value)}
           disabled={props.disabled}
         />
@@ -37,7 +43,7 @@ export const InputField = (props: Props) => {
           type={props.type}
           name={props.name}
           id={props.name}
-          className="block max-h-10 flex-1 rounded border border-primary-light px-3 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+          className={className}
           placeholder={props.placeholder}
           value={props.value}
           onChange={(e) => props.onChange(e.target.value)}

@@ -14,9 +14,9 @@ export function Footer() {
         <ul className="mt-3 flex flex-wrap items-center text-sm sm:mt-0">
           {["team", "about", "imprint", "privacy policy", "contact"].map(
             (link) => (
-              <li key={link}>
+              <li key={link.replaceAll(' ', '_')}>
                 <a
-                  href="#"
+                  href={`/pages/${link}`}
                   className="mr-4 hover:underline hover:decoration-accent md:mr-6 "
                 >
                   {link}
@@ -26,7 +26,7 @@ export function Footer() {
           )}
         </ul>
       </div>
-      <div className="text-center text-sm flex justify-center items-center gap-1">
+      <div className="flex items-center justify-center gap-1 text-center text-sm">
         made with <FaHeart className="text-accent" /> in berlin
       </div>
     </footer>

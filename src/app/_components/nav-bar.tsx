@@ -19,8 +19,8 @@ export function NavBar(props: Props) {
       </div>
       <div className="">
         <input
-          className="rounded px-2 py-0.5 text-primary-darker transition placeholder:text-darkgrey/60 focus:outline-none bg-white/40"
-          size={30}
+          className="rounded px-2 py-0.5 text-slate transition placeholder:text-black/40 focus:outline-none bg-white/40"
+          size={20}
           placeholder="search"
           value={props.searchQuery}
           onChange={(e) => props.onSearch && props.onSearch(e.target.value)}
