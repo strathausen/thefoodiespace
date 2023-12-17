@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { RecipeStepEditor } from "../../_components/recipe-step-editor";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/app/_components/image-upload";
+import { AuthPage } from "@/app/api/auth/auth-page";
 
 // https://developers.google.com/search/docs/appearance/structured-data/recipe#supply-tool
 
@@ -204,184 +205,184 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
 
   return (
     <main>
-      <div className="max-w-xxl my-10">
-        <h1 className="py-6 text-xl">recipe editor</h1>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-          className="flex flex-col gap-6 rounded-md bg-white/40 p-4 shadow-md backdrop-blur-xl"
-        >
-          <section>
-            <SubHead>info</SubHead>
-            <div className="flex flex-row gap-2">
-              <ImageUpload
-                image={images[0]}
-                setImage={(image) => {
-                  if (image) {
-                    setImages([image]);
-                  } else {
-                    setImages([]);
-                  }
-                }}
-              />
-              <div className="flex grow flex-col gap-2">
-                <input
-                  className={inputClassName}
-                  placeholder="give it a punchy title"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+      <AuthPage>
+        <div className="max-w-xxl my-10">
+          <h1 className="py-6 text-xl">recipe editor</h1>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+            className="flex flex-col gap-6 rounded-md bg-white/40 p-4 shadow-md backdrop-blur-xl"
+          >
+            <section>
+              <SubHead>info</SubHead>
+              <div className="flex flex-row gap-2">
+                <ImageUpload
+                  image={images[0]}
+                  setImage={(image) => {
+                    if (image) {
+                      setImages([image]);
+                    } else {
+                      setImages([]);
+                    }
+                  }}
                 />
-                <input
-                  className={inputClassName}
-                  placeholder="source url - did this come from somewhere?"
-                  value={sourceUrl}
-                  onChange={(e) => setSourceUrl(e.target.value)}
-                />
-                <textarea
-                  className="h-full w-full rounded px-2 py-1 shadow"
-                  placeholder="tell us about your recipe. use markdown or #hashtags if you want."
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="mt-4 grid grid-cols-4 gap-2 text-center">
-              {recipeInfos.map((info, i) => (
-                <div
-                  key={i}
-                  className={`rounded-sm border border-primary ${
-                    !info.value && "opacity-50"
-                  } duration-400 transition-opacity hover:opacity-100`}
-                >
-                  <label className="text-sm text-primary" htmlFor={`info-${i}`}>
-                    {info.label}
-                  </label>
+                <div className="flex grow flex-col gap-2">
                   <input
-                    id={`info-${i}`}
-                    className="w-full px-2 py-1 text-text outline-none"
-                    value={info.value}
-                    onChange={(e) => {
-                      const newRecipeInfos = [...recipeInfos];
-                      newRecipeInfos[i]!.value = e.target.value;
-                      setRecipeInfos(newRecipeInfos);
-                    }}
+                    className={inputClassName}
+                    placeholder="give it a punchy title"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <input
+                    className={inputClassName}
+                    placeholder="source url - did this come from somewhere?"
+                    value={sourceUrl}
+                    onChange={(e) => setSourceUrl(e.target.value)}
+                  />
+                  <textarea
+                    className="h-full w-full rounded px-2 py-1 shadow"
+                    placeholder="tell us about your recipe. use markdown or #hashtags if you want."
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="mt-4 grid grid-cols-4 gap-2 text-center">
+                {recipeInfos.map((info, i) => (
+                  <div key={i}>
+                    <label
+                      className="text-sm text-stone-500"
+                      htmlFor={`info-${i}`}
+                    >
+                      {info.label}
+                    </label>
+                    <input
+                      id={`info-${i}`}
+                      className="w-full rounded px-2 py-1 text-text shadow outline-none"
+                      value={info.value}
+                      onChange={(e) => {
+                        const newRecipeInfos = [...recipeInfos];
+                        newRecipeInfos[i]!.value = e.target.value;
+                        setRecipeInfos(newRecipeInfos);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section>
+              <SubHead>ingredients</SubHead>
+              <div className="grid grid-cols-[100px_100px_200px_auto] gap-2 text-sm text-stone-500">
+                <div className="px-2">amount</div>
+                <div className="px-2">unit</div>
+                <div className="px-2">ingredient</div>
+                <div className="px-2">notes</div>
+              </div>
+              {ingredients.map((ingredient, i) => (
+                <div
+                  className="mb-2 mt-1 grid grid-cols-[100px_100px_200px_auto] gap-2"
+                  key={i}
+                >
+                  <input
+                    className="rounded px-2 py-1 text-sm shadow"
+                    placeholder="1, 1/2, a bit"
+                    value={ingredient.quantity}
+                    onChange={onChangeIngredient(i, "quantity")}
+                  />
+                  <input
+                    className="rounded px-2 py-1 text-sm shadow"
+                    placeholder="scoop, gram, pinch..."
+                    value={ingredient.unit}
+                    onChange={onChangeIngredient(i, "unit")}
+                  />
+                  <input
+                    className="rounded px-2 py-1 text-sm shadow"
+                    placeholder="flour, salt, tomato..."
+                    value={ingredient.name}
+                    onChange={onChangeIngredient(i, "name")}
+                  />
+                  <input
+                    className="rounded px-2 py-1 text-sm shadow"
+                    placeholder="to taste, optional..."
+                    value={ingredient.notes}
+                    onChange={onChangeIngredient(i, "notes")}
                   />
                 </div>
               ))}
-            </div>
-          </section>
-          <section>
-            <SubHead>ingredients</SubHead>
-            <div className="grid grid-cols-[100px_100px_200px_auto] gap-2 text-sm text-stone-500">
-              <div className="px-2">amount</div>
-              <div className="px-2">unit</div>
-              <div className="px-2">ingredient</div>
-              <div className="px-2">notes</div>
-            </div>
-            {ingredients.map((ingredient, i) => (
-              <div
-                className="mb-2 mt-1 grid grid-cols-[100px_100px_200px_auto] gap-2"
-                key={i}
-              >
-                <input
-                  className="rounded px-2 py-1 text-sm shadow"
-                  placeholder="1, 1/2, a bit"
-                  value={ingredient.quantity}
-                  onChange={onChangeIngredient(i, "quantity")}
-                />
-                <input
-                  className="rounded px-2 py-1 text-sm shadow"
-                  placeholder="scoop, gram, pinch..."
-                  value={ingredient.unit}
-                  onChange={onChangeIngredient(i, "unit")}
-                />
-                <input
-                  className="rounded px-2 py-1 text-sm shadow"
-                  placeholder="flour, salt, tomato..."
-                  value={ingredient.name}
-                  onChange={onChangeIngredient(i, "name")}
-                />
-                <input
-                  className="rounded px-2 py-1 text-sm shadow"
-                  placeholder="to taste, optional..."
-                  value={ingredient.notes}
-                  onChange={onChangeIngredient(i, "notes")}
-                />
+            </section>
+            <section>
+              <SubHead>steps</SubHead>
+              <div className="flex flex-col gap-2">
+                {steps.map((step, i) => (
+                  <RecipeStepEditor
+                    key={i}
+                    step={step}
+                    number={i + 1}
+                    isFirst={i === 0}
+                    isLast={i === steps.length - 1}
+                    enableDelete={steps.length > 1}
+                    onChanged={(step) => {
+                      const newSteps = [...steps];
+                      newSteps[i] = step;
+                      setSteps(newSteps);
+                    }}
+                    onMovedDown={() => {
+                      const newSteps = [...steps];
+                      const temp = newSteps[i]!;
+                      newSteps[i] = newSteps[i + 1]!;
+                      newSteps[i + 1] = temp;
+                      setSteps(newSteps);
+                    }}
+                    onMovedUp={() => {
+                      const newSteps = [...steps];
+                      const temp = newSteps[i]!;
+                      newSteps[i] = newSteps[i - 1]!;
+                      newSteps[i - 1] = temp;
+                      setSteps(newSteps);
+                    }}
+                    onDeleted={() => {
+                      const newSteps = [...steps];
+                      newSteps.splice(i, 1);
+                      setSteps(newSteps);
+                    }}
+                  />
+                ))}
+                <button
+                  className="rounded bg-accent-alt/20 text-accent-alt shadow"
+                  onClick={() => {
+                    setSteps([...steps, { ...emptyRecipeStep }]);
+                  }}
+                >
+                  + add step
+                </button>
               </div>
-            ))}
-          </section>
-          <section>
-            <SubHead>steps</SubHead>
-            <div className="flex flex-col gap-2">
-              {steps.map((step, i) => (
-                <RecipeStepEditor
-                  key={i}
-                  step={step}
-                  number={i + 1}
-                  isFirst={i === 0}
-                  isLast={i === steps.length - 1}
-                  enableDelete={steps.length > 1}
-                  onChanged={(step) => {
-                    const newSteps = [...steps];
-                    newSteps[i] = step;
-                    setSteps(newSteps);
-                  }}
-                  onMovedDown={() => {
-                    const newSteps = [...steps];
-                    const temp = newSteps[i]!;
-                    newSteps[i] = newSteps[i + 1]!;
-                    newSteps[i + 1] = temp;
-                    setSteps(newSteps);
-                  }}
-                  onMovedUp={() => {
-                    const newSteps = [...steps];
-                    const temp = newSteps[i]!;
-                    newSteps[i] = newSteps[i - 1]!;
-                    newSteps[i - 1] = temp;
-                    setSteps(newSteps);
-                  }}
-                  onDeleted={() => {
-                    const newSteps = [...steps];
-                    newSteps.splice(i, 1);
-                    setSteps(newSteps);
-                  }}
-                />
-              ))}
-              <button
-                className="rounded bg-accent-alt/20 text-accent-alt shadow"
-                onClick={() => {
-                  setSteps([...steps, { ...emptyRecipeStep }]);
-                }}
-              >
-                + add step
-              </button>
+            </section>
+            <div className="text-sm text-red-500">
+              {create.error ? `error: ${create.error.message}` : ""}
             </div>
-          </section>
-          <div className="text-sm text-red-500">
-            {create.error ? `error: ${create.error.message}` : ""}
-          </div>
-          <div className="flex justify-between">
-            <div></div>
-            <div className="flex gap-4">
-              <button
-                title="not yet implemented"
-                className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"
-              >
-                archive
-              </button>
-              <button
-                className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
-                disabled={create.isLoading || !name}
-                onClick={saveRecipe}
-                title={!name ? "name is required" : ""}
-              >
-                💾 {id ? "update" : "create"} recipe
-              </button>
+            <div className="flex justify-between">
+              <div></div>
+              <div className="flex gap-4">
+                <button
+                  title="not yet implemented"
+                  className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"
+                >
+                  archive
+                </button>
+                <button
+                  className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
+                  disabled={create.isLoading || !name}
+                  onClick={saveRecipe}
+                  title={!name ? "name is required" : ""}
+                >
+                  💾 {id ? "update" : "create"} recipe
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </AuthPage>
     </main>
   );
 }
