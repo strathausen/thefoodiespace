@@ -1,5 +1,6 @@
 import type { RecipeStep } from "@/types";
 import { FaAngleDown, FaAngleUp, FaTrashAlt } from "react-icons/fa";
+import { ImageUpload } from "./image-upload";
 
 type RecipeStepProps = {
   isLast: boolean;
@@ -16,7 +17,7 @@ type RecipeStepProps = {
 export const RecipeStepEditor = (props: RecipeStepProps) => {
   return (
     <div>
-      <div className="my-1 flex gap-1 text-primary">
+      <div className="text-stone my-1 flex gap-1">
         <div className="flex-1">step {props.number}</div>
         <button
           disabled={!props.enableDelete}
@@ -41,12 +42,15 @@ export const RecipeStepEditor = (props: RecipeStepProps) => {
         </button>
       </div>
       <div className="flex flex-row gap-2">
-        <div className="block h-[200px] w-[200px] cursor-pointer rounded-sm border border-primary bg-primary/20 text-center text-gray-400">
-          add picture
-        </div>
+        <ImageUpload
+          image={props.step.images?.[0]}
+          setImage={(image) => {
+            props.onChanged({ ...props.step, images: image ? [image] : [] });
+          }}
+        />
         <div className="flex grow flex-col gap-2">
           <input
-            className="w-full rounded-sm px-2 py-1"
+            className="w-full rounded px-2 py-1 shadow"
             placeholder="title (optional)"
             value={props.step.name}
             onChange={(e) => {
@@ -54,7 +58,7 @@ export const RecipeStepEditor = (props: RecipeStepProps) => {
             }}
           />
           <textarea
-            className="h-full w-full rounded-sm px-2 py-1"
+            className="h-full w-full rounded px-2 py-1 shadow"
             placeholder="what do you do in this step?"
             value={props.step.text}
             onChange={(e) => {
@@ -63,7 +67,7 @@ export const RecipeStepEditor = (props: RecipeStepProps) => {
           />
           <input
             placeholder="ingredients used"
-            className="px-2 py-1"
+            className="rounded px-2 py-1 shadow"
             value={props.step.usedIngredients}
             onChange={(e) => {
               props.onChanged({

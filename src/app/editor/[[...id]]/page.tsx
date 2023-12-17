@@ -4,6 +4,7 @@ import type { RecipeStep } from "@/types";
 import { useEffect, useState } from "react";
 import { RecipeStepEditor } from "../../_components/recipe-step-editor";
 import { useRouter } from "next/navigation";
+import { ImageUpload } from "@/app/_components/image-upload";
 
 // https://developers.google.com/search/docs/appearance/structured-data/recipe#supply-tool
 
@@ -27,7 +28,7 @@ const emptyRecipeStep: RecipeStep = {
 };
 
 const SubHead = ({ children }: { children: React.ReactNode }) => (
-  <h4 className="mb-2 text-text">{children}</h4>
+  <h4 className="mb-2 font-bold text-stone-700">{children}</h4>
 );
 
 type RecipeInfo = {
@@ -94,6 +95,8 @@ const defaultRecipeInfos: RecipeInfo[] = [
   },
 ];
 
+const inputClassName = "w-full rounded shadow px-2 py-1";
+
 export default function RecipePage({ params }: { params: { id: string[] } }) {
   const id = params.id ? params.id[0] : undefined;
   const [text, setText] = useState<string>("");
@@ -110,7 +113,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   const router = useRouter();
 
   const create = api.recipe.upsert.useMutation();
-  const get = api.recipe.getMine.useQuery(id!, { enabled: !!id });
+  const get = api.recipe.getMine.useQuery(id!, { enabled: false });
 
   const saveRecipe = () => {
     create.mutate({
@@ -127,6 +130,17 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   };
 
   useEffect(() => {
+    if (id && !get.isFetched && !get.isFetching) {
+      console.log("fetching");
+      get.refetch().catch((e) => {
+        // TODO: handle error
+        console.error(e);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  useEffect(() => {
     if (create.isSuccess && !id) {
       router.push(`/editor/${create.data.id}`);
     }
@@ -141,9 +155,15 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     setText(recipe.text ?? "");
     setSourceUrl(recipe.sourceUrl ?? "");
     setImages(recipe.images);
-    //setIngredients(recipe.ingredients);
-    setSteps(recipe.steps);
-    //setRecipeInfos(recipe.recipeInfos);
+    setIngredients(recipe.ingredients);
+    setSteps(recipe.steps as RecipeStep[]); // TODO fix the typing issue here
+    setRecipeInfos((infos) => {
+      return infos.map((info) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const value = recipe.info[info.key] as string;
+        return { ...info, value };
+      });
+    });
   }, [get.data, get.isSuccess]);
 
   useEffect(() => {
@@ -185,37 +205,41 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   return (
     <main>
       <div className="max-w-xxl my-10">
-        <h1 className="py-6 text-xl">
-          recipe editor
-        </h1>
+        <h1 className="py-6 text-xl">recipe editor</h1>
         <form
           onSubmit={(e) => {
-            // handleSubmit();
             e.preventDefault();
           }}
-          className="flex flex-col gap-6 rounded-md p-4 backdrop-blur-xl bg-white/40 shadow-md"
+          className="flex flex-col gap-6 rounded-md bg-white/40 p-4 shadow-md backdrop-blur-xl"
         >
           <section>
             <SubHead>info</SubHead>
             <div className="flex flex-row gap-2">
-              <div className="block h-[200px] w-[200px] cursor-pointer rounded-sm border border-primary bg-primary/20 text-center text-gray-400">
-                add picture
-              </div>
-              <div className="flex grow flex-col gap-2 py-1">
+              <ImageUpload
+                image={images[0]}
+                setImage={(image) => {
+                  if (image) {
+                    setImages([image]);
+                  } else {
+                    setImages([]);
+                  }
+                }}
+              />
+              <div className="flex grow flex-col gap-2">
                 <input
-                  className="w-full rounded-sm px-2 py-1"
+                  className={inputClassName}
                   placeholder="give it a punchy title"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
                 <input
-                  className="w-full rounded-sm px-2 py-1"
+                  className={inputClassName}
                   placeholder="source url - did this come from somewhere?"
                   value={sourceUrl}
                   onChange={(e) => setSourceUrl(e.target.value)}
                 />
                 <textarea
-                  className="h-full w-full rounded-sm px-2 py-1"
+                  className="h-full w-full rounded px-2 py-1 shadow"
                   placeholder="tell us about your recipe. use markdown or #hashtags if you want."
                   value={text}
                   onChange={(e) => setText(e.target.value)}
@@ -249,7 +273,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
           </section>
           <section>
             <SubHead>ingredients</SubHead>
-            <div className="grid grid-cols-[100px_100px_200px_auto] gap-2 text-sm text-primary">
+            <div className="grid grid-cols-[100px_100px_200px_auto] gap-2 text-sm text-stone-500">
               <div className="px-2">amount</div>
               <div className="px-2">unit</div>
               <div className="px-2">ingredient</div>
@@ -261,25 +285,25 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
                 key={i}
               >
                 <input
-                  className="rounded-sm px-2 py-1 text-sm"
+                  className="rounded px-2 py-1 text-sm shadow"
                   placeholder="1, 1/2, a bit"
                   value={ingredient.quantity}
                   onChange={onChangeIngredient(i, "quantity")}
                 />
                 <input
-                  className="rounded-sm px-2 py-1 text-sm"
+                  className="rounded px-2 py-1 text-sm shadow"
                   placeholder="scoop, gram, pinch..."
                   value={ingredient.unit}
                   onChange={onChangeIngredient(i, "unit")}
                 />
                 <input
-                  className="rounded-sm px-2 py-1 text-sm"
+                  className="rounded px-2 py-1 text-sm shadow"
                   placeholder="flour, salt, tomato..."
                   value={ingredient.name}
                   onChange={onChangeIngredient(i, "name")}
                 />
                 <input
-                  className="rounded-sm px-2 py-1 text-sm"
+                  className="rounded px-2 py-1 text-sm shadow"
                   placeholder="to taste, optional..."
                   value={ingredient.notes}
                   onChange={onChangeIngredient(i, "notes")}
@@ -325,12 +349,12 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
                 />
               ))}
               <button
-                className="rounded-sm border border-accent-alt bg-accent-alt/20 text-accent-alt"
+                className="rounded bg-accent-alt/20 text-accent-alt shadow"
                 onClick={() => {
                   setSteps([...steps, { ...emptyRecipeStep }]);
                 }}
               >
-                add step
+                + add step
               </button>
             </div>
           </section>
@@ -339,14 +363,22 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
           </div>
           <div className="flex justify-between">
             <div></div>
-            <button
-              className="rounded-sm border border-primary bg-primary/20 px-2 py-1 text-primary disabled:opacity-50"
-              disabled={create.isLoading || !name}
-              onClick={saveRecipe}
-              title={!name ? "name is required" : ""}
-            >
-              💾 {id ? "update" : "create"} recipe
-            </button>
+            <div className="flex gap-4">
+              <button
+                title="not yet implemented"
+                className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"
+              >
+                archive
+              </button>
+              <button
+                className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
+                disabled={create.isLoading || !name}
+                onClick={saveRecipe}
+                title={!name ? "name is required" : ""}
+              >
+                💾 {id ? "update" : "create"} recipe
+              </button>
+            </div>
           </div>
         </form>
       </div>

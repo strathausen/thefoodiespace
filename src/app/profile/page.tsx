@@ -70,7 +70,7 @@ export default function ProfilePage() {
                   src={image ?? "/default-profile-pic.png"}
                   width={size}
                   height={size}
-                  className="rounded-full"
+                  className="rounded-full shadow"
                   alt='profile pic'
                 />
               </div>
@@ -91,7 +91,7 @@ export default function ProfilePage() {
                   button({ ready, isUploading }) {
                     return `bg-primary/20 ${
                       ready ? "border-green" : "border-primary"
-                    } text-primary-darker hover:bg-primary/10 rounded border text-md h-8 ${
+                    } text-primary-darker hover:bg-primary/10 rounded text-md h-8 ${
                       isUploading ? "opacity-50" : ""
                     }`;
                   },

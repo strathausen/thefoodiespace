@@ -1,18 +1,14 @@
-type Props = {
-  params: {
-    recipeId: string;
-  };
-};
+import { ImageUpload } from "../_components/image-upload";
 
 const grainyStyle = {
   backgroundImage: "url(https://grainy-gradients.vercel.app/noise.svg)",
   filter: "brightness(1.05) saturate(2)",
 };
 
-export default function RecipePage(props: Props) {
+export default function RecipePage() {
   return (
-    <div>
-      recipe page {props.params.recipeId}
+    <div className="mt-6">
+      playground
       <div>
         <button
           type="button"

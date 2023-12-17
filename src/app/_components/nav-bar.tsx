@@ -1,7 +1,7 @@
 "use client";
-import {startCase} from "lodash";
+import { startCase } from "lodash";
 import Link from "next/link";
-import {GiTomato} from "react-icons/gi";
+import { GiTomato } from "react-icons/gi";
 
 type Props = {
   loggedIn: boolean;
@@ -17,15 +17,6 @@ export function NavBar(props: Props) {
           <GiTomato className="text-accent drop-shadow-hard" />
         </Link>
       </div>
-      {/* <div className="">
-        <input
-          className="rounded px-2 py-0.5 text-slate transition placeholder:text-black/40 focus:outline-none bg-white/40"
-          size={20}
-          placeholder="search"
-          value={props.searchQuery}
-          onChange={(e) => props.onSearch && props.onSearch(e.target.value)}
-        />
-      </div> */}
       <div className="flex flex-row items-center justify-end gap-4">
         {["myRecipes", "editor", "profile"].map((link) => (
           <Link
@@ -33,7 +24,7 @@ export function NavBar(props: Props) {
             href={`/${link}`}
             className="hover:underline hover:decoration-accent"
           >
-            {startCase(link)}
+            {startCase(link).toLocaleLowerCase()}
           </Link>
         ))}
 

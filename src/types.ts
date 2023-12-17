@@ -81,6 +81,7 @@ export type RecipeFeedItem = {
 };
 
 export type RecipeStep = {
+  images?: string[];
   name?: string;
   text?: string;
   usedIngredients?: string;
@@ -113,6 +114,7 @@ declare global {
     type RecipeIngredients = RecipeIngredient[];
     type RecipeInfos = RecipeInfo[];
     type RecipeStep = {
+      images?: string[] | string;
       name?: string;
       text?: string;
       usedIngredients?: string;
