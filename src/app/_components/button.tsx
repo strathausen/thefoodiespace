@@ -6,11 +6,7 @@ export const Button = ({ children, ...props }: Props) => {
   return (
     <button
       {...props}
-      style={{
-        backgroundImage: "url(https://grainy-gradients.vercel.app/noise.svg)",
-				filter: "brightness(1.10)",
-      }}
-      className="pressed:shadow-0 rounded bg-blue-300 px-3 py-1 text-blue-950 shadow transition hover:shadow-md active:shadow"
+      className="pressed:shadow-0 rounded bg-green-950/50 px-3 py-1 text-green-50 shadow-md transition hover:shadow-lg active:shadow"
     >
       {children}
     </button>

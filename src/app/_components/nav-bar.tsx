@@ -17,7 +17,7 @@ export function NavBar(props: Props) {
           <GiTomato className="text-accent drop-shadow-hard" />
         </Link>
       </div>
-      <div className="">
+      {/* <div className="">
         <input
           className="rounded px-2 py-0.5 text-slate transition placeholder:text-black/40 focus:outline-none bg-white/40"
           size={20}
@@ -25,7 +25,7 @@ export function NavBar(props: Props) {
           value={props.searchQuery}
           onChange={(e) => props.onSearch && props.onSearch(e.target.value)}
         />
-      </div>
+      </div> */}
       <div className="flex flex-row items-center justify-end gap-4">
         {["myRecipes", "editor", "profile"].map((link) => (
           <Link

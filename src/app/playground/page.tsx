@@ -228,7 +228,7 @@ export default function RecipePage(props: Props) {
             style={{
               backgroundImage:
                 "url(https://grainy-gradients.vercel.app/noise.svg)",
-              filter: `brightness(1.1) hue-rotate(${i * 29}deg)`,
+              filter: `brightness(1.1) hue-rotate(${i * 33}deg)`,
             }}
             className="pressed:shadow-0 rounded bg-green-300 px-3 py-1 text-green-950 shadow transition hover:shadow-md active:shadow-sm"
           >

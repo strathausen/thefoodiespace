@@ -6,6 +6,7 @@ import { UploadButton } from "@/utils/uploadthing";
 import { AuthPage } from "../api/auth/auth-page";
 import { Container } from "../_components/container";
 import { Button } from "../_components/button";
+import Image from "next/image";
 
 const size = 130;
 
@@ -55,7 +56,7 @@ export default function ProfilePage() {
   return (
     <main>
       <AuthPage>
-        <div className="mt-10 max-w-xl mx-auto">
+        <div className="mx-auto mt-10 max-w-xl">
           <Container>
             <h1 className="pb-4 text-center text-xl">your profile</h1>
             <form
@@ -65,15 +66,13 @@ export default function ProfilePage() {
               }}
             >
               <div className="mb-2 flex justify-center">
-                <div
-                  className="rounded-full bg-primary-light"
-                  style={{
-                    width: size,
-                    height: size,
-                    backgroundImage: image ? `url(${image})` : undefined,
-                    backgroundSize: "cover",
-                  }}
-                ></div>
+                <Image
+                  src={image ?? "/default-profile-pic.png"}
+                  width={size}
+                  height={size}
+                  className="rounded-full"
+                  alt='profile pic'
+                />
               </div>
               <UploadButton
                 endpoint="imageUploader"
