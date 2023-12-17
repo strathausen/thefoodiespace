@@ -70,8 +70,9 @@ export default function ProfilePage() {
                   src={image ?? "/default-profile-pic.png"}
                   width={size}
                   height={size}
-                  className="rounded-full shadow"
-                  alt='profile pic'
+                  className="rounded-full object-cover shadow"
+                  style={{ width: size, height: size }}
+                  alt="profile pic"
                 />
               </div>
               <UploadButton
