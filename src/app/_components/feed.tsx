@@ -1,5 +1,4 @@
 import { api } from "@/trpc/server";
-import { FeedItem } from "./feed-item";
 
 export async function Feed() {
   const feed = await api.recipe.list.query();
