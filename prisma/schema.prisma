@@ -6,7 +6,7 @@ generator client {
 }
 
 generator json {
-  provider = "prisma-json-types-generator"
+    provider = "prisma-json-types-generator"
 }
 
 datasource db {
@@ -41,6 +41,23 @@ enum ReactionType {
     WOW
     SAD
     ANGRY
+}
+
+enum NotificationType {
+    FOLLOW
+    REACTION
+    COMMENT
+    MENTION
+    RECIPE
+    POST
+    MESSAGE
+}
+
+enum FollowerType {
+    CLOSE_FRIEND
+    FRIEND
+    ACQUAINTANCE
+    FOLLOWER
 }
 
 model Post {
@@ -108,23 +125,55 @@ model Session {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String         @id @default(cuid())
     name          String?
-    email         String?    @unique
-    emailVerified DateTime?  @map("email_verified")
+    email         String?        @unique
+    emailVerified DateTime?      @map("email_verified")
     image         String?
-    role          Role       @default(USER)
+    role          Role           @default(USER)
     pronouns      String?
-    showPronouns  Boolean?   @default(false) @map("show_pronouns")
+    showPronouns  Boolean?       @default(false) @map("show_pronouns")
     bio           String?
-    internalScore Int?       @default(0) @map("internal_score")
+    internalScore Int?           @default(0) @map("internal_score")
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
     reactions     Reaction[]
     recipes       Recipe[]
+    followers     Follower[]     @relation("FollowersToFollowees")
+    followeees    Follower[]     @relation("FolloweesToFollowers")
+    notifications Notification[]
 
     @@map("users")
+}
+
+model Follower {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+
+    type FollowerType
+
+    follower   User   @relation("FollowersToFollowees", fields: [followerId], references: [id])
+    followerId String @map("follower_id")
+    followee   User   @relation("FolloweesToFollowers", fields: [followeeId], references: [id])
+    followeeId String @map("followee_id")
+
+    @@unique([followerId, followeeId])
+    @@map("followers")
+}
+
+model Notification {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+    readAt    DateTime @default(now()) @map("read_at")
+
+    content Json
+    type    NotificationType
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @map("user_id")
+
+    @@map("notifications")
 }
 
 model Recipe {

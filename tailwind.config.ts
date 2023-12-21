@@ -8,6 +8,8 @@ export default withUt({
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        vollkorn: ["var(--font-vollkorn)", ...fontFamily.serif],
+        jakarta: ["var(--font-jakarta)", ...fontFamily.sans],
       },
       colors: {
         text: "#1e354b", //"#102310",
@@ -25,6 +27,7 @@ export default withUt({
         // hard drop shadow
         hard: "3px 3px 0 rgba(76, 124, 169, 0.2)",
         pink: "3px 3px 0 rgba(228, 199, 230, 0.2)",
+        button: "0 2px 0 rgba(0, 0, 0, 0.05)",
       },
     },
   },

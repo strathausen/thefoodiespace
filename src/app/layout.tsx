@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Vollkorn } from "next/font/google";
 import { headers } from "next/headers";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
@@ -14,6 +14,18 @@ import { ourFileRouter } from "./api/uploadthing/core";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const vollkorn = Vollkorn({
+  subsets: ["latin"],
+  variable: "--font-vollkorn",
   display: "swap",
 });
 
@@ -34,7 +46,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${inter.variable} bg-gradient-to-br from-red-200 via-green-200 to-orange-200`}
+        className={`font-sans ${inter.variable} ${jakarta.variable} ${vollkorn.variable} bg-gradient-to-br from-red-200 via-green-200 to-orange-200`}
       >
         <div className="h-screen overflow-y-scroll" style={grainyStyle}>
           <NextSSRPlugin

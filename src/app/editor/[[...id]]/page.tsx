@@ -116,8 +116,8 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   const create = api.recipe.upsert.useMutation();
   const get = api.recipe.getMine.useQuery(id!, { enabled: false });
 
-  const saveRecipe = () => {
-    create.mutate({
+  const saveRecipe = async () => {
+    await create.mutateAsync({
       id,
       name,
       text,
@@ -128,6 +128,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
       steps: steps.filter((s) => s.name || s.text),
       recipeInfos: recipeInfos.filter((i) => i.value),
     });
+    router.refresh();
   };
 
   useEffect(() => {
