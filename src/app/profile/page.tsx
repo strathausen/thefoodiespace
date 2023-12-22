@@ -25,10 +25,10 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (profileQuery.data) {
-      setName(profileQuery.data.name!);
-      setPronouns(profileQuery.data.pronouns!);
-      setBio(profileQuery.data.bio!);
-      setImage(profileQuery.data.image!);
+      setName(profileQuery.data.name ?? "");
+      setPronouns(profileQuery.data.pronouns ?? "");
+      setBio(profileQuery.data.bio ?? "");
+      setImage(profileQuery.data.image ?? "");
     }
   }, [profileQuery.data]);
 
