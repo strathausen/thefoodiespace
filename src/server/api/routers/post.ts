@@ -1,26 +1,11 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   create: protectedProcedure
     .input(z.object({ name: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       return ctx.db.post.create({
         data: {
           name: input.name,
@@ -36,7 +21,37 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
+  like: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const post = await ctx.db.post.findUnique({ where: { id: input.id } });
+
+      if (!post) {
+        throw new Error("Post not found");
+      }
+
+      return ctx.db.reaction.create({
+        data: {
+          type: "LIKE",
+          post: { connect: { id: input.id } },
+          user: { connect: { id: ctx.session.user.id } },
+        },
+      });
+    }),
+
+  unlike: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const post = await ctx.db.post.findUnique({ where: { id: input.id } });
+
+      if (!post) {
+        throw new Error("Post not found");
+      }
+
+      return ctx.db.reaction.delete({
+        where: {
+          postId_userId: { postId: input.id, userId: ctx.session.user.id },
+        },
+      });
+    }),
 });

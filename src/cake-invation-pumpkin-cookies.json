@@ -1,0 +1,136 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#article",
+      "isPartOf": {
+        "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/"
+      },
+      "author": {
+        "name": "shia",
+        "@id": "https://cakeinvasion.de/#/schema/person/bf6a031d3bf7976d08633a43f0b2174b"
+      },
+      "headline": "Pumpkin Chocolate Chip Cookies mit Öl (palmölfrei, vegan)",
+      "datePublished": "2015-10-27T09:30:08+00:00",
+      "dateModified": "2020-03-09T19:15:55+00:00",
+      "mainEntityOfPage": {
+        "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/"
+      },
+      "wordCount": 679,
+      "publisher": {
+        "@id": "https://cakeinvasion.de/#/schema/person/bf6a031d3bf7976d08633a43f0b2174b"
+      },
+      "image": {
+        "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#primaryimage"
+      },
+      "thumbnailUrl": "https://i0.wp.com/cakeinvasion.de/wp-content/uploads/2015/10/IMG_6474.jpg?fit=680%2C680&ssl=1",
+      "keywords": [
+        "anfängerfreundlich",
+        "Backblech",
+        "halal",
+        "laktosefrei",
+        "nussfrei",
+        "ohne Ausstecher",
+        "ohne Mixer",
+        "palmölfrei",
+        "schnell",
+        "schokoladig",
+        "sojafrei",
+        "vegan"
+      ],
+      "articleSection": ["Kekse", "vegan", "vegane Kekse ohne Margarine"],
+      "inLanguage": "de-DE"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/",
+      "url": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/",
+      "name": "Pumpkin Chocolate Chip Cookies mit Öl (palmölfrei, vegan) - Cake Invasion",
+      "isPartOf": { "@id": "https://cakeinvasion.de/#website" },
+      "primaryImageOfPage": {
+        "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#primaryimage"
+      },
+      "image": {
+        "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#primaryimage"
+      },
+      "thumbnailUrl": "https://i0.wp.com/cakeinvasion.de/wp-content/uploads/2015/10/IMG_6474.jpg?fit=680%2C680&ssl=1",
+      "datePublished": "2015-10-27T09:30:08+00:00",
+      "dateModified": "2020-03-09T19:15:55+00:00",
+      "breadcrumb": {
+        "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#breadcrumb"
+      },
+      "inLanguage": "de-DE",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "inLanguage": "de-DE",
+      "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#primaryimage",
+      "url": "https://i0.wp.com/cakeinvasion.de/wp-content/uploads/2015/10/IMG_6474.jpg?fit=680%2C680&ssl=1",
+      "contentUrl": "https://i0.wp.com/cakeinvasion.de/wp-content/uploads/2015/10/IMG_6474.jpg?fit=680%2C680&ssl=1",
+      "width": 680,
+      "height": 680
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://cakeinvasion.de/2015/10/pumpkin-chocolate-chip-cookies-mit-oel-palmoelfrei-vegan/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Startseite",
+          "item": "https://cakeinvasion.de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Pumpkin Chocolate Chip Cookies mit Öl (palmölfrei, vegan)"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://cakeinvasion.de/#website",
+      "url": "https://cakeinvasion.de/",
+      "name": "Cake Invasion",
+      "description": "Happiness Right in Your Face",
+      "publisher": {
+        "@id": "https://cakeinvasion.de/#/schema/person/bf6a031d3bf7976d08633a43f0b2174b"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://cakeinvasion.de/?s={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      ],
+      "inLanguage": "de-DE"
+    },
+    {
+      "@type": ["Person", "Organization"],
+      "@id": "https://cakeinvasion.de/#/schema/person/bf6a031d3bf7976d08633a43f0b2174b",
+      "name": "shia",
+      "image": {
+        "@type": "ImageObject",
+        "inLanguage": "de-DE",
+        "@id": "https://cakeinvasion.de/#/schema/person/image/",
+        "url": "https://secure.gravatar.com/avatar/081e84424c74f17b94ffa086300cce6a?s=96&d=mm&r=g",
+        "contentUrl": "https://secure.gravatar.com/avatar/081e84424c74f17b94ffa086300cce6a?s=96&d=mm&r=g",
+        "caption": "shia"
+      },
+      "logo": { "@id": "https://cakeinvasion.de/#/schema/person/image/" },
+      "sameAs": ["https://wastelandrebel.de/about/"]
+    }
+  ]
+}

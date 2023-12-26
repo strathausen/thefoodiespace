@@ -11,10 +11,6 @@ generator json {
 
 datasource db {
     provider = "postgres"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
 }
 
@@ -70,8 +66,15 @@ model Post {
     status      PostStatus @default(DRAFT)
     content     Json       @default("{}")
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String @map("created_by")
+    createdBy   User    @relation(fields: [createdById], references: [id])
+    createdById String  @map("created_by")
+    recipe      Recipe? @relation(fields: [recipeId], references: [id])
+    recipeId    String? @map("recipe_id")
+
+    // computed fields, updated by triggers
+    likeCount    Int @default(0) @map("like_count")
+    commentCount Int @default(0) @map("comment_count")
+    shareCount   Int @default(0) @map("share_count")
 
     reactions Reaction[]
 
@@ -143,6 +146,8 @@ model User {
     followers     Follower[]     @relation("FollowersToFollowees")
     followeees    Follower[]     @relation("FolloweesToFollowers")
     notifications Notification[]
+    bookmarks     Bookmark[]
+    cookBooks     CookBook[]
 
     @@map("users")
 }
@@ -198,6 +203,8 @@ model Recipe {
 
     deletedAt   DateTime?
     publichedAt DateTime?
+    bookmarks   Bookmark[]
+    Post        Post[]
 
     @@index([name])
     @@map("recipes")
@@ -219,4 +226,37 @@ model VerificationToken {
 
     @@unique([identifier, token])
     @@map("verification_tokens")
+}
+
+model Bookmark {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+
+    note String?
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @map("user_id")
+
+    recipe     Recipe   @relation(fields: [recipeId], references: [id])
+    recipeId   String   @map("recipe_id")
+    cookBook   CookBook @relation(fields: [cookBookId], references: [id])
+    cookBookId Int      @map("cook_book_id")
+
+    @@unique([userId, recipeId])
+    @@map("bookmarks")
+}
+
+model CookBook {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+
+    name        String
+    description String?
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @map("user_id")
+
+    bookmarks Bookmark[]
+
+    @@map("cookbooks")
 }

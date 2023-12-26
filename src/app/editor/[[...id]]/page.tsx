@@ -63,37 +63,36 @@ const defaultRecipeInfos: RecipeInfo[] = [
     key: "cookTime",
     value: "",
   },
-  {
-    label: "total time",
-    key: "totalTime",
-    value: "",
-  },
+  // { // maybe this can be deducted from the other two?
+  //   label: "total time",
+  //   key: "totalTime",
+  //   value: "",
+  // },
   {
     label: "calories",
     key: "nutrition.calories",
     value: "",
   },
-  {
-    label: "category",
-    key: "recipeCategory",
-    value: "",
-  },
-  {
-    label: "cuisine",
-    key: "recipeCuisine",
-    value: "",
-  },
+  // { // try to get this from the ingredients and hashtags
+  //   label: "category",
+  //   key: "recipeCategory",
+  //   value: "",
+  // },
+  // { // try to get this from the ingredients and hashtags
+  //   label: "cuisine",
+  //   key: "recipeCuisine",
+  //   value: "",
+  // },
   {
     label: "portions",
     key: "recipeYield",
     value: "",
   },
-  {
-    // or should these be in-line hashtags?
-    label: "keywords",
-    key: "keywords",
-    value: "",
-  },
+  // { // or should these be in-line hashtags?
+  //   label: "keywords",
+  //   key: "keywords",
+  //   value: "",
+  // },
 ];
 
 const inputClassName = "w-full rounded shadow px-2 py-1";
@@ -243,7 +242,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
                   />
                   <textarea
                     className="h-full w-full rounded px-2 py-1 shadow"
-                    placeholder="tell us about your recipe. use markdown or #hashtags if you want."
+                    placeholder="tell us about your recipe. use #hashtags if you want."
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                   />

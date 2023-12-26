@@ -1,12 +1,10 @@
 "use client";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import { InputField } from "../_components/input-field";
+import { Button, Container, InputField } from "ui";
 import { api } from "@/trpc/react";
 import { UploadButton } from "@/utils/uploadthing";
-import { AuthPage } from "../api/auth/auth-page";
-import { Container } from "../_components/container";
-import { Button } from "../_components/button";
-import Image from "next/image";
+import { AuthPage } from "@/app/api/auth/auth-page";
 
 const size = 130;
 
@@ -113,7 +111,7 @@ export default function ProfilePage() {
                 <InputField
                   label="bio"
                   name="bio"
-                  description="brag about yourself!" // TODO enable markdown
+                  description="brag about yourself!"
                   type="textarea"
                   placeholder="bio"
                   value={bio}

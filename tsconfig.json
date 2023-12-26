@@ -18,6 +18,9 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
     "paths": {
+      "ui/*": ["./src/app/_components/ui/*"],
+      "ui": ["./src/app/_components/ui/index.ts"],
+      "components/*": ["./src/app/_components/*"],
       "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }]

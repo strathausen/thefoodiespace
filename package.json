@@ -27,6 +27,7 @@
     "@trpc/server": "^10.37.1",
     "@types/mdx": "^2.0.10",
     "@uploadthing/react": "^5.7.0",
+    "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13",

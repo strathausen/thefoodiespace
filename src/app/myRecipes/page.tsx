@@ -1,6 +1,4 @@
-import dayjs from "dayjs";
 import { api } from "@/trpc/server";
-import Link from "next/link";
 import { getServerAuthSession } from "@/server/auth";
 import { ServerLoginButton } from "../_components/server-login-button";
 import { RecipePost } from "../_components/recipe-post";
@@ -16,15 +14,7 @@ export default async function MyRecipePage() {
       <div className="mt-10">
         {recipes?.map((r) => {
           return (
-            <div key={r.id} className="mb-4">
-              <Link href={`/editor/${r.id}`} className="m-auto flex">
-                <div className="m-auto w-[400px]">
-                  <span className="mr-6 text-gray-500">
-                    {dayjs(r.createdAt).format("YYYY-MM-DD")}
-                  </span>
-                  edit
-                </div>
-              </Link>
+            <div key={r.id} className="mb-2">
               <div className="m-auto flex">
                 <RecipePost
                   id={r.id}
@@ -35,6 +25,9 @@ export default async function MyRecipePage() {
                   profileName={session.user.name!}
                   likeCount={34}
                   commentCount={23}
+                  isMine={true}
+                  publishedAt={r.createdAt}
+                  profileId={session.user.id}
                 />
               </div>
             </div>
