@@ -32,11 +32,12 @@ export const recipeRouter = createTRPCRouter({
     });
   }),
   get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    return input
-      ? ctx.db.recipe.findFirst({
-          where: { id: input, status: "PUBLISHED" },
-        })
-      : null;
+    const userId = ctx.session?.user?.id;
+    const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];
+    const where = userId
+      ? { id: input, OR }
+      : { id: input, status: "PUBLISHED" as const };
+    return input ? ctx.db.recipe.findFirst({ where }) : null;
   }),
   listMine: protectedProcedure
     .input(

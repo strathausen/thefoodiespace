@@ -111,7 +111,12 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PrismaJson {
     type RecipeSteps = RecipeStep[];
-    type RecipeIngredients = RecipeIngredient[];
+    type RecipeIngredient = {
+      quantity: string;
+      unit: string;
+      name: string;
+      notes?: string;
+    };
     type RecipeInfos = RecipeInfo[];
     type RecipeStep = {
       images?: string[] | string;

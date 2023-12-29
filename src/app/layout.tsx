@@ -59,11 +59,9 @@ export default async function RootLayout({
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
           <TRPCReactProvider headers={headers()}>
-            <div className="flex min-h-screen flex-col items-center justify-between text-text">
-              <div className="w-full max-w-3xl">
-                <NavBar loggedIn={!!session} />
-                {children}
-              </div>
+            <div className="flex min-h-screen text-text">
+              <NavBar loggedIn={!!session} userImage={session?.user.image} />
+              <div className="flex flex-col md:ml-[12em] w-full">{children}</div>
             </div>
             <div className="flex flex-col items-center bg-white/30">
               <div className="max-w-3xl">

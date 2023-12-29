@@ -10,12 +10,12 @@ export default async function MyRecipePage() {
   }
   const recipes = await api.recipe.listMine.query({});
   return (
-    <main>
-      <div className="mt-10">
+    <main className="max-w-3xl">
+      <div className="mt-10 m-auto">
         {recipes?.map((r) => {
           return (
             <div key={r.id} className="mb-2">
-              <div className="m-auto flex">
+              <div className="m-auto flex justify-center">
                 <RecipePost
                   id={r.id}
                   imageUrl={r.images[0]!}
