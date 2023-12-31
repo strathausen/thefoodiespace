@@ -2,7 +2,7 @@
 import { api } from "@/trpc/react";
 import type { RecipeStep } from "@/types";
 import { useEffect, useState } from "react";
-import { RecipeStepEditor } from "../../_components/recipe-step-editor";
+import { RecipeStepEditor } from "components/recipe-step-editor";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/app/_components/image-upload";
 import { AuthPage } from "@/app/api/auth/auth-page";

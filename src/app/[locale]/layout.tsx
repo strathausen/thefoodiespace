@@ -5,11 +5,12 @@ import { headers } from "next/headers";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
 import { TRPCReactProvider } from "@/trpc/react";
-import { Footer } from "./_components/footer";
+import { Footer } from "components/footer";
 import { getServerAuthSession } from "@/server/auth";
-import { NavBar } from "./_components/nav-bar";
+import { NavBar } from "components/nav-bar";
 import { extractRouterConfig } from "uploadthing/server";
-import { ourFileRouter } from "./api/uploadthing/core";
+import { ourFileRouter } from "api/uploadthing/core";
+import { Provider } from "./provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -39,8 +40,10 @@ const grainyStyle = { backgroundImage: "url(/grainy.svg)" };
 
 export default async function RootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   const session = await getServerAuthSession();
   return (
@@ -60,8 +63,12 @@ export default async function RootLayout({
           />
           <TRPCReactProvider headers={headers()}>
             <div className="flex min-h-screen text-text">
-              <NavBar loggedIn={!!session} userImage={session?.user.image} />
-              <div className="flex flex-col md:ml-[12em] w-full">{children}</div>
+              <Provider locale={locale}>
+                <NavBar loggedIn={!!session} userImage={session?.user.image} />
+              </Provider>
+              <div className="flex w-full max-w-4xl flex-col md:ml-[12em]">
+                {children}
+              </div>
             </div>
             <div className="flex flex-col items-center bg-white/30">
               <div className="max-w-3xl">

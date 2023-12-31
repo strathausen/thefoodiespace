@@ -9,6 +9,7 @@ import {
   FaDoorOpen,
   FaPlus,
 } from "react-icons/fa6";
+import { useScopedI18n } from "locales/client";
 
 type Props = {
   loggedIn: boolean;
@@ -22,11 +23,12 @@ const menuLinks = [
   { label: "cookbooks", link: "bookmarks", icon: <FaBookBookmark /> },
   { label: "create", link: "editor", icon: <FaPlus /> },
   { label: "notifications", link: "notifications", icon: <FaBell /> },
-  { label: "profile", link: "profile" },
-];
+  { label: "profile", link: "profile", icon: null },
+] as const;
 
 export function NavBar(props: Props) {
   const pathName = usePathname();
+  const t = useScopedI18n("navBar");
 
   return (
     <div className="fixed top-0 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm">
@@ -50,13 +52,14 @@ export function NavBar(props: Props) {
                   src={props.userImage ?? "/user.svg"}
                   width={28}
                   height={28}
-                  className="-m-1 rounded-full"
+                  className="-m-1 rounded-full object-cover shadow"
                   alt="user image"
+                  style={{ width: 28, height: 28 }}
                 />
               ) : (
                 icon
               )}{" "}
-              {label}
+              {t(label)}
             </Link>
           ))}
         </div>
@@ -64,7 +67,7 @@ export function NavBar(props: Props) {
           href={props.loggedIn ? "/api/auth/signout" : "/api/auth/signin"}
           className="flex gap-4 rounded-sm text-primary-darker transition"
         >
-          <FaDoorOpen /> {props.loggedIn ? "sign out" : "sign in"}
+          <FaDoorOpen /> {props.loggedIn ? t("logout") : t("login")}
         </Link>
       </div>
     </div>

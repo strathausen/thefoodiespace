@@ -21,6 +21,11 @@
       "ui/*": ["./src/app/_components/ui/*"],
       "ui": ["./src/app/_components/ui/index.ts"],
       "components/*": ["./src/app/_components/*"],
+      "components": ["./src/app/_components/index.ts"],
+      "api/*": ["./src/app/api/*"],
+      "locales/*": ["./src/locales/*"],
+      "hooks/*": ["./src/app/_hooks/*"],
+      "hooks": ["./src/app/_hooks/index.ts"],
       "@/*": ["./src/*"]
     },
     "plugins": [{ "name": "next" }]

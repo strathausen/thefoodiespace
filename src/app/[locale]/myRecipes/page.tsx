@@ -1,17 +1,20 @@
 import { api } from "@/trpc/server";
 import { getServerAuthSession } from "@/server/auth";
-import { ServerLoginButton } from "../_components/server-login-button";
-import { RecipePost } from "../_components/recipe-post";
+import { ServerLoginButton } from "components/server-login-button";
+import { RecipePost } from "components/recipe-post";
+import { getI18n } from "locales/server";
 
 export default async function MyRecipePage() {
+  const t = await getI18n();
+
   const session = await getServerAuthSession();
   if (!session) {
     return <ServerLoginButton />;
   }
   const recipes = await api.recipe.listMine.query({});
   return (
-    <main className="max-w-3xl">
-      <div className="mt-10 m-auto">
+    <main className="">
+      <div className="m-auto mt-10">
         {recipes?.map((r) => {
           return (
             <div key={r.id} className="mb-2">
@@ -33,6 +36,11 @@ export default async function MyRecipePage() {
             </div>
           );
         })}
+        {!recipes?.length && (
+          <div className="text-center text-2xl font-bold">
+            {t("noRecipesYet")}
+          </div>
+        )}
       </div>
     </main>
   );
