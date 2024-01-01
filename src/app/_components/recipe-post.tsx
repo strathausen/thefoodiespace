@@ -10,6 +10,7 @@ import {
 import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
 import { RecipeActions } from "./recipe/recipe-actions";
 import Link from "next/link";
+import { truncate } from "lodash";
 
 type Props = {
   id: string;
@@ -32,7 +33,7 @@ export const RecipePost = (props: Props) => {
     <div className="m-auto mb-4 mt-4">
       <Container>
         <div className="flex flex-col gap-3 p-2">
-          <div className="mt-1 flex w-full flex-row items-center gap-2">
+          <div className="mt-1 flex items-center gap-2">
             <Link href={`/user/${props.profileId}`}>
               <Image
                 width={38}
@@ -68,7 +69,7 @@ export const RecipePost = (props: Props) => {
                 onClick={props.onImageClick}
               />
             </Link>
-            <button className="bg-pink absolute bottom-5 right-0 rounded-l-lg bg-white/20 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-md backdrop-brightness-125 transition hover:bg-white/80">
+            <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/10 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-md backdrop-brightness-125 transition hover:bg-white/80">
               <FaKitchenSet />
             </button>
           </div>
@@ -89,7 +90,11 @@ export const RecipePost = (props: Props) => {
                 </div>
               </div>
             </div>
-            <div>{props.description}</div>
+            <Link href={`/recipe/${props.id}`}>
+              <div className="max-w-[392px]">
+                {truncate(props.description, { length: 186 })}
+              </div>
+            </Link>
           </div>
           <div className="flex w-full pr-2">
             <input

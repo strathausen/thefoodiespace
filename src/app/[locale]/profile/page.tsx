@@ -5,6 +5,7 @@ import { Button, Container, InputField } from "ui";
 import { api } from "@/trpc/react";
 import { UploadButton } from "@/utils/uploadthing";
 import { AuthPage } from "@/app/api/auth/auth-page";
+import { useScopedI18n } from "locales/client";
 
 const size = 130;
 
@@ -17,6 +18,7 @@ export default function ProfilePage() {
   const [validationError, setValidationError] = useState<string | undefined>(
     undefined,
   );
+  const t = useScopedI18n("profile");
 
   const profileQuery = api.profile.get.useQuery();
   const profileUpdateMutation = api.profile.update.useMutation();
@@ -57,7 +59,7 @@ export default function ProfilePage() {
         <div className="mx-auto mt-10 max-w-xl">
           <Container>
             <div className="p-4">
-              <h1 className="pb-4 text-center text-xl">your profile</h1>
+              <h1 className="pb-4 text-center text-xl">{t("title")}</h1>
               <form
                 onSubmit={(e) => {
                   handleSubmit();
@@ -99,9 +101,9 @@ export default function ProfilePage() {
                   content={{ button: "upload profile pic" }}
                 />
                 <InputField
-                  label="name"
+                  label={t("name")}
                   name="name"
-                  description="what should we call you?"
+                  description={t("nameDescription")}
                   type="text"
                   placeholder="name"
                   value={name}
@@ -109,9 +111,9 @@ export default function ProfilePage() {
                   disabled={loading}
                 />
                 <InputField
-                  label="bio"
+                  label={t("bio")}
                   name="bio"
-                  description="brag about yourself!"
+                  description={t("bioDescription")}
                   type="textarea"
                   placeholder="bio"
                   value={bio}
@@ -119,9 +121,9 @@ export default function ProfilePage() {
                   disabled={loading}
                 />
                 <InputField
-                  label="pronouns"
+                  label={t("pronouns")}
                   name="pronouns"
-                  description="how do you identify?"
+                  description={t("pronounsDescription")}
                   type="text"
                   placeholder="pronouns"
                   value={pronouns}

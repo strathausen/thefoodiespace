@@ -6,31 +6,50 @@ import {
 } from "@/server/api/trpc";
 import { RecipeValidator } from "@/validators";
 
+const select = {
+  id: true,
+  name: true,
+  images: true,
+  info: true,
+  createdAt: true,
+  updatedAt: true,
+  createdById: true,
+  createdBy: {
+    select: {
+      id: true,
+      name: true,
+      image: true,
+    },
+  },
+  publichedAt: true,
+};
+
 export const recipeRouter = createTRPCRouter({
   list: publicProcedure.query(({ ctx }) => {
     return ctx.db.recipe.findMany({
       where: { status: "PUBLISHED", featured: true },
       take: 10,
       orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        name: true,
-        images: true,
-        info: true,
-        createdAt: true,
-        updatedAt: true,
-        createdById: true,
-        createdBy: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-          },
-        },
-        publichedAt: true,
-      },
+      select,
     });
   }),
+  feed: protectedProcedure
+    .input(
+      z.object({ cursor: z.string().optional(), take: z.number().default(10) }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.session?.user?.id;
+      // TODO sub query for followers?
+      const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];
+      const where = { OR };
+      const recipes = await ctx.db.recipe.findMany({
+        where,
+        take: 10,
+        orderBy: { createdAt: "desc" },
+        select,
+      });
+      return recipes;
+    }),
   get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const userId = ctx.session?.user?.id;
     const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];

@@ -65,7 +65,7 @@ export function NavBar(props: Props) {
         </div>
         <Link
           href={props.loggedIn ? "/api/auth/signout" : "/api/auth/signin"}
-          className="flex gap-4 rounded-sm text-primary-darker transition"
+          className="flex items-center gap-4 rounded-sm text-primary-darker transition"
         >
           <FaDoorOpen /> {props.loggedIn ? t("logout") : t("login")}
         </Link>
