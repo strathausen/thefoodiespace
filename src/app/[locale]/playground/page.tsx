@@ -1,5 +1,3 @@
-import { ImageUpload } from "../_components/image-upload";
-
 const grainyStyle = {
   backgroundImage: "url(https://grainy-gradients.vercel.app/noise.svg)",
   filter: "brightness(1.05) saturate(2)",
