@@ -9,7 +9,6 @@ export const {
   I18nProviderClient,
 } = createI18nClient({
   en: () => import("./en"),
-  fr: () => import("./fr"),
   de: () => import("./de"),
   ro: () => import("./ro"),
   vi: () => import("./vi"),
