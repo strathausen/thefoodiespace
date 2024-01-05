@@ -7,16 +7,10 @@ import {
   FaBookBookmark,
   FaBowlRice,
   FaDoorOpen,
-  FaLanguage,
   FaPlus,
-  FaX,
 } from "react-icons/fa6";
-import {
-  useScopedI18n,
-  useChangeLocale,
-  useCurrentLocale,
-} from "locales/client";
-import { useState } from "react";
+import { useScopedI18n } from "locales/client";
+import { LanguageSwitcher } from "components/buttons/language-switcher";
 
 type Props = {
   loggedIn: boolean;
@@ -33,14 +27,9 @@ const menuLinks = [
   { label: "profile", link: "profile", icon: null },
 ] as const;
 
-const locales = ["en", "de", "ko", "id", "vi", "ro"] as const;
-
 export function NavBar(props: Props) {
   const pathName = usePathname();
   const t = useScopedI18n("navBar");
-  const [showLanguage, setShowLanguage] = useState(false);
-  const changeLocale = useChangeLocale();
-  const locale = useCurrentLocale();
 
   return (
     <div className="fixed top-0 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm">
@@ -76,28 +65,7 @@ export function NavBar(props: Props) {
           ))}
         </div>
         <div>
-          <button
-            className="relative text-primary-darker"
-            onClick={() => setShowLanguage(!showLanguage)}
-          >
-            <FaLanguage />
-            {showLanguage && (
-              <div className="absolute bottom-0 left-0 ml-8 flex flex-row gap-2 rounded bg-white/50 px-3 py-1">
-                {locales.map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => changeLocale(lang)}
-                    className={`${lang === locale ? "font-bold" : ""}`}
-                  >
-                    {lang}
-                  </button>
-                ))}
-                <button onClick={() => setShowLanguage(false)}>
-                  <FaX />
-                </button>
-              </div>
-            )}
-          </button>
+          <LanguageSwitcher />
           <Link
             href={props.loggedIn ? "/api/auth/signout" : "/api/auth/signin"}
             className="flex items-center gap-4 rounded-sm text-primary-darker transition"

@@ -1,16 +1,13 @@
 import dayjs from "dayjs";
 import Image from "next/image";
-import { Container } from "ui";
-import {
-  FaKitchenSet,
-  FaRegBookmark,
-  FaRegPaperPlane,
-  FaShareNodes,
-} from "react-icons/fa6";
-import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
-import { RecipeActions } from "./recipe/recipe-actions";
 import Link from "next/link";
 import { truncate } from "lodash";
+import { Container } from "ui";
+import { FaKitchenSet, FaRegPaperPlane } from "react-icons/fa6";
+import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
+import { RecipeActions } from "components/recipe/recipe-actions";
+import { BookmarkButton } from "components/buttons/bookmark-button";
+import { ShareButton } from "components/buttons/share-button";
 
 type Props = {
   id: string;
@@ -82,12 +79,8 @@ export const RecipePost = (props: Props) => {
                 />
               </div>
               <div className="flex gap-2">
-                <div className="flex items-center gap-1">
-                  <FaShareNodes className="cursor-pointer hover:scale-125" />{" "}
-                </div>
-                <div className="flex cursor-pointer items-center gap-1 transition hover:scale-125">
-                  <FaRegBookmark />
-                </div>
+                <ShareButton recipeId={props.id} />
+                <BookmarkButton recipeId={props.id} bookmarked={false} />
               </div>
             </div>
             <Link href={`/recipe/${props.id}`}>
