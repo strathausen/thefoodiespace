@@ -68,7 +68,7 @@ export default function ProfilePage() {
               >
                 <div className="mb-2 flex justify-center">
                   <Image
-                    src={image ?? "/default-profile-pic.png"}
+                    src={image ?? "/default-profile-image.webp"}
                     width={size}
                     height={size}
                     className="rounded-full border-4 border-white object-cover shadow-md"

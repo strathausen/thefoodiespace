@@ -1,0 +1,17 @@
+export default {
+  "navBar.home": "trang chủ",
+  "navBar.cookbooks": "sách nấu ăn",
+  "navBar.create": "tạo",
+  "navBar.notifications": "thông báo",
+  "navBar.profile": "hồ sơ",
+  "navBar.logout": "đăng xuất",
+  "navBar.login": "đăng nhập",
+  noRecipesYet: "Bạn chưa tạo công thức nào.",
+  "profile.title": "hồ sơ của bạn",
+  "profile.name": "tên",
+  "profile.nameDescription": "chúng tôi nên gọi bạn là gì?",
+  "profile.pronouns": "đại từ",
+  "profile.pronounsDescription": "chúng tôi nên xưng hô bạn như thế nào?",
+  "profile.bio": "tiểu sử",
+  "profile.bioDescription": "khoe về bản thân đi nào!",
+} as const;

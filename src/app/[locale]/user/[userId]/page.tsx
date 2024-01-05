@@ -17,18 +17,19 @@ export default async function UserPage({
         <div className="p-6">
           <h1 className="pb-2 text-center text-xl">{userProfile.name}</h1>
           {userProfile.pronouns && (
-            <p className="text-center text-stone-700 pb-4 text-sm">
+            <p className="pb-4 text-center text-sm text-stone-700">
               pronouns {userProfile.pronouns}
             </p>
           )}
           {userProfile.image && (
             <div className="flex justify-center">
               <Image
-                className="rounded-full"
-                src={userProfile.image}
+                className="rounded-full object-cover"
+                src={userProfile.image ?? "/default-profile-image.webp"}
                 alt={userProfile.name!}
                 width={200}
                 height={200}
+                style={{ width: 200, height: 200 }}
               />
             </div>
           )}

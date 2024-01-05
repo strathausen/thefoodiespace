@@ -1,0 +1,17 @@
+export default {
+  "navBar.home": "홈",
+  "navBar.cookbooks": "요리책",
+  "navBar.create": "생성",
+  "navBar.notifications": "알림",
+  "navBar.profile": "프로필",
+  "navBar.logout": "로그아웃",
+  "navBar.login": "로그인",
+  noRecipesYet: "아직 레시피를 만들지 않았습니다.",
+  "profile.title": "당신의 프로필",
+  "profile.name": "이름",
+  "profile.nameDescription": "어떻게 부를까요?",
+  "profile.pronouns": "대명사",
+  "profile.pronounsDescription": "어떻게 참조해야 할까요?",
+  "profile.bio": "바이오",
+  "profile.bioDescription": "자신에 대해 자랑해보세요!",
+} as const;

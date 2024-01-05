@@ -1,5 +1,17 @@
 export default {
-  'hello': 'Hello',
-  'hello.world': 'Hello world!',
-  'welcome': 'Hello {name}!'
-} as const
+  "navBar.home": "beranda",
+  "navBar.cookbooks": "buku masak",
+  "navBar.create": "buat",
+  "navBar.notifications": "notifikasi",
+  "navBar.profile": "profil",
+  "navBar.logout": "keluar",
+  "navBar.login": "masuk",
+  noRecipesYet: "Anda belum membuat resep apa pun.",
+  "profile.title": "profil anda",
+  "profile.name": "nama",
+  "profile.nameDescription": "kami harus memanggil Anda apa?",
+  "profile.pronouns": "kata ganti",
+  "profile.pronounsDescription": "bagaimana kami harus merujuk kepada Anda?",
+  "profile.bio": "bio",
+  "profile.bioDescription": "pamerkan tentang diri Anda!",
+} as const;
