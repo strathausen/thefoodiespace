@@ -5,9 +5,8 @@ import { truncate } from "lodash";
 import { Container } from "ui";
 import { FaKitchenSet, FaRegPaperPlane } from "react-icons/fa6";
 import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
-import { RecipeActions } from "components/recipe/recipe-actions";
+import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { BookmarkButton } from "components/buttons/bookmark-button";
-import { ShareButton } from "components/buttons/share-button";
 
 type Props = {
   id: string;
@@ -20,9 +19,8 @@ type Props = {
   likeCount: number;
   commentCount: number;
   isMine?: boolean;
+  liked: boolean;
   publishedAt: Date;
-  onImageClick?: () => void;
-  onProfileClick?: () => void;
 };
 
 export const RecipePost = (props: Props) => {
@@ -63,7 +61,6 @@ export const RecipePost = (props: Props) => {
                 width={400}
                 alt="description tbd"
                 src={props.imageUrl}
-                onClick={props.onImageClick}
               />
             </Link>
             <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/10 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-md backdrop-brightness-125 transition hover:bg-white/80">
@@ -73,13 +70,13 @@ export const RecipePost = (props: Props) => {
           <div className="flex flex-col gap-2 px-1">
             <div className="flex flex-row justify-between">
               <div className="flex flex-row justify-end gap-4">
-                <RecipeActions
+                <RecipeLikeButton
+                  recipeId={props.id}
                   likeCount={props.likeCount}
-                  commentCount={props.commentCount}
+                  liked={props.liked}
                 />
               </div>
               <div className="flex gap-2">
-                <ShareButton recipeId={props.id} />
                 <BookmarkButton recipeId={props.id} bookmarked={false} />
               </div>
             </div>

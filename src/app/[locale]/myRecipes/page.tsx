@@ -31,6 +31,7 @@ export default async function MyRecipePage() {
                   isMine={true}
                   publishedAt={r.createdAt}
                   profileId={session.user.id}
+                  liked={r.reactions.filter((r) => r.type === "LIKE").length > 0}
                 />
               </div>
             </div>
