@@ -68,7 +68,7 @@ model Reaction {
     user     User   @relation(fields: [userId], references: [id])
     userId   String @map("user_id")
 
-    @@unique([recipeId, userId])
+    @@unique([recipeId, userId, type])
     @@map("reactions")
 }
 
@@ -122,6 +122,7 @@ model User {
     notifications Notification[]
     bookmarks     Bookmark[]
     cookBooks     CookBook[]
+    comments      Comment[]
 
     @@map("users")
 }
@@ -186,6 +187,7 @@ model Recipe {
 
     reactions Reaction[]
     bookmarks Bookmark[]
+    comments  Comment[]
 
     @@index([name])
     @@map("recipes")
@@ -240,4 +242,20 @@ model CookBook {
     bookmarks Bookmark[]
 
     @@map("cookbooks")
+}
+
+model Comment {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    text String
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @map("user_id")
+
+    recipe   Recipe @relation(fields: [recipeId], references: [id])
+    recipeId String @map("recipe_id")
+
+    @@map("comments")
 }

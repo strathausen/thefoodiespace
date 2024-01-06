@@ -32,7 +32,7 @@ export function NavBar(props: Props) {
   const t = useScopedI18n("navBar");
 
   return (
-    <div className="fixed top-0 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm">
+    <div className="absolute top-0 z-50 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm xs:bottom-0 xs:flex-row xs:bg-white/50 xs:h-[100px]">
       <div title="tomato city">
         <Link href="/" className="gap-3 text-2xl text-accent ">
           <p className="font-vollkorn drop-shadow-hard">tomatovillage</p>

@@ -163,4 +163,54 @@ export const recipeRouter = createTRPCRouter({
         },
       });
     }),
+
+  addComment: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        text: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.reaction.create({
+        data: {
+          type: "COMMENT",
+          payload: input.text,
+          recipe: { connect: { id: input.id } },
+          user: { connect: { id: ctx.session.user.id } },
+        },
+      });
+    }),
+
+  deleteReaction: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.reaction.delete({
+        where: {
+          recipeId_userId: { recipeId: input.id, userId: ctx.session.user.id },
+        },
+      });
+    }),
+
+  updateComment: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        text: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.reaction.update({
+        where: {
+          recipeId_userId: { recipeId: input.id, userId: ctx.session.user.id },
+        },
+        data: {
+          payload: input.text,
+        },
+      });
+    }),
 });
