@@ -159,7 +159,11 @@ export const recipeRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.reaction.delete({
         where: {
-          recipeId_userId: { recipeId: input.id, userId: ctx.session.user.id },
+          recipeId_userId_type: {
+            recipeId: input.id,
+            userId: ctx.session.user.id,
+            type: "LIKE",
+          },
         },
       });
     }),
@@ -172,28 +176,19 @@ export const recipeRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.reaction.create({
+      return ctx.db.comment.create({
         data: {
-          type: "COMMENT",
-          payload: input.text,
+          text: input.text,
           recipe: { connect: { id: input.id } },
           user: { connect: { id: ctx.session.user.id } },
         },
       });
     }),
 
-  deleteReaction: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      }),
-    )
+  deleteComment: protectedProcedure
+    .input(z.string())
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.reaction.delete({
-        where: {
-          recipeId_userId: { recipeId: input.id, userId: ctx.session.user.id },
-        },
-      });
+      return ctx.db.comment.delete({ where: { id: input } });
     }),
 
   updateComment: protectedProcedure
@@ -204,13 +199,9 @@ export const recipeRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.reaction.update({
-        where: {
-          recipeId_userId: { recipeId: input.id, userId: ctx.session.user.id },
-        },
-        data: {
-          payload: input.text,
-        },
+      return ctx.db.comment.update({
+        where: { id: input.id },
+        data: { text: input.text },
       });
     }),
 });

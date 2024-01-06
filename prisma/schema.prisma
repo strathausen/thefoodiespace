@@ -245,7 +245,7 @@ model CookBook {
 }
 
 model Comment {
-    id        Int      @id @default(autoincrement())
+    id        String   @id @default(cuid())
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
 
