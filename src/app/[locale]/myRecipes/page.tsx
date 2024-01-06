@@ -26,7 +26,7 @@ export default async function MyRecipePage() {
                   description={r.text!}
                   profileImageUrl={session.user.image!}
                   profileName={session.user.name!}
-                  likeCount={34}
+                  likeCount={r.likeCount}
                   commentCount={23}
                   isMine={true}
                   publishedAt={r.createdAt}

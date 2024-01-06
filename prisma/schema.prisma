@@ -37,6 +37,7 @@ enum ReactionType {
     WOW
     SAD
     ANGRY
+    COMMENT
 }
 
 enum NotificationType {
