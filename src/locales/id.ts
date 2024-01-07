@@ -1,4 +1,21 @@
 export default {
+  you: "kamu",
+  "editor.title": "buat resep",
+  "editor.titlePlaceholder": "beri judul yang menarik",
+  "editor.sourceUrlPlaceholder":
+    "sumber url - opsional: apakah Anda menemukan resep ini di tempat lain?",
+  "editor.descriptionPlaceholder":
+    "ceritakan tentang resep Anda - gunakan #hashtags jika Anda mau",
+  "editor.prepTime": "waktu persiapan",
+  "editor.cookTime": "waktu memasak",
+  "editor.yield": "hasil",
+  "editor.calories": "kalori",
+  "editor.ingredients": "bahan",
+  "editor.amount": "jumlah",
+  "editor.unit": "satuan",
+  "editor.ingredient": "bahan",
+  "editor.notes": "catatan",
+  "editor.steps": "langkah",
   "navBar.home": "beranda",
   "navBar.cookbooks": "buku masak",
   "navBar.create": "buat",

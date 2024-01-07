@@ -13,13 +13,15 @@ export const RecipeLikeButton = (props: Props) => {
   const like = api.recipe.like.useMutation();
   const unlike = api.recipe.unlike.useMutation();
 
-  function onLikeClick() {
+  async function onLikeClick() {
     if (props.liked) {
-      unlike.mutate({ id: props.recipeId });
+      await unlike.mutateAsync({ id: props.recipeId });
     } else {
-      like.mutate({ id: props.recipeId });
+      await like.mutateAsync({ id: props.recipeId });
     }
+    // TODO revert state when there has been an error
   }
+
   return (
     <>
       <PulseCounter

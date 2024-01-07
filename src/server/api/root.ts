@@ -1,8 +1,9 @@
 import { createTRPCRouter } from "@/server/api/trpc";
+import { bookmarkRouter } from "./routers/bookmark";
+import { commentRouter } from "./routers/comment";
+import { profileRouter } from "./routers/profile";
 import { recipeRouter } from "./routers/recipe";
 import { waitlistRouter } from "./routers/waitlist";
-import { profileRouter } from "./routers/profile";
-import { bookmarkRouter } from "./routers/bookmark";
 
 /**
  * This is the primary router for your server.
@@ -10,10 +11,11 @@ import { bookmarkRouter } from "./routers/bookmark";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  bookmark: bookmarkRouter,
+  comment: commentRouter,
+  profile: profileRouter,
   recipe: recipeRouter,
   waitlist: waitlistRouter,
-  profile: profileRouter,
-  bookmark: bookmarkRouter,
 });
 
 // export type definition of API

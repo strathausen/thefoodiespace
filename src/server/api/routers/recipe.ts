@@ -35,6 +35,11 @@ const selectWithUser = (userId: string) => {
       where: { userId },
       select: { id: true, cookBookId: true },
     },
+    comments: {
+      where: { userId },
+      select: { id: true, text: true, createdAt: true, updatedAt: true },
+      orderBy: { createdAt: "desc" as const },
+    },
   };
 };
 
@@ -107,7 +112,7 @@ export const recipeRouter = createTRPCRouter({
         orderBy: { createdAt: "desc" },
         select: selectWithUser(createdById),
       });
-      console.log(recipes[0]?.bookmarks)
+      console.log(recipes[0]?.bookmarks);
       return recipes;
     }),
 
@@ -150,94 +155,30 @@ export const recipeRouter = createTRPCRouter({
   like: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.reaction.create({
-        data: {
-          type: "LIKE",
-          recipe: { connect: { id: input.id } },
-          user: { connect: { id: ctx.session.user.id } },
-        },
-      });
+      return ctx.db.reaction
+        .create({
+          data: {
+            type: "LIKE",
+            recipe: { connect: { id: input.id } },
+            user: { connect: { id: ctx.session.user.id } },
+          },
+        })
+        .catch(() => null);
     }),
 
   unlike: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.reaction.delete({
-        where: {
-          recipeId_userId_type: {
-            recipeId: input.id,
-            userId: ctx.session.user.id,
-            type: "LIKE",
-          },
-        },
-      });
-    }),
-
-  addComment: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        text: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.comment.create({
-        data: {
-          text: input.text,
-          recipe: { connect: { id: input.id } },
-          user: { connect: { id: ctx.session.user.id } },
-        },
-      });
-    }),
-
-  deleteComment: protectedProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.comment.delete({ where: { id: input } });
-    }),
-
-  updateComment: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        text: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.comment.update({
-        where: { id: input.id },
-        data: { text: input.text },
-      });
-    }),
-
-  listComments: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        take: z.number().optional().default(10),
-        skip: z.number().optional().default(0),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const { id: recipeId, take, skip } = input;
-      return ctx.db.comment.findMany({
-        where: { recipeId },
-        take,
-        skip,
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          text: true,
-          createdAt: true,
-          updatedAt: true,
-          user: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
+      return ctx.db.reaction
+        .delete({
+          where: {
+            recipeId_userId_type: {
+              recipeId: input.id,
+              userId: ctx.session.user.id,
+              type: "LIKE",
             },
           },
-        },
-      });
+        })
+        .catch(() => null);
     }),
 });

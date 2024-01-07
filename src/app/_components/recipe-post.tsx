@@ -3,10 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { truncate } from "lodash";
 import { Container } from "ui";
-import { FaKitchenSet, FaRegPaperPlane } from "react-icons/fa6";
+import { FaKitchenSet } from "react-icons/fa6";
 import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
 import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { BookmarkButton } from "components/buttons/bookmark-button";
+import { RecipeCommentField } from "./recipe/recipe-comment-field";
 
 type Props = {
   id: string;
@@ -22,6 +23,7 @@ type Props = {
   liked: boolean;
   bookmarked: boolean;
   publishedAt: Date;
+  myComments: { text: string; id: string; createdAt: Date }[];
 };
 
 export const RecipePost = (props: Props) => {
@@ -78,24 +80,23 @@ export const RecipePost = (props: Props) => {
                 />
               </div>
               <div className="flex gap-2">
-                <BookmarkButton recipeId={props.id} bookmarked={props.bookmarked} />
+                <BookmarkButton
+                  recipeId={props.id}
+                  bookmarked={props.bookmarked}
+                />
               </div>
             </div>
             <Link href={`/recipe/${props.id}`}>
               <div className="max-w-[392px]">
-                {truncate(props.description, { length: 186 })}
+                {truncate(props.description, { length: 186 })}{" "}
+                <span className="text-slate-700 text-sm">read&nbsp;more -&gt;</span>
               </div>
             </Link>
           </div>
-          <div className="flex w-full pr-2">
-            <input
-              className="flex-1 bg-transparent p-1 placeholder:text-green-950/40"
-              placeholder="leave a comment..."
-            />
-            <button className="text-green-950/40">
-              <FaRegPaperPlane />
-            </button>
-          </div>
+          <RecipeCommentField
+            recipeId={props.id}
+            myComments={props.myComments}
+          />
         </div>
       </Container>
     </div>

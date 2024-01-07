@@ -1,4 +1,21 @@
 export default {
+  you: "bạn",
+  "editor.title": "tạo công thức",
+  "editor.titlePlaceholder": "đặt tiêu đề",
+  "editor.sourceUrlPlaceholder":
+    "url nguồn - tùy chọn: bạn có tìm thấy công thức này ở đâu không?",
+  "editor.descriptionPlaceholder":
+    "cho chúng tôi biết về công thức của bạn - sử dụng #hashtags nếu bạn muốn",
+  "editor.prepTime": "thời gian chuẩn bị",
+  "editor.cookTime": "thời gian nấu",
+  "editor.yield": "số lượng",
+  "editor.calories": "calories",
+  "editor.ingredients": "nguyên liệu",
+  "editor.amount": "số lượng",
+  "editor.unit": "đơn vị",
+  "editor.ingredient": "nguyên liệu",
+  "editor.notes": "ghi chú",
+  "editor.steps": "bước",
   "navBar.home": "trang chủ",
   "navBar.cookbooks": "sách nấu ăn",
   "navBar.create": "tạo",

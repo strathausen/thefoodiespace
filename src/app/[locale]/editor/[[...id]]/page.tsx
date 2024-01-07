@@ -6,6 +6,7 @@ import { RecipeStepEditor } from "components/recipe-step-editor";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/app/_components/image-upload";
 import { AuthPage } from "@/app/api/auth/auth-page";
+import { useScopedI18n } from "locales/client";
 
 // https://developers.google.com/search/docs/appearance/structured-data/recipe#supply-tool
 
@@ -109,6 +110,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   const [ingredients, setIngredients] = useState<Ingredient[]>([
     { ...emptyIngredient },
   ]);
+  const t = useScopedI18n("editor");
 
   const router = useRouter();
 
@@ -207,7 +209,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     <main>
       <AuthPage>
         <div className="max-w-xxl my-10">
-          <h1 className="py-6 text-xl">recipe editor</h1>
+          <h1 className="py-6 text-xl">{t("title")}</h1>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -215,7 +217,6 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
             className="flex flex-col gap-6 rounded-md bg-white/40 p-4 shadow-md backdrop-blur-xl"
           >
             <section>
-              <SubHead>info</SubHead>
               <div className="flex flex-row gap-2">
                 <ImageUpload
                   image={images[0]}

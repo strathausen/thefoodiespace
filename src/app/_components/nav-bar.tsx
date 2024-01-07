@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   FaBell,
@@ -11,6 +10,7 @@ import {
 } from "react-icons/fa6";
 import { useScopedI18n } from "locales/client";
 import { LanguageSwitcher } from "components/buttons/language-switcher";
+import { ProfileImage } from "./profile-image";
 
 type Props = {
   loggedIn: boolean;
@@ -32,7 +32,7 @@ export function NavBar(props: Props) {
   const t = useScopedI18n("navBar");
 
   return (
-    <div className="absolute top-0 z-50 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm xs:bottom-0 xs:flex-row xs:bg-white/50 xs:h-[100px]">
+    <div className="xs:bottom-0 xs:flex-row xs:bg-white/50 xs:h-[100px] absolute top-0 z-50 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm">
       <div title="tomato city">
         <Link href="/" className="gap-3 text-2xl text-accent ">
           <p className="font-vollkorn drop-shadow-hard">tomatovillage</p>
@@ -49,14 +49,9 @@ export function NavBar(props: Props) {
               }`}
             >
               {link === "profile" ? (
-                <Image
-                  src={props.userImage ?? "/user.svg"}
-                  width={28}
-                  height={28}
-                  className="-m-1 rounded-full object-cover shadow"
-                  alt="user image"
-                  style={{ width: 28, height: 28 }}
-                />
+                <div className="-m-1">
+                  <ProfileImage imageUrl={props.userImage} size={28} />
+                </div>
               ) : (
                 icon
               )}{" "}

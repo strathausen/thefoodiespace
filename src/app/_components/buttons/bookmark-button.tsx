@@ -13,14 +13,18 @@ export const BookmarkButton = (props: Props) => {
   const createBookmark = api.bookmark.create.useMutation();
   const deleteBookmark = api.bookmark.remove.useMutation();
 
-  const onToggleBookmark = () => {
-    if (bookmarked) {
-      deleteBookmark.mutate({ recipeId: props.recipeId });
-    } else {
-      createBookmark.mutate({ recipeId: props.recipeId });
-    }
+  async function onToggleBookmark() {
     setBookmarked(!bookmarked);
-  };
+    try {
+      if (bookmarked) {
+        await deleteBookmark.mutateAsync({ recipeId: props.recipeId });
+      } else {
+        await createBookmark.mutateAsync({ recipeId: props.recipeId });
+      }
+    } catch (e) {
+      setBookmarked(!bookmarked);
+    }
+  }
 
   return (
     <button
