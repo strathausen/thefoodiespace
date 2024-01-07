@@ -212,7 +212,7 @@ model VerificationToken {
 }
 
 model Bookmark {
-    id        Int      @id @default(autoincrement())
+    id        String   @id @default(cuid())
     createdAt DateTime @default(now()) @map("created_at")
 
     note String?
@@ -220,17 +220,17 @@ model Bookmark {
     user   User   @relation(fields: [userId], references: [id])
     userId String @map("user_id")
 
-    recipe     Recipe   @relation(fields: [recipeId], references: [id])
-    recipeId   String   @map("recipe_id")
-    cookBook   CookBook @relation(fields: [cookBookId], references: [id])
-    cookBookId Int      @map("cook_book_id")
+    recipe     Recipe    @relation(fields: [recipeId], references: [id])
+    recipeId   String    @map("recipe_id")
+    cookBook   CookBook? @relation(fields: [cookBookId], references: [id])
+    cookBookId String?   @map("cook_book_id")
 
-    @@unique([userId, recipeId])
+    @@unique([userId, recipeId, cookBookId])
     @@map("bookmarks")
 }
 
 model CookBook {
-    id        Int      @id @default(autoincrement())
+    id        String   @id @default(cuid())
     createdAt DateTime @default(now()) @map("created_at")
 
     name        String

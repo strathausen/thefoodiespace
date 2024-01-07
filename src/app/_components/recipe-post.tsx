@@ -20,6 +20,7 @@ type Props = {
   commentCount: number;
   isMine?: boolean;
   liked: boolean;
+  bookmarked: boolean;
   publishedAt: Date;
 };
 
@@ -63,7 +64,7 @@ export const RecipePost = (props: Props) => {
                 src={props.imageUrl}
               />
             </Link>
-            <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/10 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-md backdrop-brightness-125 transition hover:bg-white/80">
+            <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/40 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-md transition hover:bg-white/70">
               <FaKitchenSet />
             </button>
           </div>
@@ -77,7 +78,7 @@ export const RecipePost = (props: Props) => {
                 />
               </div>
               <div className="flex gap-2">
-                <BookmarkButton recipeId={props.id} bookmarked={false} />
+                <BookmarkButton recipeId={props.id} bookmarked={props.bookmarked} />
               </div>
             </div>
             <Link href={`/recipe/${props.id}`}>

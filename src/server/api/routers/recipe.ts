@@ -27,6 +27,21 @@ const select = {
   publichedAt: true,
 };
 
+const selectWithUser = (userId: string) => {
+  return {
+    ...select,
+    reactions: { where: { userId }, select: { type: true } },
+    bookmarks: {
+      where: { userId },
+      select: { id: true, cookBookId: true },
+    },
+  };
+};
+
+const getSelect = (userId: string | undefined) => {
+  return userId ? selectWithUser(userId) : select;
+};
+
 export const recipeRouter = createTRPCRouter({
   list: publicProcedure.query(({ ctx }) => {
     const userId = ctx.session?.user?.id;
@@ -34,12 +49,7 @@ export const recipeRouter = createTRPCRouter({
       where: { status: "PUBLISHED", featured: true },
       take: 10,
       orderBy: { createdAt: "desc" },
-      select: userId
-        ? {
-            ...select,
-            reactions: { where: { userId }, select: { type: true } },
-          }
-        : select,
+      select: getSelect(userId),
     });
   }),
 
@@ -68,10 +78,7 @@ export const recipeRouter = createTRPCRouter({
         take,
         skip,
         orderBy: { publichedAt: "desc" },
-        select: {
-          ...select,
-          reactions: { where: { userId }, select: { type: true } },
-        },
+        select: selectWithUser(userId),
       });
       return recipes;
     }),
@@ -94,16 +101,14 @@ export const recipeRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const createdById = ctx.session.user.id;
-      const recipe = await ctx.db.recipe.findMany({
+      const recipes = await ctx.db.recipe.findMany({
         where: { createdById },
         ...input,
         orderBy: { createdAt: "desc" },
-        select: {
-          ...select,
-          reactions: { where: { userId: createdById }, select: { type: true } },
-        },
+        select: selectWithUser(createdById),
       });
-      return recipe;
+      console.log(recipes[0]?.bookmarks)
+      return recipes;
     }),
 
   getMine: protectedProcedure
@@ -202,6 +207,37 @@ export const recipeRouter = createTRPCRouter({
       return ctx.db.comment.update({
         where: { id: input.id },
         data: { text: input.text },
+      });
+    }),
+
+  listComments: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        take: z.number().optional().default(10),
+        skip: z.number().optional().default(0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { id: recipeId, take, skip } = input;
+      return ctx.db.comment.findMany({
+        where: { recipeId },
+        take,
+        skip,
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          text: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+        },
       });
     }),
 });
