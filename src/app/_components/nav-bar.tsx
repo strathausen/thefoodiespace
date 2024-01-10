@@ -32,19 +32,19 @@ export function NavBar(props: Props) {
   const t = useScopedI18n("navBar");
 
   return (
-    <div className="xs:bottom-0 xs:flex-row xs:bg-white/50 xs:h-[100px] absolute top-0 z-50 flex h-screen flex-col pb-4 pl-6 pt-2 text-sm">
-      <div title="tomato city">
-        <Link href="/" className="gap-3 text-2xl text-accent ">
-          <p className="font-vollkorn drop-shadow-hard">tomatovillage</p>
+    <div className="absolute bottom-0 z-50 flex h-screen max-h-[80px] w-full flex-row bg-white/60 pb-4 pt-2 text-sm backdrop-blur-sm backdrop-brightness-110 sm:top-0 sm:max-h-none sm:w-fit sm:flex-col sm:bg-transparent sm:pl-6 sm:backdrop-blur-none sm:backdrop-brightness-100">
+      <div title="tomato village" className="hidden sm:block">
+        <Link href="/" className="gap-3 text-2xl text-accent">
+          <p className="font-vollkorn drop-shadow-hard">thefoodie.space</p>
         </Link>
       </div>
-      <div className="mt-6 flex flex-1 flex-col justify-between font-vollkorn text-xl">
-        <div className="mt-4 flex flex-col gap-5">
+      <div className="mt-2 flex flex-1 flex-col justify-between font-vollkorn text-xl sm:mt-6">
+        <div className="flex flex-row justify-center gap-5 sm:mt-4 sm:flex-col">
           {menuLinks.map(({ link, label, icon }) => (
             <Link
               key={link}
               href={`/${link}`}
-              className={`flex items-center gap-3 hover:underline hover:decoration-accent ${
+              className={`flex flex-col items-center gap-3 hover:underline hover:decoration-accent sm:flex-row ${
                 pathName.startsWith(`/${link}`) ? "font-bold" : ""
               }`}
             >
@@ -55,11 +55,11 @@ export function NavBar(props: Props) {
               ) : (
                 icon
               )}{" "}
-              {t(label)}
+              <span className="text-sm sm:text-xl">{t(label)}</span>
             </Link>
           ))}
         </div>
-        <div>
+        <div className="hidden sm:block">
           <LanguageSwitcher />
           <Link
             href={props.loggedIn ? "/api/auth/signout" : "/api/auth/signin"}

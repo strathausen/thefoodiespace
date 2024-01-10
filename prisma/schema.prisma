@@ -105,6 +105,7 @@ model Session {
 model User {
     id            String         @id @default(cuid())
     name          String?
+    handle        String?        @unique
     email         String?        @unique
     emailVerified DateTime?      @map("email_verified")
     image         String?

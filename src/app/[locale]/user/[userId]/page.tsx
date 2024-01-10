@@ -12,12 +12,12 @@ export default async function UserPage({
   });
 
   return (
-    <main className="m-auto mt-8 max-w-md">
+    <main className="m-auto mt-8 max-w-2xl w-full">
       <Container>
         <div className="p-6">
-          <h1 className="pb-2 text-center text-xl">{userProfile.name}</h1>
+          <h1 className="pb-2 text-center text-xl font-vollkorn">{userProfile.name}</h1>
           {userProfile.pronouns && (
-            <p className="pb-4 text-center text-sm text-stone-700">
+            <p className="pb-4 text-center text-sm text-stone-700/80">
               pronouns {userProfile.pronouns}
             </p>
           )}

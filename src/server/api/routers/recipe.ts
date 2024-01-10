@@ -58,6 +58,9 @@ export const recipeRouter = createTRPCRouter({
     });
   }),
 
+  // show followed recipes from the last two days (or since last login?)
+  // if scrolled down further, show more recent recipes that are featured
+  // parameter for older recipes.... (cursor?)
   feed: protectedProcedure
     .input(
       z.object({
@@ -78,7 +81,7 @@ export const recipeRouter = createTRPCRouter({
       const recipes = await ctx.db.recipe.findMany({
         where: {
           ...where,
-          createdById: { in: followees.map(({ followeeId }) => followeeId) },
+          // createdById: { in: followees.map(({ followeeId }) => followeeId) },
         },
         take,
         skip,

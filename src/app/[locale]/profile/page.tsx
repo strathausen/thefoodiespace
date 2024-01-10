@@ -1,11 +1,14 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
+import { FaDoorOpen } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { Button, Container, InputField } from "ui";
 import { api } from "@/trpc/react";
 import { UploadButton } from "@/utils/uploadthing";
 import { AuthPage } from "@/app/api/auth/auth-page";
 import { useScopedI18n } from "locales/client";
+import { LanguageSwitcher } from "components/buttons/language-switcher";
 
 const size = 130;
 
@@ -149,6 +152,18 @@ export default function ProfilePage() {
                   <Button disabled={loading}>submit</Button>
                 </div>
               </form>
+              <div className="">
+                <div>
+                  <LanguageSwitcher /> <span className="ml-3 text-primary-darker">switch language</span>
+                </div>
+                <Link
+                  href={"/api/auth/signout"}
+                  className="flex items-center gap-4 rounded-sm text-primary-darker transition"
+                >
+                  <FaDoorOpen /> log out
+                  {/* {t("logout")} */}
+                </Link>
+              </div>
             </div>
           </Container>
         </div>
