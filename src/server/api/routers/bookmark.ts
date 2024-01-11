@@ -59,4 +59,20 @@ export const bookmarkRouter = createTRPCRouter({
         data: { cookBookId },
       });
     }),
+
+  list: protectedProcedure
+    .input(
+      z.object({ take: z.number().optional(), skip: z.number().optional() }),
+    )
+    .query(async ({ ctx }) => {
+      const itemsQuery = ctx.db.bookmark.findMany({
+        where: { userId: ctx.session.user.id },
+        select: { recipe: { select: { id: true, name: true } } },
+      });
+      const countQuery = ctx.db.bookmark.count({
+        where: { userId: ctx.session.user.id },
+      });
+      const [items, count] = await Promise.all([itemsQuery, countQuery]);
+      return { items, count };
+    }),
 });

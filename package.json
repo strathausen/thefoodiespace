@@ -5,9 +5,9 @@
   "scripts": {
     "build": "next build",
     "generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:migrate:prod": ". ./.env.production && prisma migrate deploy",
-    "db:studio": "prisma studio",
+    "migrate": "prisma migrate dev",
+    "migrate:prod": ". ./.env.production && prisma migrate deploy",
+    "studio": "prisma studio",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",

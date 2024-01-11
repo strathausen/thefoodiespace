@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/trpc/react";
+import { useBookmarks } from "hooks/useBookmarks";
 import { useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 
@@ -8,18 +8,17 @@ type Props = {
   bookmarked: boolean;
 };
 
-export const BookmarkButton = (props: Props) => {
+export const BookmarkButton = ({ recipeId, ...props }: Props) => {
   const [bookmarked, setBookmarked] = useState(props.bookmarked);
-  const createBookmark = api.bookmark.create.useMutation();
-  const deleteBookmark = api.bookmark.remove.useMutation();
+  const { bookmark, unbookmark } = useBookmarks();
 
   async function onToggleBookmark() {
     setBookmarked(!bookmarked);
     try {
       if (bookmarked) {
-        await deleteBookmark.mutateAsync({ recipeId: props.recipeId });
+        await unbookmark(recipeId);
       } else {
-        await createBookmark.mutateAsync({ recipeId: props.recipeId });
+        await bookmark(recipeId);
       }
     } catch (e) {
       setBookmarked(!bookmarked);

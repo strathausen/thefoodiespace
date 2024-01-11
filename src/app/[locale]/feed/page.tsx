@@ -6,6 +6,7 @@ import { getCurrentLocale, getI18n } from "locales/server";
 import { I18nProviderClient } from "locales/client";
 
 export default async function MyRecipePage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const t = await getI18n();
   const locale = getCurrentLocale();
 
@@ -27,13 +28,13 @@ export default async function MyRecipePage() {
                     imageUrl={r.images[0]!}
                     title={r.name || r.id}
                     description={r.text!}
-                    profileImageUrl={session.user.image!}
-                    profileName={session.user.name!}
+                    profileImageUrl={r.createdBy.image!}
+                    profileName={r.createdBy.name!}
                     likeCount={r.likeCount}
-                    commentCount={23}
-                    isMine={true}
+                    commentCount={r.commentCount} // is not yet implemented
+                    isMine={r.createdById === session.user.id}
                     publishedAt={r.createdAt}
-                    profileId={session.user.id}
+                    profileId={r.createdById}
                     liked={
                       r.reactions.filter((r) => r.type === "LIKE").length > 0
                     }

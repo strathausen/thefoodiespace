@@ -20,7 +20,7 @@ type Props = {
 };
 
 const menuLinks = [
-  { label: "home", link: "myRecipes", icon: <FaBowlRice /> },
+  { label: "home", link: "feed", icon: <FaBowlRice /> },
   { label: "cookbooks", link: "bookmarks", icon: <FaBookBookmark /> },
   { label: "create", link: "editor", icon: <FaPlus /> },
   { label: "notifications", link: "notifications", icon: <FaBell /> },

@@ -23,13 +23,13 @@ export const RecipePostDropdown = (props: Props) => {
     {
       label: "report 🚩",
       action: () => alert("report"),
-      enabled: false,
+      enabled: props.enableEdit === false,
     },
   ];
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex cursor-pointer flex-col gap-0.5 px-2 py-1 relative z-20">
+    <div className="relative z-20 flex cursor-pointer flex-col gap-0.5 px-2 py-1">
       <button
         onClick={() => setIsOpen((t) => !t)}
         onAbort={() => setIsOpen(false)}
@@ -37,7 +37,7 @@ export const RecipePostDropdown = (props: Props) => {
         <FaEllipsisVertical />
       </button>
       {isOpen && (
-        <div className="absolute right-1 top-10 rounded bg-white/80 px-4 py-2 shadow-xl w-32 drop-shadow-md">
+        <div className="absolute right-1 top-7 w-32 rounded bg-white/80 px-4 py-2 shadow-xl drop-shadow-md">
           <ul>
             {options
               .filter((o) => o.enabled)
@@ -47,8 +47,10 @@ export const RecipePostDropdown = (props: Props) => {
                   className="text-stone-500 transition hover:text-stone-950"
                   onClick={option.action}
                 >
-                  {option.link && (
+                  {option.link ? (
                     <Link href={option.link}>{option.label}</Link>
+                  ) : (
+                    option.label
                   )}
                 </li>
               ))}

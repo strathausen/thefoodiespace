@@ -2,7 +2,7 @@
 import { api } from "@/trpc/react";
 import { useI18n } from "locales/client";
 import { useState } from "react";
-import { FaRegPaperPlane } from "react-icons/fa6";
+import { FaRegPaperPlane, FaTrash } from "react-icons/fa6";
 
 type Props = {
   recipeId: string;
@@ -14,6 +14,13 @@ export const RecipeCommentField = (props: Props) => {
   const [myComments, setMyComments] = useState(props.myComments);
   const [comment, setComment] = useState("");
   const createComment = api.comment.addComment.useMutation();
+  const deleteComment = api.comment.deleteComment.useMutation();
+  const allComments = api.comment.listComments.useQuery(
+    {
+      recipeId: props.recipeId,
+    },
+    { enabled: false },
+  );
 
   async function onCommentSubmit() {
     const text = comment.trim();
@@ -31,20 +38,35 @@ export const RecipeCommentField = (props: Props) => {
     }
   }
 
+  async function onDeleteComment(id: string) {
+    setMyComments((c) => c.filter((c) => c.id !== id));
+    await deleteComment.mutateAsync(id);
+  }
+
   return (
-    <div className="flex w-full flex-col px-1 text-sm">
+    <div className="flex w-fit flex-col px-1 text-sm max-w-[400px]">
       <div className="flex w-full flex-col">
         {myComments.map((c) => {
           return (
-            <p
-              key={c.id}
-              className={`${
-                c.temporary ? "text-stone-600/40" : "text-slate-600/90"
-              }`}
-            >
-              <span className="font-bold">{t("you")}: </span>
-              {c.text}
-            </p>
+            <div key={c.id} className="group flex justify-between">
+              <p
+                className={`${
+                  c.temporary ? "text-stone-600/40" : "text-slate-600/90"
+                }`}
+              >
+                <span className="font-bold">{t("you")}: </span>
+                {c.text}
+              </p>
+              <button
+                className="hidden text-xs text-stone-600/40 group-hover:block"
+                onClick={async (e) => {
+                  e.preventDefault();
+                  await onDeleteComment(c.id);
+                }}
+              >
+                <FaTrash />
+              </button>
+            </div>
           );
         })}
       </div>
@@ -56,7 +78,7 @@ export const RecipeCommentField = (props: Props) => {
         }}
       >
         <input
-          className="flex-1 bg-transparent px-1 -m-1 py-2 placeholder:text-green-950/40"
+          className="-m-1 flex-1 bg-transparent px-1 py-2 placeholder:text-green-950/40"
           placeholder="leave a comment..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
