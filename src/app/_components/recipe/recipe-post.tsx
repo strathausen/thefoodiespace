@@ -49,9 +49,9 @@ export const RecipePost = (props: Props) => {
                   className="flex items-center gap-2"
                 >
                   <p>{props.profileName}</p>
-                  <p className="text-sm text-green-950/50">
+                  <div className="text-sm text-green-950/50">
                     <FollowButton userId={props.profileId} />
-                  </p>
+                  </div>
                 </Link>
                 <p className="text-xs text-green-950/60">
                   {dayjs(props.publishedAt).format("D MMM YYYY")}
