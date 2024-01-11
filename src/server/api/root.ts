@@ -1,6 +1,7 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { bookmarkRouter } from "./routers/bookmark";
 import { commentRouter } from "./routers/comment";
+import { followRouter } from "./routers/follow";
 import { profileRouter } from "./routers/profile";
 import { recipeRouter } from "./routers/recipe";
 import { waitlistRouter } from "./routers/waitlist";
@@ -13,6 +14,7 @@ import { waitlistRouter } from "./routers/waitlist";
 export const appRouter = createTRPCRouter({
   bookmark: bookmarkRouter,
   comment: commentRouter,
+  follow: followRouter,
   profile: profileRouter,
   recipe: recipeRouter,
   waitlist: waitlistRouter,

@@ -1,7 +1,7 @@
 import { api } from "@/trpc/server";
 import { getServerAuthSession } from "@/server/auth";
 import { ServerLoginButton } from "components/server-login-button";
-import { RecipePost } from "components/recipe-post";
+import { RecipePost } from "components/recipe/recipe-post";
 import { getCurrentLocale, getI18n } from "locales/server";
 import { I18nProviderClient } from "locales/client";
 

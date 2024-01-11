@@ -1,6 +1,6 @@
 import type { RecipeStep } from "@/types";
 import { FaAngleDown, FaAngleUp, FaTrashAlt } from "react-icons/fa";
-import { ImageUpload } from "./image-upload";
+import { ImageUpload } from "../image-upload";
 
 type RecipeStepProps = {
   isLast: boolean;

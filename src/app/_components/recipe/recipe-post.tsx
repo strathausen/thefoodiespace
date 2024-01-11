@@ -7,7 +7,8 @@ import { FaKitchenSet } from "react-icons/fa6";
 import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
 import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { BookmarkButton } from "components/buttons/bookmark-button";
-import { RecipeCommentField } from "./recipe/recipe-comment-field";
+import { RecipeCommentField } from "./recipe-comment-field";
+import { FollowButton } from "components/buttons/follow-button";
 
 type Props = {
   id: string;
@@ -43,8 +44,14 @@ export const RecipePost = (props: Props) => {
             </Link>
             <div className="flex w-full justify-between">
               <div className="max-w-[305px] ">
-                <Link href={`/user/${props.profileId}`}>
+                <Link
+                  href={`/user/${props.profileId}`}
+                  className="flex items-center gap-2"
+                >
                   <p>{props.profileName}</p>
+                  <p className="text-sm text-green-950/50">
+                    <FollowButton userId={props.profileId} />
+                  </p>
                 </Link>
                 <p className="text-xs text-green-950/60">
                   {dayjs(props.publishedAt).format("D MMM YYYY")}
@@ -89,7 +96,9 @@ export const RecipePost = (props: Props) => {
             <Link href={`/recipe/${props.id}`}>
               <div className="max-w-[392px]">
                 {truncate(props.description, { length: 186 })}{" "}
-                <span className="text-slate-700 text-sm">read&nbsp;more -&gt;</span>
+                <span className="text-sm text-slate-700">
+                  read&nbsp;more -&gt;
+                </span>
               </div>
             </Link>
           </div>
