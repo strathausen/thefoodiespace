@@ -1,29 +1,28 @@
 "use client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
 type Props = {
   recipeId: string;
-  enableEdit?: boolean;
+  profileId: string;
 };
 
 export const RecipePostDropdown = (props: Props) => {
+  const session = useSession();
+  const isMine = session.data?.user?.id === props.profileId;
+
   const options = [
     {
       label: "edit ✏️",
       link: `/editor/${props.recipeId}`,
-      enabled: props.enableEdit,
+      enabled: props,
     },
-    // {
-    //   label: "delete 🗑️",
-    //   link: `/editor/${props.recipeId}`,
-    //   enabled: props.enableEdit,
-    // },
     {
       label: "report 🚩",
       action: () => alert("report"),
-      enabled: props.enableEdit === false,
+      enabled: !isMine,
     },
   ];
   const [isOpen, setIsOpen] = useState(false);

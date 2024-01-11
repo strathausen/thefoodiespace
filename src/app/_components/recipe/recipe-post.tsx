@@ -20,7 +20,7 @@ type Props = {
   profileId: string;
   likeCount: number;
   commentCount: number;
-  isMine?: boolean;
+  isMine?: boolean; // ignored
   liked: boolean;
   bookmarked: boolean;
   publishedAt: Date;
@@ -59,7 +59,7 @@ export const RecipePost = (props: Props) => {
               </div>
               <RecipePostDropdown
                 recipeId={props.id}
-                enableEdit={props.isMine}
+                profileId={props.profileId}
               />
             </div>
           </div>
@@ -89,16 +89,15 @@ export const RecipePost = (props: Props) => {
               <div className="flex gap-2">
                 <BookmarkButton
                   recipeId={props.id}
-                  bookmarked={props.bookmarked}
                 />
               </div>
             </div>
             <Link href={`/recipe/${props.id}`}>
               <div className="max-w-[392px]">
                 {truncate(props.description, { length: 186 })}{" "}
-                <span className="text-sm text-slate-700">
+                {/* <span className="text-sm text-slate-700">
                   read&nbsp;more -&gt;
-                </span>
+                </span> */}
               </div>
             </Link>
           </div>

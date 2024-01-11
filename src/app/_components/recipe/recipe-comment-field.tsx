@@ -1,6 +1,7 @@
 "use client";
 import { api } from "@/trpc/react";
 import { useI18n } from "locales/client";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { FaRegPaperPlane, FaTrash } from "react-icons/fa6";
 
@@ -11,7 +12,9 @@ type Props = {
 
 export const RecipeCommentField = (props: Props) => {
   const t = useI18n();
+  const session = useSession();
   const [myComments, setMyComments] = useState(props.myComments);
+  const [showAllComments, setShowAllComments] = useState(false);
   const [comment, setComment] = useState("");
   const createComment = api.comment.addComment.useMutation();
   const deleteComment = api.comment.deleteComment.useMutation();
@@ -44,28 +47,49 @@ export const RecipeCommentField = (props: Props) => {
   }
 
   return (
-    <div className="flex w-fit flex-col px-1 text-sm max-w-[400px]">
+    <div className="flex max-w-[400px] flex-col px-1 text-sm">
+      {showAllComments ? (
+        <button onClick={() => setShowAllComments(false)}>hide comments</button>
+      ) : (
+        <button
+          onClick={async () => {
+            await allComments.refetch();
+            setShowAllComments(true);
+          }}
+        >
+          show all comments
+        </button>
+      )}
       <div className="flex w-full flex-col">
-        {myComments.map((c) => {
+        {(showAllComments
+          ? allComments.data
+          : myComments.map((c) => ({
+              ...c,
+              user: session.data?.user,
+            }))
+        )?.map((c) => {
           return (
             <div key={c.id} className="group flex justify-between">
-              <p
-                className={`${
-                  c.temporary ? "text-stone-600/40" : "text-slate-600/90"
-                }`}
-              >
-                <span className="font-bold">{t("you")}: </span>
+              <p className="text-slate-600/90">
+                <span className="font-bold">
+                  {c.user?.id === session.data?.user?.id
+                    ? t("you")
+                    : c.user?.name}
+                  :{" "}
+                </span>
                 {c.text}
               </p>
-              <button
-                className="hidden text-xs text-stone-600/40 group-hover:block"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  await onDeleteComment(c.id);
-                }}
-              >
-                <FaTrash />
-              </button>
+              {c.user?.id === session.data?.user?.id && (
+                <button
+                  className="hidden text-xs text-stone-600/40 group-hover:block"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await onDeleteComment(c.id);
+                  }}
+                >
+                  <FaTrash />
+                </button>
+              )}
             </div>
           );
         })}

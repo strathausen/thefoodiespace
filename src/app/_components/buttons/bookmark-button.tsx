@@ -5,12 +5,11 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 
 type Props = {
   recipeId: string;
-  bookmarked: boolean;
 };
 
-export const BookmarkButton = ({ recipeId, ...props }: Props) => {
-  const [bookmarked, setBookmarked] = useState(props.bookmarked);
-  const { bookmark, unbookmark } = useBookmarks();
+export const BookmarkButton = ({ recipeId }: Props) => {
+  const { bookmark, unbookmark, isBookmarked } = useBookmarks();
+  const [bookmarked, setBookmarked] = useState(isBookmarked(recipeId));
 
   async function onToggleBookmark() {
     setBookmarked(!bookmarked);

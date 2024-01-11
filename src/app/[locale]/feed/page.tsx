@@ -1,23 +1,21 @@
-import { api } from "@/trpc/server";
-import { getServerAuthSession } from "@/server/auth";
-import { ServerLoginButton } from "components/server-login-button";
+"use client";
+import { api } from "@/trpc/react";
+import { AuthPage } from "api/auth/auth-page";
 import { RecipePost } from "components/recipe/recipe-post";
-import { getCurrentLocale, getI18n } from "locales/server";
-import { I18nProviderClient } from "locales/client";
+import { useCurrentLocale, useI18n } from "locales/client";
+// import { useSession } from "next-auth/react";
 
-export default async function MyRecipePage() {
+export default function MyRecipePage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const t = await getI18n();
-  const locale = getCurrentLocale();
+  const t = useI18n();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const locale = useCurrentLocale();
 
-  const session = await getServerAuthSession();
-  if (!session) {
-    return <ServerLoginButton />;
-  }
-  const recipes = await api.recipe.feed.query({});
+  // const session = useSession();
+  const { data: recipes } = api.recipe.feed.useQuery({});
   return (
     <main className="">
-      <I18nProviderClient locale={locale}>
+      <AuthPage>
         <div className="m-auto mt-10">
           {recipes?.map((r) => {
             return (
@@ -32,7 +30,8 @@ export default async function MyRecipePage() {
                     profileName={r.createdBy.name!}
                     likeCount={r.likeCount}
                     commentCount={r.commentCount} // is not yet implemented
-                    isMine={r.createdById === session.user.id}
+                    // isMine={r.createdById === session.data?.user.id}
+                    isMine={false}
                     publishedAt={r.createdAt}
                     profileId={r.createdById}
                     liked={
@@ -51,7 +50,7 @@ export default async function MyRecipePage() {
             </div>
           )}
         </div>
-      </I18nProviderClient>
+      </AuthPage>
     </main>
   );
 }
