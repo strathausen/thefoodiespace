@@ -67,7 +67,16 @@ export const bookmarkRouter = createTRPCRouter({
     .query(async ({ ctx }) => {
       const itemsQuery = ctx.db.bookmark.findMany({
         where: { userId: ctx.session.user.id },
-        select: { recipe: { select: { id: true, name: true } } },
+        select: {
+          recipe: {
+            select: {
+              id: true,
+              name: true,
+              images: true,
+              createdBy: { select: { id: true, name: true, image: true } },
+            },
+          },
+        },
       });
       const countQuery = ctx.db.bookmark.count({
         where: { userId: ctx.session.user.id },
