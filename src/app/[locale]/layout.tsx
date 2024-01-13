@@ -55,7 +55,7 @@ export default async function RootLayout({
       <body
         className={`font-sans ${inter.variable} ${jakarta.variable} ${vollkorn.variable} bg-gradient-to-br from-red-200 via-green-200 to-orange-200`}
       >
-        <div className="h-screen overflow-y-scroll" style={grainyStyle}>
+        <div className="h-[calc(100dvh)] overflow-y-scroll" style={grainyStyle}>
           <NextSSRPlugin
             /**
              * The `extractRouterConfig` will extract **only** the route configs

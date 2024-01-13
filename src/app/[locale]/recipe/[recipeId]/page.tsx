@@ -14,7 +14,7 @@ export default async function RecipePage(props: Props) {
     return <div>Recipe not found</div>;
   }
   return (
-    <main className="m-auto my-6 max-w-2xl">
+    <main className="m-auto my-6 max-w-2xl flex w-full">
       <Container>
         <div className="px-6 py-4">
           <h1 className="font-vollkorn text-3xl font-semibold">
@@ -40,7 +40,9 @@ export default async function RecipePage(props: Props) {
                   <span>
                     {ingredient.name} ({ingredient.quantity} {ingredient.unit})
                   </span>
-                  <span className="text-sm ml-2 text-stone-950/50">{ingredient.notes}</span>
+                  <span className="ml-2 text-sm text-stone-950/50">
+                    {ingredient.notes}
+                  </span>
                 </li>
               ))}
             </ul>

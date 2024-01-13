@@ -11,7 +11,7 @@ export default function BookmarksPage() {
         <div className="mx-auto mt-10 max-w-2xl">
           <div className="p-4">
             <h1 className="font-vollkorn text-2xl">my bookmarks</h1>
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
               {bookmarks.map(({ recipe }) => (
                 <div key={recipe.id}>
                   <RecipeTile

@@ -23,17 +23,15 @@ export const RecipeTile = (props: Props) => {
             {props.title}
           </p>
         </Link>
-        <div className="relative">
-          <Link href={`/recipe/${props.id}`}>
-            <Image
-              className="h-[190px] w-[190px] rounded-md object-cover"
-              height={190}
-              width={190}
-              src={props.imageUrl}
-              alt="recipe image"
-            />
-          </Link>
-        </div>
+        <Link href={`/recipe/${props.id}`}>
+          <Image
+            className="m-auto h-[200px] w-[200px] rounded-md object-cover"
+            height={200}
+            width={200}
+            src={props.imageUrl}
+            alt="recipe image"
+          />
+        </Link>
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-2">
             <Link href={`/user/${props.profileId}`}>
