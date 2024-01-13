@@ -1,0 +1,1 @@
+update recipes set comment_count=(select count(*) from comments where recipe_id=recipes.id);

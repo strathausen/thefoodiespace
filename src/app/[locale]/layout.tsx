@@ -48,6 +48,10 @@ export default async function RootLayout({
   const session = await getServerAuthSession();
   return (
     <html lang="en">
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
       <body
         className={`font-sans ${inter.variable} ${jakarta.variable} ${vollkorn.variable} bg-gradient-to-br from-red-200 via-green-200 to-orange-200`}
       >
@@ -62,7 +66,7 @@ export default async function RootLayout({
             routerConfig={extractRouterConfig(ourFileRouter)}
           />
           <TRPCReactProvider headers={headers()}>
-            <div className="flex min-h-screen text-text">
+            <div className="flex min-h-[calc(100dvh)] text-text">
               <Provider locale={locale}>
                 <NavBar loggedIn={!!session} userImage={session?.user.image} />
               </Provider>

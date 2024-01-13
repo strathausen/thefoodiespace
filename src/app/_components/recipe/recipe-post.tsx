@@ -7,7 +7,7 @@ import { FaKitchenSet } from "react-icons/fa6";
 import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
 import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { BookmarkButton } from "components/buttons/bookmark-button";
-import { RecipeCommentField } from "./recipe-comment-field";
+import { RecipeComments } from "./recipe-comments";
 import { FollowButton } from "components/buttons/follow-button";
 
 type Props = {
@@ -73,37 +73,34 @@ export const RecipePost = (props: Props) => {
                 src={props.imageUrl}
               />
             </Link>
-            <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/40 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-md transition hover:bg-white/70">
+            <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/40 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur transition hover:bg-white/70">
               <FaKitchenSet />
             </button>
           </div>
           <div className="flex flex-col gap-2 px-1">
             <div className="flex flex-row justify-between">
-              <div className="flex flex-row justify-end gap-4">
+              <div className="flex flex-row justify-end gap-3">
                 <RecipeLikeButton
                   recipeId={props.id}
                   likeCount={props.likeCount}
                   liked={props.liked}
                 />
+                <div className="font-semibold max-w-[330px] whitespace-nowrap overflow-hidden overflow-ellipsis">{props.title}</div>
               </div>
               <div className="flex gap-2">
-                <BookmarkButton
-                  recipeId={props.id}
-                />
+                <BookmarkButton recipeId={props.id} />
               </div>
             </div>
             <Link href={`/recipe/${props.id}`}>
               <div className="max-w-[392px]">
                 {truncate(props.description, { length: 186 })}{" "}
-                {/* <span className="text-sm text-slate-700">
-                  read&nbsp;more -&gt;
-                </span> */}
               </div>
             </Link>
           </div>
-          <RecipeCommentField
+          <RecipeComments
             recipeId={props.id}
-            myComments={props.myComments}
+            comments={props.myComments}
+            commentCount={props.commentCount}
           />
         </div>
       </Container>

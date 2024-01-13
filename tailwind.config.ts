@@ -24,10 +24,10 @@ export default withUt({
         "accent-alt": "#4C9749",
       },
       dropShadow: {
-        // hard drop shadow
         hard: "3px 3px 0 rgba(76, 124, 169, 0.2)",
         pink: "3px 3px 0 rgba(228, 199, 230, 0.2)",
         button: "0 2px 0 rgba(0, 0, 0, 0.05)",
+        white: "0 0 2px #fff",
       },
     },
   },

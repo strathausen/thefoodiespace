@@ -67,25 +67,28 @@ export const recipeRouter = createTRPCRouter({
         cursor: z.string().optional(), // eventually, we want to use cursor instead of offset and take
         take: z.number().default(10),
         skip: z.number().default(0),
+        explore: z.boolean().optional().default(true),
       }),
     )
     .query(async ({ ctx, input }) => {
       const userId = ctx.session?.user?.id;
-      const { take, skip } = input;
+      const { take, skip, explore } = input;
       const followees = await ctx.db.follower.findMany({
         where: { followerId: userId },
         select: { followeeId: true },
       });
       const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];
-      const where = { OR };
+      const where = explore
+        ? { OR }
+        : {
+            OR,
+            createdById: { in: followees.map(({ followeeId }) => followeeId) },
+          };
       const recipes = await ctx.db.recipe.findMany({
-        where: {
-          ...where,
-          // createdById: { in: followees.map(({ followeeId }) => followeeId) },
-        },
+        where,
         take,
         skip,
-        orderBy: { publichedAt: "desc" },
+        orderBy: { id: "desc" },
         select: selectWithUser(userId),
       });
       return recipes;

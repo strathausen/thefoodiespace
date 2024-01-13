@@ -3,19 +3,39 @@ import { api } from "@/trpc/react";
 import { AuthPage } from "api/auth/auth-page";
 import { RecipePost } from "components/recipe/recipe-post";
 import { useCurrentLocale, useI18n } from "locales/client";
+import { useState } from "react";
 // import { useSession } from "next-auth/react";
 
 export default function MyRecipePage() {
+  const [explore, setExplore] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const t = useI18n();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const locale = useCurrentLocale();
 
   // const session = useSession();
-  const { data: recipes } = api.recipe.feed.useQuery({});
+  const { data: recipes } = api.recipe.feed.useQuery({ explore });
+
   return (
     <main className="">
       <AuthPage>
+        <div className="flex justify-center">
+          {explore ? (
+            <button
+              className="rounded-md bg-gray-200 px-4 py-2 text-gray-800"
+              onClick={() => setExplore(false)}
+            >
+              My Recipes
+            </button>
+          ) : (
+            <button
+              className="rounded-md bg-gray-200 px-4 py-2 text-gray-800"
+              onClick={() => setExplore(true)}
+            >
+              Explore
+            </button>
+          )}
+        </div>
         <div className="m-auto mt-10">
           {recipes?.map((r) => {
             return (

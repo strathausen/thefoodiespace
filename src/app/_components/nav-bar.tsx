@@ -44,7 +44,7 @@ export function NavBar(props: Props) {
             <Link
               key={link}
               href={`/${link}`}
-              className={`flex flex-col items-center gap-3 hover:underline hover:decoration-accent sm:flex-row ${
+              className={`flex flex-col items-center gap-3 drop-shadow-white hover:underline hover:decoration-accent sm:flex-row ${
                 pathName.startsWith(`/${link}`) ? "font-bold" : ""
               }`}
             >
