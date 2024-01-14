@@ -1,6 +1,6 @@
 export default {
   you: "you",
-  "editor.title": "create a recipe",
+  "editor.title": "edit recipe",
   "editor.titlePlaceholder": "give it a punchy title",
   "editor.sourceUrlPlaceholder":
     "source url - optional: did you find this recipe somewhere?",

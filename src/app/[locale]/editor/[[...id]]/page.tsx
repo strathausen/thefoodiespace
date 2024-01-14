@@ -205,11 +205,39 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
       }
     };
 
+  const ActionBar = () => (
+    <div className="mb-4 mt-4 flex justify-between">
+      <div></div>
+      <div className="flex gap-4">
+        <button className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50">
+          publish
+        </button>
+        {/* <button
+          title="not yet implemented"
+          className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"
+        >
+          archive
+        </button> */}
+        <button
+          className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
+          disabled={create.isLoading || !name}
+          onClick={saveRecipe}
+          title={!name ? "name is required" : ""}
+        >
+          💾 {id ? "update" : "create"} recipe
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <main>
       <AuthPage>
         <div className="max-w-xxl my-10">
-          <h1 className="py-6 text-xl">{t("title")}</h1>
+          <div className="flex justify-between">
+            <h1 className="mt-6 font-vollkorn text-2xl">{t("title")}</h1>
+            <ActionBar />
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -362,26 +390,8 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
             <div className="text-sm text-red-500">
               {create.error ? `error: ${create.error.message}` : ""}
             </div>
-            <div className="flex justify-between">
-              <div></div>
-              <div className="flex gap-4">
-                <button
-                  title="not yet implemented"
-                  className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"
-                >
-                  archive
-                </button>
-                <button
-                  className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
-                  disabled={create.isLoading || !name}
-                  onClick={saveRecipe}
-                  title={!name ? "name is required" : ""}
-                >
-                  💾 {id ? "update" : "create"} recipe
-                </button>
-              </div>
-            </div>
           </form>
+          <ActionBar />
         </div>
       </AuthPage>
     </main>

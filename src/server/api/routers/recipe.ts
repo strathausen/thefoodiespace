@@ -187,4 +187,22 @@ export const recipeRouter = createTRPCRouter({
         })
         .catch(() => null);
     }),
+
+  publish: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.recipe.update({
+        where: { id: input.id },
+        data: { status: "PUBLISHED", publichedAt: new Date() },
+      });
+    }),
+
+  unpublish: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.recipe.update({
+        where: { id: input.id },
+        data: { status: "DRAFT" },
+      });
+    }),
 });

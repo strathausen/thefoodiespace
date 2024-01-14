@@ -41,6 +41,7 @@ export const RecipeComments = (props: Props) => {
     const text = comment.trim();
     setComments((c) => [{ text, id: "temp", temporary: true, user }, ...c]);
     setComment("");
+    setCommentCount((c) => c + 1);
     try {
       const newComment = await createComment.mutateAsync({
         recipeId: props.recipeId,
@@ -49,8 +50,8 @@ export const RecipeComments = (props: Props) => {
       setComments((c) =>
         c.map((c) => (c.id === "temp" ? { ...newComment, user } : c)),
       );
-      setCommentCount((c) => c + 1);
     } catch (e) {
+      setCommentCount((c) => c - 1);
       setComments((c) => c.filter((c) => c.id !== "temp"));
       setComment(text);
     }
@@ -69,8 +70,7 @@ export const RecipeComments = (props: Props) => {
   }, [allComments.data]);
 
   const hasComments =
-    props.commentCount - comments.filter(isMine(session.data?.user.id)).length >
-    0;
+    commentCount - comments.filter(isMine(session.data?.user.id)).length > 0;
 
   return (
     <div className="flex max-w-[400px] flex-col px-1 text-sm">

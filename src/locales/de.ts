@@ -1,6 +1,6 @@
 export default {
   you: "du",
-  "editor.title": "neues rezept",
+  "editor.title": "rezept bearbeiten",
   "editor.titlePlaceholder": "gib ihm einen knackigen titel",
   "editor.sourceUrlPlaceholder":
     "quelle - optional: hast du das rezept woanders gefunden?",

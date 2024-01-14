@@ -57,6 +57,12 @@ enum FollowerType {
     FOLLOWER
 }
 
+enum ReviewStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
 model Reaction {
     id        Int          @id @default(autoincrement())
     createdAt DateTime     @default(now()) @map("created_at")
