@@ -18,7 +18,7 @@ export const LanguageSwitcher = () => {
     >
       <FaLanguage />
       {showLanguage && (
-        <div className="absolute bottom-0 left-0 -mb-1 ml-8 flex flex-row gap-2 rounded bg-white/50 px-3 py-1 shadow">
+        <div className="absolute bottom-0 left-0 -mb-1 ml-8 flex flex-row gap-2 rounded bg-white/60 px-3 py-1 shadow">
           {locales.map((lang) => (
             <button
               key={lang}

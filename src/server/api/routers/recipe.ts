@@ -94,6 +94,28 @@ export const recipeRouter = createTRPCRouter({
       return recipes;
     }),
 
+  // published recipes by user
+  userFeed: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        take: z.number().default(10),
+        skip: z.number().default(0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { take, skip, userId } = input;
+      const where = { status: "PUBLISHED" as const, createdById: userId };
+      const recipes = await ctx.db.recipe.findMany({
+        where,
+        take,
+        skip,
+        orderBy: { id: "desc" },
+        select,
+      });
+      return recipes;
+    }),
+
   get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const userId = ctx.session?.user?.id;
     const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];
