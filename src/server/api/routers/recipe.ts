@@ -5,6 +5,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { RecipeValidator } from "@/validators";
+import { type Comment } from "@prisma/client";
 
 const select = {
   id: true,
@@ -120,12 +121,17 @@ export const recipeRouter = createTRPCRouter({
       ? { id: input, OR }
       : { id: input, status: "PUBLISHED" as const };
     if (!userId) {
-      return ctx.db.recipe.findFirst({
-        where,
-        select: { steps: true, ...select },
-      });
+      return ctx.db.recipe
+        .findUniqueOrThrow({
+          where,
+          select: { steps: true, ...select },
+        })
+        .then((recipe) => ({
+          ...recipe,
+          comments: [] as Omit<Comment, "userId" | "recipeId">[],
+        }));
     }
-    return ctx.db.recipe.findFirst({
+    return ctx.db.recipe.findUniqueOrThrow({
       where,
       select: { steps: true, ...selectWithUser(userId) },
     });

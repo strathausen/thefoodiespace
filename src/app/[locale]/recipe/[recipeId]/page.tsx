@@ -6,9 +6,7 @@ import { BookmarkButton } from "components/buttons/bookmark-button";
 import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { FollowButton } from "components/buttons/follow-button";
 import { RecipeComments } from "components/recipe/recipe-comments";
-import { I18nProviderClient } from "locales/client";
 import { getCurrentLocale } from "locales/server";
-import { SessionProvider } from "next-auth/react";
 import { ServerClientEmbed } from "components/server-client-embed";
 
 type Props = {
@@ -124,7 +122,7 @@ export default async function RecipePage(props: Props) {
           </div>
           <div>
             <div>comments:</div>
-            {recipe.commentCount && (
+            {recipe.comments && (
               <ServerClientEmbed locale={locale}>
                 <RecipeComments
                   commentCount={recipe.commentCount}
