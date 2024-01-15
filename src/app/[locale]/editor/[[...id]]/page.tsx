@@ -110,6 +110,8 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   const [ingredients, setIngredients] = useState<Ingredient[]>([
     { ...emptyIngredient },
   ]);
+  const publishMutation = api.recipe.publish.useMutation();
+  const unpublishMutation = api.recipe.unpublish.useMutation();
   const t = useScopedI18n("editor");
 
   const router = useRouter();
@@ -205,13 +207,37 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
       }
     };
 
+  const onPublish = async () => {
+    if (!id) return;
+    await publishMutation.mutateAsync({ id });
+    await get.refetch();
+  };
+  const onUnpublish = async () => {
+    if (!id) return;
+    await unpublishMutation.mutateAsync({ id });
+    await get.refetch();
+  };
+
   const ActionBar = () => (
     <div className="mb-4 mt-4 flex justify-between">
       <div></div>
       <div className="flex gap-4">
-        <button className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50">
-          publish
-        </button>
+        {get.data?.status === "DRAFT" && (
+          <button
+            className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
+            onClick={onPublish}
+          >
+            publish
+          </button>
+        )}
+        {get.data?.status === "PUBLISHED" && (
+          <button
+            className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
+            onClick={onUnpublish}
+          >
+            unpublish
+          </button>
+        )}
         {/* <button
           title="not yet implemented"
           className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"

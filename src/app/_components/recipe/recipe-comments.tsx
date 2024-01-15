@@ -73,7 +73,7 @@ export const RecipeComments = (props: Props) => {
     commentCount - comments.filter(isMine(session.data?.user.id)).length > 0;
 
   return (
-    <div className="flex max-w-[400px] flex-col px-1 text-sm">
+    <div className="flex w-full max-w-[400px] flex-col px-1 text-sm">
       {hasComments &&
         (showAllComments ? (
           <button onClick={() => setShowAllComments(false)}>

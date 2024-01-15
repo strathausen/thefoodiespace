@@ -25,13 +25,13 @@ export default async function RecipePage(props: Props) {
   return (
     <main className="m-auto my-6 flex w-full max-w-2xl flex-col">
       <Container>
-        <div className="px-6 py-4">
+        <div className="p-6">
           <h1 className="text-center font-vollkorn text-3xl font-semibold">
             {recipe.name}
           </h1>
           <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
-          {/* profile */}
-          <div className="flex flex-row justify-between gap-4">
+          <div className="flex flex-row justify-center gap-2 ml-2">
+            <p>by</p>
             <Link href={`/user/${recipe.createdBy.id}`}>
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
@@ -40,7 +40,7 @@ export default async function RecipePage(props: Props) {
                     height={28}
                     src={recipe.createdBy.image!}
                     alt="profile image"
-                    className="mx-1 h-[28px] w-[28px] rounded-full object-cover shadow-md"
+                    className="h-[28px] w-[28px] rounded-full object-cover shadow-md"
                   />
                   <div className="max-w-[105px]">
                     <p>{recipe.createdBy.name}</p>
@@ -49,11 +49,6 @@ export default async function RecipePage(props: Props) {
                 </div>
               </div>
             </Link>
-            <div className="flex flex-col">
-              <p className="text-sm text-stone-950/50">
-                {new Date(recipe.createdAt).toLocaleDateString()}
-              </p>
-            </div>
           </div>
           <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
           <div className="mt-6 flex flex-row justify-between gap-4">
@@ -120,8 +115,9 @@ export default async function RecipePage(props: Props) {
             />
             <BookmarkButton recipeId={recipe.id} />
           </div>
-          <div>
-            <div>comments:</div>
+          <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
+          <div className="flex flex-col items-center">
+            <div className="font-vollkorn text-xl">comments</div>
             {recipe.comments && (
               <ServerClientEmbed locale={locale}>
                 <RecipeComments
