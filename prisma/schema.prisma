@@ -28,6 +28,7 @@ enum PostType {
 enum PostStatus {
     DRAFT
     PUBLISHED
+    ARCHIVED
 }
 
 enum ReactionType {
@@ -185,7 +186,7 @@ model Recipe {
     createdById String @map("created_by")
 
     deletedAt   DateTime?
-    publichedAt DateTime?
+    publishedAt DateTime?
 
     // computed fields, updated by triggers
     likeCount    Int @default(0) @map("like_count")
