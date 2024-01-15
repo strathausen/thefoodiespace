@@ -19,24 +19,21 @@ export default function MyRecipePage() {
   return (
     <main className="">
       <AuthPage>
-        <div className="flex justify-center">
-          {explore ? (
-            <button
-              className="rounded-md bg-gray-200 px-4 py-2 text-gray-800"
-              onClick={() => setExplore(false)}
-            >
-              My Recipes
-            </button>
-          ) : (
-            <button
-              className="rounded-md bg-gray-200 px-4 py-2 text-gray-800"
-              onClick={() => setExplore(true)}
-            >
-              Explore
-            </button>
-          )}
+        <div className="mt-8 flex justify-center font-vollkorn text-2xl">
+          <button
+            className={`rounded-md px-4 py-2 text-gray-800 ${explore ? "opacity-50" : ""}`}
+            onClick={() => setExplore(false)}
+          >
+            my feed
+          </button>
+          <button
+            className={`rounded-md px-4 py-2 text-gray-800 ${explore ? "" : "opacity-50"}`}
+            onClick={() => setExplore(true)}
+          >
+            explore
+          </button>
         </div>
-        <div className="m-auto mt-10">
+        <div className="m-auto mt-4">
           {recipes?.map((r) => {
             return (
               <div key={r.id} className="mb-2">
@@ -57,7 +54,6 @@ export default function MyRecipePage() {
                     liked={
                       r.reactions.filter((r) => r.type === "LIKE").length > 0
                     }
-                    bookmarked={r.bookmarks.length > 0}
                     myComments={r.comments}
                   />
                 </div>

@@ -37,7 +37,6 @@ export default async function MyRecipePage() {
                     liked={
                       r.reactions.filter((r) => r.type === "LIKE").length > 0
                     }
-                    bookmarked={r.bookmarks.length > 0}
                     myComments={r.comments}
                   />
                 </div>

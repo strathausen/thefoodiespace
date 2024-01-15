@@ -15,6 +15,7 @@ const select = {
   createdAt: true,
   updatedAt: true,
   createdById: true,
+  ingredients: true,
   createdBy: {
     select: {
       id: true,
@@ -31,10 +32,6 @@ const selectWithUser = (userId: string) => {
   return {
     ...select,
     reactions: { where: { userId }, select: { type: true } },
-    bookmarks: {
-      where: { userId },
-      select: { id: true, cookBookId: true },
-    },
     comments: {
       where: { userId },
       select: { id: true, text: true, createdAt: true, updatedAt: true },
@@ -77,15 +74,15 @@ export const recipeRouter = createTRPCRouter({
         where: { followerId: userId },
         select: { followeeId: true },
       });
-      const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];
-      const where = explore
-        ? { OR }
-        : {
-            OR,
-            createdById: { in: followees.map(({ followeeId }) => followeeId) },
-          };
+      const followeeIds = followees.map(({ followeeId }) => followeeId);
       const recipes = await ctx.db.recipe.findMany({
-        where,
+        where: {
+          createdById: {
+            not: userId,
+            ...(explore ? { notIn: followeeIds } : { in: followeeIds }),
+          },
+          status: "PUBLISHED",
+        },
         take,
         skip,
         orderBy: { id: "desc" },
@@ -122,7 +119,16 @@ export const recipeRouter = createTRPCRouter({
     const where = userId
       ? { id: input, OR }
       : { id: input, status: "PUBLISHED" as const };
-    return input ? ctx.db.recipe.findFirst({ where }) : null;
+    if (!userId) {
+      return ctx.db.recipe.findFirst({
+        where,
+        select: { steps: true, ...select },
+      });
+    }
+    return ctx.db.recipe.findFirst({
+      where,
+      select: { steps: true, ...selectWithUser(userId) },
+    });
   }),
 
   listMine: protectedProcedure
@@ -140,7 +146,6 @@ export const recipeRouter = createTRPCRouter({
         orderBy: { createdAt: "desc" },
         select: selectWithUser(createdById),
       });
-      console.log(recipes[0]?.bookmarks);
       return recipes;
     }),
 

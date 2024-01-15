@@ -36,7 +36,6 @@ export default async function UserPage({
             </div>
           )}
           <p className="m-auto max-w-xs pt-3 text-center">{userProfile.bio}</p>
-          {/* 2-3 grid of recipe tiles */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8">
             {userRecipes.map((recipe) => (
               <RecipeTile

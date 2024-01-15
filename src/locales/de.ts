@@ -19,7 +19,7 @@ export default {
   "navBar.home": "buffet",
   "navBar.cookbooks": "kochbuch",
   "navBar.create": "neues rezept",
-  "navBar.notifications": "meldungen",
+  "navBar.notifications": "eingang",
   "navBar.profile": "profil",
   "navBar.login": "anmelden",
   "navBar.logout": "abmelden",

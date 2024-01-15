@@ -74,7 +74,7 @@ export default async function RootLayout({
                 {children}
               </div>
             </div>
-            <div className="flex flex-col items-center bg-white/30">
+            <div className="mt-4 flex flex-col items-center bg-white/30">
               <div className="max-w-3xl">
                 <Footer />
               </div>

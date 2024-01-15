@@ -1,6 +1,6 @@
 "use client";
 import { useBookmarks } from "hooks/useBookmarks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const BookmarkButton = ({ recipeId }: Props) => {
-  const { bookmark, unbookmark, isBookmarked } = useBookmarks();
+  const { bookmark, unbookmark, isBookmarked, recipeIds } = useBookmarks();
   const [bookmarked, setBookmarked] = useState(isBookmarked(recipeId));
 
   async function onToggleBookmark() {
@@ -23,6 +23,10 @@ export const BookmarkButton = ({ recipeId }: Props) => {
       setBookmarked(!bookmarked);
     }
   }
+
+  useEffect(() => {
+    setBookmarked(isBookmarked(recipeId));
+  }, [isBookmarked, recipeId, recipeIds]);
 
   return (
     <button

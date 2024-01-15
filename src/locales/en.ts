@@ -19,7 +19,7 @@ export default {
   "navBar.home": "feed",
   "navBar.cookbooks": "cookbook",
   "navBar.create": "create",
-  "navBar.notifications": "notifications",
+  "navBar.notifications": "inbox",
   "navBar.profile": "profile",
   "navBar.logout": "sign out",
   "navBar.login": "sign in",

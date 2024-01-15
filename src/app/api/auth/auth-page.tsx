@@ -8,13 +8,13 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
   }
   if (session.status === "loading") {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center text-text">
+      <div className="flex flex-col items-center justify-center text-text">
         Loading...
       </div>
     );
   }
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center text-text">
+    <div className="text-text">
       Not logged in, please{" "}
       <Link className="underline decoration-accent" href="/api/auth/signin">
         sign in
@@ -23,10 +23,20 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function AuthPage({ children }: { children: React.ReactNode }) {
+export function AuthPrompts({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <ShowLoginButton>{children}</ShowLoginButton>
+    </SessionProvider>
+  );
+}
+
+export function AuthPage({ children }: { children: React.ReactNode }) {
+  return (
+    <SessionProvider>
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        <ShowLoginButton>{children}</ShowLoginButton>
+      </div>
     </SessionProvider>
   );
 }

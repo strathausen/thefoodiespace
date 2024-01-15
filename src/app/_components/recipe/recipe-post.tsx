@@ -22,7 +22,6 @@ type Props = {
   commentCount: number;
   isMine?: boolean; // ignored
   liked: boolean;
-  bookmarked: boolean;
   publishedAt: Date;
   myComments: { text: string; id: string; createdAt: Date }[];
 };
