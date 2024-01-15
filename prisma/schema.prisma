@@ -120,6 +120,7 @@ model User {
     pronouns      String?
     showPronouns  Boolean?       @default(false) @map("show_pronouns")
     bio           String?
+    links         String[]
     internalScore Int?           @default(0) @map("internal_score")
     accounts      Account[]
     sessions      Session[]

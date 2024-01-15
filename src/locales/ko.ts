@@ -28,7 +28,7 @@ export default {
   "profile.name": "이름",
   "profile.nameDescription": "어떻게 부를까요?",
   "profile.handle": "핸들",
-  "profile.handleDescription": "어떻게 찾을까요?",
+  "profile.handleDescription": "고유한 이름을 선택하세요!",
   "profile.links": "링크",
   "profile.linksDescription": "어디에서 찾을까요?",
   "profile.pronouns": "대명사",

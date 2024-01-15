@@ -12,6 +12,8 @@ const select = {
   bio: true,
   pronouns: true,
   image: true,
+  handle: true,
+  links: true,
 };
 
 export const profileRouter = createTRPCRouter({
@@ -29,6 +31,7 @@ export const profileRouter = createTRPCRouter({
         bio: z.string().optional(),
         pronouns: z.string().optional(),
         image: z.string().optional(),
+        links: z.array(z.string()).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -52,5 +55,19 @@ export const profileRouter = createTRPCRouter({
       }
 
       return profile;
+    }),
+
+  updateHandle: protectedProcedure
+    .input(
+      z.object({
+        handle: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: { id: ctx.session.user.id },
+        data: input,
+        select,
+      });
     }),
 });

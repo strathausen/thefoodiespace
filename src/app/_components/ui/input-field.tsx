@@ -10,11 +10,11 @@ type Props = {
 };
 
 const className =
-  "block max-h-10 flex-1 rounded px-3 shadow sm:text-sm bg-white/90";
+  "block max-h-10 flex-1 rounded px-3 shadow sm:text-sm bg-white/90 disabled:text-stone-500";
 
 export const InputField = (props: Props) => {
   return (
-    <div className="mb-3 flex flex-row">
+    <div className="flex flex-row">
       <label
         className="text-stone mr-4 flex flex-col text-sm font-medium"
         htmlFor={props.name}

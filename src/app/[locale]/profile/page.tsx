@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { FaDoorOpen } from "react-icons/fa6";
+import { FaCheck, FaDoorOpen, FaPen } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { Button, Container, InputField } from "ui";
 import { api } from "@/trpc/react";
@@ -18,13 +18,17 @@ export default function ProfilePage() {
   const [pronouns, setPronouns] = useState("");
   const [success, setSuccess] = useState(false);
   const [image, setImage] = useState<string>();
+  const [handle, setHandle] = useState<string>("");
+  const [links, setLinks] = useState<string[]>([]);
   const [validationError, setValidationError] = useState<string | undefined>(
     undefined,
   );
+  const [editHandle, setEditHandle] = useState(false);
   const t = useScopedI18n("profile");
 
   const profileQuery = api.profile.get.useQuery();
   const profileUpdateMutation = api.profile.update.useMutation();
+  const handleUpdateMutation = api.profile.updateHandle.useMutation();
 
   useEffect(() => {
     if (profileQuery.data) {
@@ -32,6 +36,8 @@ export default function ProfilePage() {
       setPronouns(profileQuery.data.pronouns ?? "");
       setBio(profileQuery.data.bio ?? "");
       setImage(profileQuery.data.image ?? "");
+      setHandle(profileQuery.data.handle ?? "");
+      setLinks(profileQuery.data.links ?? []);
     }
   }, [profileQuery.data]);
 
@@ -41,7 +47,7 @@ export default function ProfilePage() {
       return;
     }
     setValidationError(undefined);
-    profileUpdateMutation.mutate({ name, bio, pronouns, image });
+    profileUpdateMutation.mutate({ name, bio, pronouns, image, links });
     setSuccess(true);
   };
 
@@ -59,7 +65,7 @@ export default function ProfilePage() {
   return (
     <main>
       <AuthPage>
-        <div className="mx-auto mt-10 max-w-xl">
+        <div className="my-auto mt-10 w-full max-w-xl">
           <Container>
             <div className="p-4">
               <h1 className="pb-4 text-center text-xl">{t("title")}</h1>
@@ -68,6 +74,7 @@ export default function ProfilePage() {
                   handleSubmit();
                   e.preventDefault();
                 }}
+                className="flex flex-col gap-4"
               >
                 <div className="mb-2 flex justify-center">
                   <Image
@@ -133,6 +140,61 @@ export default function ProfilePage() {
                   onChange={setPronouns}
                   disabled={loading}
                 />
+                <InputField
+                  label={t("links")}
+                  name="links"
+                  description={t("linksDescription")}
+                  type="textarea"
+                  placeholder="links"
+                  value={links.join("\n")}
+                  onChange={(val) => {
+                    setLinks(val.split(/[\n\r]+/g));
+                  }}
+                  disabled={loading}
+                />
+                {/* user handle */}
+                <div className="flex justify-center gap-2">
+                  <div className="flex-1">
+                    <InputField
+                      label={t("handle")}
+                      name="handle"
+                      description={t("handleDescription")}
+                      type="text"
+                      placeholder="handle"
+                      value={handle}
+                      disabled={!editHandle}
+                      onChange={setHandle}
+                    />
+                  </div>
+                  <div className="pt-2">
+                    {editHandle ? (
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          setValidationError(undefined);
+                          try {
+                            await handleUpdateMutation.mutateAsync({ handle });
+                            setEditHandle(false);
+                          } catch (e) {
+                            setValidationError("handle already taken");
+                          }
+                        }}
+                      >
+                        <FaCheck className="text-green-600" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setEditHandle(true);
+                        }}
+                      >
+                        <FaPen className="text-primary-darker" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
                 <div className="mt-4 flex flex-row items-center justify-end gap-3">
                   {error && (
                     <p className="text-red-600">
@@ -149,12 +211,15 @@ export default function ProfilePage() {
                   >
                     profile updated!
                   </p>
-                  <Button disabled={loading}>submit</Button>
+                  <Button disabled={loading}>💾&nbsp;save</Button>
                 </div>
               </form>
               <div className="">
                 <div>
-                  <LanguageSwitcher /> <span className="ml-3 text-primary-darker">switch language</span>
+                  <LanguageSwitcher />{" "}
+                  <span className="ml-3 text-primary-darker">
+                    switch language
+                  </span>
                 </div>
                 <Link
                   href={"/api/auth/signout"}

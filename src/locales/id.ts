@@ -28,7 +28,7 @@ export default {
   "profile.name": "nama",
   "profile.nameDescription": "kami harus memanggil Anda apa?",
   "profile.handle": "handle",
-  "profile.handleDescription": "bagaimana kami bisa menemukan Anda?",
+  "profile.handleDescription": "pilih nama yang unik!",
   "profile.links": "tautan",
   "profile.linksDescription": "dimana kami bisa menemukan Anda?",
   "profile.pronouns": "kata ganti",

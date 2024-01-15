@@ -28,7 +28,7 @@ export default {
   "profile.name": "name",
   "profile.nameDescription": "what should we call you?",
   "profile.handle": "handle",
-  "profile.handleDescription": "how can we find you?",
+  "profile.handleDescription": "choose a unique name!",
   "profile.links": "links",
   "profile.linksDescription": "where can we find you?",
   "profile.pronouns": "pronouns",

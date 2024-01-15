@@ -28,7 +28,7 @@ export default {
   "profile.name": "nume",
   "profile.nameDescription": "cum ar trebui să te numim?",
   "profile.handle": "handle",
-  "profile.handleDescription": "cum te putem găsi?",
+  "profile.handleDescription": "alege un nume unic!",
   "profile.links": "link-uri",
   "profile.linksDescription": "unde te putem găsi?",
   "profile.pronouns": "pronume",

@@ -28,7 +28,7 @@ export default {
   "profile.name": "tên",
   "profile.nameDescription": "chúng tôi nên gọi bạn là gì?",
   "profile.handle": "handle",
-  "profile.handleDescription": "chúng tôi có thể tìm bạn ở đâu?",
+  "profile.handleDescription": "chọn một tên duy nhất!",
   "profile.links": "liên kết",
   "profile.linksDescription": "chúng tôi có thể tìm bạn ở đâu?",
   "profile.pronouns": "đại từ",
