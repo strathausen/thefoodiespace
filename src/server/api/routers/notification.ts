@@ -15,6 +15,13 @@ export const notificationRouter = createTRPCRouter({
         where: { userId: ctx.session.user.id },
         take,
         skip,
+        select: {
+          id: true,
+          type: true,
+          createdAt: true,
+          readAt: true,
+          content: true,
+        },
         orderBy: { createdAt: "desc" },
       });
       const countQuery = ctx.db.notification.count({
