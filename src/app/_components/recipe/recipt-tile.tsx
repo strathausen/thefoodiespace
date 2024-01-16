@@ -1,6 +1,7 @@
 import { BookmarkButton } from "components/buttons/bookmark-button";
 import Image from "next/image";
 import Link from "next/link";
+import { FaPen } from "react-icons/fa6";
 import { Container } from "ui/container";
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
   profileImageUrl: string;
   profileName: string;
   profileId: string;
+  showEdit?: boolean;
 };
 
 // just a rounded picture, below it the name and profile picture of the user who posted the recipe
@@ -23,15 +25,23 @@ export const RecipeTile = (props: Props) => {
             {props.title}
           </p>
         </Link>
-        <Link href={`/recipe/${props.id}`}>
-          <Image
-            className="m-auto h-[200px] w-[200px] rounded-md object-cover"
-            height={200}
-            width={200}
-            src={props.imageUrl}
-            alt="recipe image"
-          />
-        </Link>
+        <div className="group relative">
+          <Link href={`/recipe/${props.id}`}>
+            <Image
+              className="m-auto h-[200px] w-[200px] rounded-md object-cover"
+              height={200}
+              width={200}
+              src={props.imageUrl}
+              alt="recipe image"
+            />
+          </Link>
+          <Link
+            className="absolute right-0 top-0 hidden rounded-bl rounded-tr bg-white/80 p-2 group-hover:block"
+            href={`/editor/${props.id}`}
+          >
+            <FaPen className="text-primary-darker" />
+          </Link>
+        </div>
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-2">
             <Link href={`/user/${props.profileId}`}>

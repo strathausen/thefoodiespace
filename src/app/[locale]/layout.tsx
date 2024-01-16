@@ -68,7 +68,7 @@ export default async function RootLayout({
           <TRPCReactProvider headers={headers()}>
             <div className="flex min-h-[calc(100dvh)] text-text">
               <Provider locale={locale}>
-                <NavBar loggedIn={!!session} userImage={session?.user.image} />
+                <NavBar session={session} />
               </Provider>
               <div className="flex w-full max-w-4xl flex-col md:ml-[12em]">
                 {children}

@@ -11,12 +11,10 @@ import {
 import { useScopedI18n } from "locales/client";
 import { LanguageSwitcher } from "components/buttons/language-switcher";
 import { ProfileImage } from "./profile-image";
+import { type Session } from "next-auth";
 
 type Props = {
-  loggedIn: boolean;
-  userImage?: string | null;
-  onSearch?: (query: string) => void;
-  searchQuery?: string;
+  session: Session | null;
 };
 
 const menuLinks = [
@@ -24,7 +22,6 @@ const menuLinks = [
   { label: "cookbooks", link: "bookmarks", icon: <FaBookBookmark /> },
   { label: "create", link: "editor", icon: <FaPlus /> },
   { label: "notifications", link: "notifications", icon: <FaBell /> },
-  { label: "profile", link: "profile", icon: null },
 ] as const;
 
 export function NavBar(props: Props) {
@@ -48,24 +45,34 @@ export function NavBar(props: Props) {
                 pathName.startsWith(`/${link}`) ? "font-bold" : ""
               }`}
             >
-              {link === "profile" ? (
-                <div className="-m-1">
-                  <ProfileImage imageUrl={props.userImage} size={28} />
-                </div>
-              ) : (
-                icon
-              )}{" "}
-              <span className="text-sm sm:text-xl">{t(label)}</span>
+              {icon} <span className="text-sm sm:text-xl">{t(label)}</span>
             </Link>
           ))}
+          <Link
+            href={
+              props.session?.user
+                ? `/user/${props.session.user.id}`
+                : `/api/auth/signin`
+            }
+            className={`flex flex-col items-center gap-3 drop-shadow-white hover:underline hover:decoration-accent sm:flex-row ${
+              pathName.startsWith(`/user/${props.session?.user.id}`)
+                ? "font-bold"
+                : ""
+            }`}
+          >
+            <div className="-m-1">
+              <ProfileImage imageUrl={props.session?.user.image} size={28} />
+            </div>{" "}
+            <span className="text-sm sm:text-xl">{t("profile")}</span>
+          </Link>
         </div>
         <div className="hidden sm:block">
           <LanguageSwitcher />
           <Link
-            href={props.loggedIn ? "/api/auth/signout" : "/api/auth/signin"}
+            href={props.session ? "/api/auth/signout" : "/api/auth/signin"}
             className="flex items-center gap-4 rounded-sm text-primary-darker transition"
           >
-            <FaDoorOpen /> {props.loggedIn ? t("logout") : t("login")}
+            <FaDoorOpen /> {props.session ? t("logout") : t("login")}
           </Link>
         </div>
       </div>

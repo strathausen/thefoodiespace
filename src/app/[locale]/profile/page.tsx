@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { FaCheck, FaDoorOpen, FaPen } from "react-icons/fa6";
+import { FaAngleLeft, FaCheck, FaDoorOpen, FaPen } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { Button, Container, InputField } from "ui";
 import { api } from "@/trpc/react";
@@ -67,8 +67,22 @@ export default function ProfilePage() {
       <AuthPage>
         <div className="my-auto mt-10 w-full max-w-xl">
           <Container>
-            <div className="p-4">
-              <h1 className="pb-4 text-center text-xl">{t("title")}</h1>
+            <div className="relative p-4">
+              <h1 className="pb-4 text-center font-vollkorn text-xl">
+                {t("title")}
+              </h1>
+              <div className="absolute left-0 top-0">
+                <Link
+                  href={
+                    profileQuery.data?.handle && false
+                      ? `/~${handle}`
+                      : `/user/${profileQuery.data?.id}`
+                  }
+                  className="text-primary-darker hover:text-primary"
+                >
+                  <FaAngleLeft className="m-3 text-2xl" />
+                </Link>
+              </div>
               <form
                 onSubmit={(e) => {
                   handleSubmit();

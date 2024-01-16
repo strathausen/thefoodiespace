@@ -43,24 +43,27 @@ export const profileRouter = createTRPCRouter({
     }),
 
   viewProfile: publicProcedure
-    .input(z.object({ id: z.string().min(1) }))
+    .input(
+      z.object({ id: z.string().optional(), handle: z.string().optional() }),
+    )
     .query(async ({ ctx, input }) => {
+      if (!input.id && !input.handle) {
+        throw new Error("Must provide either id or handle");
+      }
       const profile = await ctx.db.user.findUnique({
-        where: { id: input.id },
+        where: input.id ? { id: input.id } : { handle: input.handle },
         select,
       });
-
-      if (!profile) {
-        throw new Error("Profile not found");
-      }
-
       return profile;
     }),
 
   updateHandle: protectedProcedure
     .input(
       z.object({
-        handle: z.string().optional(),
+        handle: z
+          .string()
+          .toLowerCase()
+          .regex(/^[a-z0-9_]+$/),
       }),
     )
     .mutation(async ({ ctx, input }) => {
