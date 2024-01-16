@@ -6,6 +6,7 @@ import {
 } from "@/server/api/trpc";
 import { RecipeValidator } from "@/validators";
 import { type Comment } from "@prisma/client";
+import { sendReactionNotification } from "@/server/services/notification-service";
 
 const select = {
   id: true,
@@ -194,15 +195,17 @@ export const recipeRouter = createTRPCRouter({
   like: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.reaction
-        .create({
-          data: {
-            type: "LIKE",
-            recipe: { connect: { id: input.id } },
-            user: { connect: { id: ctx.session.user.id } },
-          },
-        })
-        .catch(() => null);
+      const reaction = await ctx.db.reaction.create({
+        data: {
+          type: "LIKE",
+          recipe: { connect: { id: input.id } },
+          user: { connect: { id: ctx.session.user.id } },
+        },
+      });
+      await sendReactionNotification(ctx.db, reaction.id).catch((err) =>
+        console.error(err),
+      );
+      return reaction;
     }),
 
   unlike: protectedProcedure

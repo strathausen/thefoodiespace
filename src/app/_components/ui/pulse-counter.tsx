@@ -8,7 +8,7 @@ type Props = {
   icon: IconType;
   active?: boolean;
   activeIcon?: IconType;
-  onClick?: () => void;
+  onClick?: () => Promise<void>;
 };
 
 export const PulseCounter = (props: Props) => {
@@ -27,12 +27,17 @@ export const PulseCounter = (props: Props) => {
   return (
     <button
       className="flex cursor-pointer items-center gap-1"
-      onClick={() => {
+      onClick={async () => {
         if (!props.onClick) return;
         setActive(!active);
         setCount(active ? count - 1 : count + 1);
         if (!active) setAnimate(true);
-        props.onClick();
+        try {
+          await props.onClick();
+        } catch (e) {
+          setActive(!active);
+          setCount(active ? count - 1 : count + 1);
+        }
       }}
     >
       {active && props.activeIcon ? (

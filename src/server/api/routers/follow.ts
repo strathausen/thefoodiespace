@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { sendFollowNotification } from "@/server/services/notification-service";
 
 const select = {
   id: true,
@@ -20,6 +21,7 @@ export const followRouter = createTRPCRouter({
       if (!profile) {
         throw new Error("Profile not found");
       }
+      await sendFollowNotification(ctx.db, profile.id, ctx.session.user.id);
 
       return ctx.db.follower.create({
         data: {

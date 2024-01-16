@@ -19,7 +19,6 @@ export const RecipeLikeButton = (props: Props) => {
     } else {
       await like.mutateAsync({ id: props.recipeId });
     }
-    // TODO revert state when there has been an error
   }
 
   return (

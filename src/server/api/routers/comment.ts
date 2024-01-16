@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { sendCommentNotification } from "@/server/services/notification-service";
 
 export const commentRouter = createTRPCRouter({
   addComment: protectedProcedure
@@ -10,13 +11,17 @@ export const commentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.comment.create({
+      const comment = await ctx.db.comment.create({
         data: {
           text: input.text,
           recipe: { connect: { id: input.recipeId } },
           user: { connect: { id: ctx.session.user.id } },
         },
       });
+      sendCommentNotification(ctx.db, comment.id).catch((err) => {
+        console.error(err);
+      });
+      return comment;
     }),
 
   deleteComment: protectedProcedure

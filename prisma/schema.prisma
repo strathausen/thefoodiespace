@@ -152,9 +152,9 @@ model Follower {
 }
 
 model Notification {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now()) @map("created_at")
-    readAt    DateTime @default(now()) @map("read_at")
+    id        String    @id @default(cuid())
+    createdAt DateTime  @default(now()) @map("created_at")
+    readAt    DateTime? @map("read_at")
 
     content Json
     type    NotificationType

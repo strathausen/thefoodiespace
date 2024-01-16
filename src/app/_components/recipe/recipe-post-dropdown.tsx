@@ -17,7 +17,7 @@ export const RecipePostDropdown = (props: Props) => {
     {
       label: "edit ✏️",
       link: `/editor/${props.recipeId}`,
-      enabled: props,
+      enabled: isMine,
     },
     {
       label: "report 🚩",
