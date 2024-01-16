@@ -12,16 +12,44 @@ import { useScopedI18n } from "locales/client";
 import { LanguageSwitcher } from "components/buttons/language-switcher";
 import { ProfileImage } from "./profile-image";
 import { type Session } from "next-auth";
+import { api } from "@/trpc/react";
+import { useEffect } from "react";
 
 type Props = {
   session: Session | null;
+};
+
+const BellDot = () => {
+  const unreadNotificationsQuery = api.notification.getUnreadCount.useQuery();
+
+  useEffect(() => {
+    if (unreadNotificationsQuery.data) {
+      const timeout = setInterval(() => {
+        unreadNotificationsQuery.refetch().catch((e) => console.error(e));
+      }, 1200);
+      return () => {
+        clearInterval(timeout);
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unreadNotificationsQuery.data]);
+  return (
+    <div className="relative">
+      <FaBell />
+      {!!unreadNotificationsQuery.data && (
+        <div className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs text-white">
+          {unreadNotificationsQuery.data}
+        </div>
+      )}
+    </div>
+  );
 };
 
 const menuLinks = [
   { label: "home", link: "feed", icon: <FaBowlRice /> },
   { label: "cookbooks", link: "bookmarks", icon: <FaBookBookmark /> },
   { label: "create", link: "editor", icon: <FaPlus /> },
-  { label: "notifications", link: "notifications", icon: <FaBell /> },
+  { label: "notifications", link: "notifications", icon: <BellDot /> },
 ] as const;
 
 export function NavBar(props: Props) {

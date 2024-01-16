@@ -35,7 +35,7 @@ export default function NotificationsPage() {
         .catch((e) => {
           console.error(e);
         });
-    }, 10000);
+    }, 4500);
     return () => {
       clearTimeout(timeout);
     };

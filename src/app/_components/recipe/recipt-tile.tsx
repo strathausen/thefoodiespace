@@ -35,12 +35,14 @@ export const RecipeTile = (props: Props) => {
               alt="recipe image"
             />
           </Link>
-          <Link
-            className="absolute right-0 top-0 hidden rounded-bl rounded-tr bg-white/80 p-2 group-hover:block"
-            href={`/editor/${props.id}`}
-          >
-            <FaPen className="text-primary-darker" />
-          </Link>
+          {props.showEdit && (
+            <Link
+              className="absolute right-0 top-0 hidden rounded-bl rounded-tr bg-white/80 p-2 group-hover:block"
+              href={`/editor/${props.id}`}
+            >
+              <FaPen className="text-primary-darker" />
+            </Link>
+          )}
         </div>
         <div className="mb-1 flex justify-between">
           <div className="flex items-center gap-2">
