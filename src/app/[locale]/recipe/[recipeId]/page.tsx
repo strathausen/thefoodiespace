@@ -1,7 +1,9 @@
+import { type Metadata } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+
 import { api } from "@/trpc/server";
 import { Container } from "ui/index";
 import { BookmarkButton } from "components/buttons/bookmark-button";
@@ -17,6 +19,19 @@ type Props = {
     recipeId: string;
   };
 };
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata | null> {
+  const recipe = await api.recipe.get.query(params.recipeId);
+  if (!recipe) {
+    return null;
+  }
+  return {
+    title: recipe.name,
+    description: recipe.text,
+  };
+}
 
 export default async function RecipePage(props: Props) {
   const recipe = await api.recipe.get.query(props.params.recipeId);
