@@ -12,6 +12,7 @@ import { RecipeComments } from "components/recipe/recipe-comments";
 import { getCurrentLocale } from "locales/server";
 import { ServerClientEmbed } from "components/server-client-embed";
 import { createRecipeJson } from "@/utils/create-recipe-json";
+import { Heading } from "components/typography/Heading";
 
 type Props = {
   params: {
@@ -41,9 +42,12 @@ export default async function RecipePage(props: Props) {
   }
   return (
     <>
-      <Script id="recipe-ld-json" type="application/ld+json">
-        {JSON.stringify(createRecipeJson(recipe))}
-      </Script>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(createRecipeJson(recipe)),
+        }}
+      />
       <main className="m-auto my-6 flex w-full max-w-2xl flex-col">
         <Container>
           <div className="p-6">
@@ -85,7 +89,12 @@ export default async function RecipePage(props: Props) {
             </div>
             {/* ingredients */}
             <div className="mt-6">
-              <h2 className="text-xl font-semibold">Ingredients</h2>
+              <Heading
+                id="ingredients"
+                className="font-vollkorn text-xl font-semibold"
+              >
+                ingredients
+              </Heading>
               <ul className="mt-3 list-inside list-disc">
                 {recipe.ingredients.map((ingredient, i) => (
                   <li key={i}>
@@ -102,7 +111,12 @@ export default async function RecipePage(props: Props) {
             </div>
             {/* steps */}
             <div className="mt-6">
-              <h2 className="text-xl font-semibold">Steps</h2>
+              <Heading
+                id="steps"
+                className="font-vollkorn text-xl font-semibold"
+              >
+                steps
+              </Heading>
               <ol className="mt-3 list-inside list-decimal">
                 {recipe.steps.map((step, i) => (
                   <li key={i} className="flex gap-4">
@@ -139,7 +153,12 @@ export default async function RecipePage(props: Props) {
             </div>
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
             <div className="flex flex-col items-center">
-              <div className="font-vollkorn text-xl">comments</div>
+              <Heading
+                id="comments"
+                className="font-vollkorn text-xl font-semibold"
+              >
+                comments
+              </Heading>
               {recipe.comments && (
                 <ServerClientEmbed locale={locale}>
                   <RecipeComments

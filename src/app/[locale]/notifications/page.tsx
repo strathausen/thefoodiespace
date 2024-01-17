@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { api } from "@/trpc/react";
 import { truncate } from "lodash";
 import { useEffect } from "react";
@@ -6,17 +7,51 @@ import { useEffect } from "react";
 type NotificationContent = {
   reactor: {
     id: string;
+    handle?: string;
     name: string;
   };
-  comment: {
+  commenter: {
     id: string;
-    text: string;
+    handle?: string;
+    name: string;
   };
   text: string;
   recipe: {
     id: string;
     name: string;
   };
+};
+
+const UserLink = ({ user }: { user: NotificationContent["reactor"] }) => {
+  if (user.handle) {
+    return (
+      <Link href={`/~${user.handle}`} className="font-semibold">
+        {user.name}
+      </Link>
+    );
+  }
+  return (
+    <Link href={`/user/${user.id}`} className="font-semibold">
+      {user.name}
+    </Link>
+  );
+};
+
+const RecipeLink = ({
+  recipe,
+  href,
+}: {
+  recipe: NotificationContent["recipe"];
+  href?: string;
+}) => {
+  return (
+    <Link
+      href={`/recipe/${recipe.id}${href ? "#" + href : ""}`}
+      className="font-semibold"
+    >
+      {recipe.name}
+    </Link>
+  );
 };
 
 export default function NotificationsPage() {
@@ -53,8 +88,10 @@ export default function NotificationsPage() {
             return (
               <div key={notification.id} className={className}>
                 <p>
-                  💬 {content.reactor?.name || "someone"} commented on your
-                  recipe &quot;{content.recipe.name}&quot;: &quot;
+                  💬 <UserLink user={content.commenter} /> commented on your
+                  recipe &quot;
+                  <RecipeLink recipe={content.recipe} href="comments" />
+                  &quot; : &quot;
                   {truncate(content.text, { length: 100 })}&quot;
                 </p>
               </div>
@@ -64,9 +101,10 @@ export default function NotificationsPage() {
             return (
               <div key={notification.id} className={className}>
                 <p>
-                  ❤ {content.reactor?.name || "someone"} liked your recipe
+                  ❤ <UserLink user={content.reactor} /> liked your recipe
                   &quot;
-                  {content.recipe.name}&quot;
+                  <RecipeLink recipe={content.recipe} />
+                  &quot;
                 </p>
               </div>
             );
@@ -75,7 +113,7 @@ export default function NotificationsPage() {
             return (
               <div key={notification.id} className={className}>
                 <p>
-                  ✨ {content.reactor?.name || "someone"} started following you
+                  ✨ <UserLink user={content.reactor} /> started following you
                 </p>
               </div>
             );

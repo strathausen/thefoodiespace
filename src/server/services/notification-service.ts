@@ -11,7 +11,7 @@ export async function sendCommentNotification(
       text: true,
       createdAt: true,
       recipe: { select: { id: true, name: true, createdById: true } },
-      user: { select: { id: true, name: true } },
+      user: { select: { id: true, name: true, handle: true } },
     },
   });
   await db.notification.create({
@@ -35,7 +35,7 @@ export async function sendReactionNotification(db: PrismaClient, id: number) {
       id: true,
       createdAt: true,
       recipe: { select: { id: true, name: true, createdById: true } },
-      user: { select: { id: true, name: true } },
+      user: { select: { id: true, name: true, handle: true } },
     },
   });
   await db.notification.create({
