@@ -22,10 +22,10 @@ export function createRecipeJson(
     recipeYield: recipe.info.recipeYield!,
     // recipeCategory: recipe.info.recipeCategory, // TODO: use tags from description
     // recipeCuisine: recipe.info.recipeCuisine, // TODO: use tags from description
-    nutrition: recipe.info.nutrition
+    nutrition: recipe.info["nutrition.calories"]
       ? {
           "@type": "NutritionInformation",
-          calories: recipe.info.nutrition.calories,
+          calories: recipe.info["nutrition.calories"],
         }
       : undefined,
     recipeIngredient: recipe.ingredients.map((ingredient) => {

@@ -35,7 +35,7 @@ const SubHead = ({ children }: { children: React.ReactNode }) => (
 
 type RecipeInfo = {
   label: string;
-  key: string;
+  key: keyof PrismaJson.RecipeInfos;
   value: string;
 };
 
@@ -164,8 +164,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     setSteps(recipe.steps as RecipeStep[]); // TODO fix the typing issue here
     setRecipeInfos((infos) => {
       return infos.map((info) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const value = recipe.info[info.key] as string;
+        const value = recipe.info[info.key]!
         return { ...info, value };
       });
     });

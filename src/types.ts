@@ -102,9 +102,7 @@ export type RecipeInfo = {
   recipeYield?: string;
   recipeCategory?: string;
   recipeCuisine?: string;
-  nutrition?: {
-    calories: string;
-  };
+  'nutrition.calories'?: string
 };
 
 declare global {
