@@ -1,5 +1,5 @@
 // <script type="application/ld+json">
-export type Recipe = {
+export type RecipeJson = {
   "@context": "https://schema.org/";
   "@type": "Recipe";
   name: string;
@@ -117,7 +117,7 @@ declare global {
       name: string;
       notes?: string;
     };
-    type RecipeInfos = RecipeInfo[];
+    type RecipeInfos = RecipeInfo;
     type RecipeStep = {
       images?: string[] | string;
       name?: string;

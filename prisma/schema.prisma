@@ -179,7 +179,7 @@ model Recipe {
     steps       Json[]
     /// [RecipeIngredient]
     ingredients Json[]
-    /// [RecipeInfo]
+    /// [RecipeInfos]
     info        Json       @default("{}")
     status      PostStatus @default(DRAFT)
 

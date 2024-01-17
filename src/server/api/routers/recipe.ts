@@ -115,22 +115,22 @@ export const recipeRouter = createTRPCRouter({
       return recipes;
     }),
 
-  get: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  get: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const userId = ctx.session?.user?.id;
     const OR = [{ status: "PUBLISHED" as const }, { createdById: userId }];
     const where = userId
       ? { id: input, OR }
       : { id: input, status: "PUBLISHED" as const };
     if (!userId) {
-      return ctx.db.recipe
+      const recipe = await ctx.db.recipe
         .findUniqueOrThrow({
           where,
           select: { steps: true, status: true, ...select },
-        })
-        .then((recipe) => ({
-          ...recipe,
-          comments: [] as Omit<Comment, "userId" | "recipeId">[],
-        }));
+        });
+      return ({
+        ...recipe,
+        comments: [] as Omit<Comment, "userId" | "recipeId">[],
+      });
     }
     return ctx.db.recipe.findUniqueOrThrow({
       where,
