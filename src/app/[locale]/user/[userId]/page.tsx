@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { api } from "@/trpc/server";
-import { RecipeTile } from "components/recipe/recipt-tile";
+import { RecipeTile } from "components/recipe/recipe-tile";
 import { notFound } from "next/navigation";
 import { FaPen } from "react-icons/fa6";
 import { getServerAuthSession } from "@/server/auth";

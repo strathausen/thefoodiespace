@@ -1,11 +1,11 @@
-import type { RecipeJson } from "@/types";
+import type { Recipe, WithContext } from "schema-dts";
 import { type api } from "@/trpc/server";
 
 export function createRecipeJson(
   recipe: Awaited<ReturnType<typeof api.recipe.get.query>>,
-): RecipeJson {
+): WithContext<Recipe> {
   return {
-    "@context": "https://schema.org/",
+    "@context": "https://schema.org",
     "@type": "Recipe",
     name: recipe.name,
     image: recipe.images,

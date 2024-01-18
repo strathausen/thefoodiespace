@@ -11,13 +11,13 @@ export const Heading = ({
       >
         #
       </a>
-      <h1
+      <h2
         id={props.id}
         className={`text-center font-vollkorn text-3xl font-semibold ${className}`}
         {...props}
       >
         {children}
-      </h1>
+      </h2>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { type Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 
 import { api } from "@/trpc/server";
 import { Container } from "ui/index";
@@ -12,7 +11,8 @@ import { RecipeComments } from "components/recipe/recipe-comments";
 import { getCurrentLocale } from "locales/server";
 import { ServerClientEmbed } from "components/server-client-embed";
 import { createRecipeJson } from "@/utils/create-recipe-json";
-import { Heading } from "components/typography/Heading";
+import { Heading } from "components/typography/Heading2";
+import { RecipeIngredients } from "components/recipe/recipe-ingredients";
 
 type Props = {
   params: {
@@ -38,7 +38,7 @@ export default async function RecipePage(props: Props) {
   const locale = getCurrentLocale();
 
   if (!recipe) {
-    return <div>Recipe not found</div>;
+    return <div>Recipe not found 😿</div>;
   }
   return (
     <>
@@ -55,7 +55,7 @@ export default async function RecipePage(props: Props) {
               {recipe.name}
             </h1>
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
-            <div className="ml-2 flex flex-row justify-center gap-2">
+            <div className="flex flex-row justify-center gap-2">
               <p>by</p>
               <Link href={`/user/${recipe.createdBy.id}`}>
                 <div className="flex flex-col">
@@ -87,28 +87,11 @@ export default async function RecipePage(props: Props) {
                 style={{ width: 300, height: 300 }}
               />
             </div>
-            {/* ingredients */}
-            <div className="mt-6">
-              <Heading
-                id="ingredients"
-                className="font-vollkorn text-xl font-semibold"
-              >
-                ingredients
-              </Heading>
-              <ul className="mt-3 list-inside list-disc">
-                {recipe.ingredients.map((ingredient, i) => (
-                  <li key={i}>
-                    <span>
-                      {ingredient.name} ({ingredient.quantity} {ingredient.unit}
-                      )
-                    </span>
-                    <span className="ml-2 text-sm text-stone-950/50">
-                      {ingredient.notes}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <RecipeIngredients
+              ingredients={recipe.ingredients}
+              className="mt-6"
+              yield={recipe.info?.recipeYield}
+            />
             {/* steps */}
             <div className="mt-6">
               <Heading
@@ -119,8 +102,10 @@ export default async function RecipePage(props: Props) {
               </Heading>
               <ol className="mt-3 list-inside list-decimal">
                 {recipe.steps.map((step, i) => (
-                  <li key={i} className="flex gap-4">
-                    {i + 1}. {step.name}
+                  <li key={i} className="mb-5 mt-5 flex flex-col gap-2">
+                    <h3 className="font-vollkorn text-lg font-semibold">
+                      Step {i + 1}. {step.name}
+                    </h3>
                     {step.images?.[0] && (
                       <Image
                         src={step.images[0]}

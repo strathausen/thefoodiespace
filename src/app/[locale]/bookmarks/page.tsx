@@ -1,6 +1,6 @@
 "use client";
 import { AuthPage } from "api/auth/auth-page";
-import { RecipeTile } from "components/recipe/recipt-tile";
+import { RecipeTile } from "components/recipe/recipe-tile";
 import { useBookmarks } from "hooks/useBookmarks";
 
 export default function BookmarksPage() {
