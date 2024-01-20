@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { FaPen } from "react-icons/fa6";
 import { getServerAuthSession } from "@/server/auth";
 import Link from "next/link";
+import { FollowButton } from "components/buttons/follow-button";
 
 export default async function UserPage({
   params,
@@ -43,8 +44,11 @@ export default async function UserPage({
             <FaPen /> edit profile
           </Link>
         )}
-        <h1 className="text-center font-vollkorn text-2xl">
+        <h1 className="flex items-baseline justify-center font-vollkorn text-2xl">
           {userProfile.name}
+          <span className="relative left-2 w-0 text-lg">
+            <FollowButton userId={userProfile.id} />
+          </span>
         </h1>
         {userProfile.pronouns && (
           <p className="text-center text-sm text-stone-700/80">
