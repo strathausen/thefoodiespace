@@ -23,6 +23,7 @@ type NotificationContent = {
 };
 
 const UserLink = ({ user }: { user: NotificationContent["reactor"] }) => {
+  if (!user) return null; // for old data in the db, shouldn't happen anymore
   if (user.handle) {
     return (
       <Link href={`/~${user.handle}`} className="font-semibold">
