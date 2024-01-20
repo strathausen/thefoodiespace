@@ -128,7 +128,8 @@ model User {
     recipes       Recipe[]
     followers     Follower[]     @relation("FollowersToFollowees")
     followeees    Follower[]     @relation("FolloweesToFollowers")
-    notifications Notification[]
+    notifications Notification[] @relation("recipient")
+    notificators  Notification[] @relation("reactor")
     bookmarks     Bookmark[]
     cookBooks     CookBook[]
     comments      Comment[]
@@ -159,8 +160,12 @@ model Notification {
     content Json
     type    NotificationType
 
-    user   User   @relation(fields: [userId], references: [id])
-    userId String @map("user_id")
+    user      User    @relation("recipient", fields: [userId], references: [id], onDelete: Cascade)
+    userId    String  @map("user_id")
+    reactor   User?   @relation("reactor", fields: [reactorId], references: [id], onDelete: Cascade)
+    reactorId String? @map("reactor_id")
+    recipe    Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+    recipeId  String? @map("recipe_id")
 
     @@map("notifications")
 }
@@ -194,9 +199,10 @@ model Recipe {
     commentCount Int @default(0) @map("comment_count")
     shareCount   Int @default(0) @map("share_count")
 
-    reactions Reaction[]
-    bookmarks Bookmark[]
-    comments  Comment[]
+    reactions     Reaction[]
+    bookmarks     Bookmark[]
+    comments      Comment[]
+    notifications Notification[]
 
     @@index([name])
     @@map("recipes")
