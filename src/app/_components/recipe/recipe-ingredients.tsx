@@ -2,6 +2,30 @@
 import { useEffect, useState } from "react";
 import { Heading } from "../typography/Heading2";
 
+function decimalToFrac(decimal: number): string {
+  const integer = Math.floor(decimal);
+  if (decimal >= 1) {
+    decimal -= integer;
+  }
+
+  let closestFraction = "";
+  let minDifference = Number.MAX_VALUE;
+
+  for (let denominator = 1; denominator <= 6; denominator++) {
+    for (let numerator = 1; numerator <= 6; numerator++) {
+      const fractionDecimal = numerator / denominator;
+      const difference = Math.abs(fractionDecimal - decimal);
+
+      if (difference < minDifference) {
+        minDifference = difference;
+        closestFraction = `${numerator}/${denominator}`;
+      }
+    }
+  }
+
+  return (integer ? integer.toString() + " " : "") + closestFraction;
+}
+
 function isFraction(value: string) {
   return /^[\d]+\/[\d]+$/.test(value.trim());
 }
@@ -20,7 +44,7 @@ function formatQuantity(
     const number = calculateNumber(value);
     const newNumber =
       Math.round((number * yieldNumber * 10) / originalYield) / 10;
-    return newNumber.toString();
+    return decimalToFrac(newNumber);
   }
   return value;
 }
@@ -59,8 +83,8 @@ const IngredientField = ({
   }
   return (
     <span>
-      {ingredient.name} ({quantity}
-      {ingredient.unit ? ` ${ingredient.unit}` : ""})
+      {ingredient.name} ({quantity})
+      {ingredient.unit ? ` ${ingredient.unit}` : ""}
     </span>
   );
 };
@@ -103,7 +127,8 @@ export const RecipeIngredients = ({
               value={yieldNumber}
               type="number"
               className="w-16 rounded bg-white/50 text-center shadow outline-none"
-              onChange={(e) => setYieldNumber(Number(e.target.value))}
+              onChange={(e) => setYieldNumber(Number(e.target.value) || 1)}
+              min={1}
             />
             {yieldUnit ? ` ${yieldUnit}` : ""}
           </span>
