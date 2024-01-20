@@ -14,6 +14,9 @@ export async function sendCommentNotification(
       user: { select: { id: true, name: true, handle: true } },
     },
   });
+  if (comment.user.id === comment.recipe.createdById) {
+    return;
+  }
   await db.notification.create({
     data: {
       type: "COMMENT",
@@ -38,6 +41,9 @@ export async function sendReactionNotification(db: PrismaClient, id: number) {
       user: { select: { id: true, name: true, handle: true } },
     },
   });
+  if (reaction.user.id === reaction.recipe.createdById) {
+    return;
+  }
   await db.notification.create({
     data: {
       type: "REACTION",
@@ -60,6 +66,9 @@ export async function sendFollowNotification(
     where: { id: followerId },
     select: { id: true, name: true },
   });
+  if (userId === followerId) {
+    return;
+  }
   await db.notification.create({
     data: { type: "FOLLOW", userId, content: { follower } },
   });

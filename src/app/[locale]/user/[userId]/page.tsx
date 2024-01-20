@@ -1,11 +1,12 @@
+import Link from "next/link";
 import Image from "next/image";
 import { api } from "@/trpc/server";
 import { RecipeTile } from "components/recipe/recipe-tile";
 import { notFound } from "next/navigation";
 import { FaPen } from "react-icons/fa6";
 import { getServerAuthSession } from "@/server/auth";
-import Link from "next/link";
 import { FollowButton } from "components/buttons/follow-button";
+import { ServerClientEmbed } from "components/server-client-embed";
 
 export default async function UserPage({
   params,
@@ -47,7 +48,9 @@ export default async function UserPage({
         <h1 className="flex items-baseline justify-center font-vollkorn text-2xl">
           {userProfile.name}
           <span className="relative left-2 w-0 text-lg">
-            <FollowButton userId={userProfile.id} />
+            <ServerClientEmbed locale={params.locale}>
+              <FollowButton userId={userProfile.id} />
+            </ServerClientEmbed>
           </span>
         </h1>
         {userProfile.pronouns && (

@@ -9,7 +9,10 @@ import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { FollowButton } from "components/buttons/follow-button";
 import { RecipeComments } from "components/recipe/recipe-comments";
 import { getCurrentLocale } from "locales/server";
-import { ServerClientEmbed } from "components/server-client-embed";
+import {
+  ServerClientEmbed,
+  ServerClientEmbedPrompt,
+} from "components/server-client-embed";
 import { createRecipeJson } from "@/utils/create-recipe-json";
 import { Heading } from "components/typography/Heading2";
 import { RecipeIngredients } from "components/recipe/recipe-ingredients";
@@ -70,7 +73,9 @@ export default async function RecipePage(props: Props) {
                     <div className="max-w-[105px]">
                       <p>{recipe.createdBy.name}</p>
                     </div>
-                    <FollowButton userId={recipe.createdBy.id} />
+                    <ServerClientEmbed locale={locale}>
+                      <FollowButton userId={recipe.createdBy.id} />
+                    </ServerClientEmbed>
                   </div>
                 </div>
               </Link>
@@ -145,13 +150,13 @@ export default async function RecipePage(props: Props) {
                 comments
               </Heading>
               {recipe.comments && (
-                <ServerClientEmbed locale={locale}>
+                <ServerClientEmbedPrompt locale={locale}>
                   <RecipeComments
                     commentCount={recipe.commentCount}
                     recipeId={recipe.id}
                     comments={recipe.comments}
                   />
-                </ServerClientEmbed>
+                </ServerClientEmbedPrompt>
               )}
             </div>
           </div>
