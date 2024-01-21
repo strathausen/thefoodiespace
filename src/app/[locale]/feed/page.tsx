@@ -46,8 +46,7 @@ export default function MyRecipePage() {
                     profileImageUrl={r.createdBy.image!}
                     profileName={r.createdBy.name!}
                     likeCount={r.likeCount}
-                    commentCount={r.commentCount} // is not yet implemented
-                    // isMine={r.createdById === session.data?.user.id}
+                    commentCount={r.commentCount}
                     isMine={false}
                     publishedAt={r.createdAt}
                     profileId={r.createdById}
@@ -55,6 +54,7 @@ export default function MyRecipePage() {
                       r.reactions.filter((r) => r.type === "LIKE").length > 0
                     }
                     myComments={r.comments}
+                    ingredients={r.ingredients}
                   />
                 </div>
               </div>

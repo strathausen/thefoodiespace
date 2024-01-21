@@ -1,5 +1,6 @@
 "use client";
 import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { PulseCounter } from "ui";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export const RecipeLikeButton = (props: Props) => {
+  const router = useRouter();
   const like = api.recipe.like.useMutation();
   const unlike = api.recipe.unlike.useMutation();
 
@@ -19,6 +21,8 @@ export const RecipeLikeButton = (props: Props) => {
     } else {
       await like.mutateAsync({ id: props.recipeId });
     }
+    // TODO - this works, but it may be better to just update the like count in some hook or state
+    router.refresh();
   }
 
   return (

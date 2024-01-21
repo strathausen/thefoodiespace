@@ -24,6 +24,11 @@ export const PulseCounter = (props: Props) => {
     }
   }, [animate]);
 
+  useEffect(() => {
+    setActive(props.active);
+    setCount(props.count);
+  }, [props.active, props.count]);
+
   return (
     <button
       className="flex cursor-pointer items-center gap-1"

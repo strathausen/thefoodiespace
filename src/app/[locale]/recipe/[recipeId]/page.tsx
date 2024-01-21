@@ -88,7 +88,7 @@ export default async function RecipePage(props: Props) {
                 width={300}
                 height={300}
                 alt={recipe.name}
-                className="rounded object-contain"
+                className="rounded object-cover"
                 style={{ width: 300, height: 300 }}
               />
             </div>
@@ -117,7 +117,7 @@ export default async function RecipePage(props: Props) {
                         width={200}
                         height={200}
                         alt={step.name!}
-                        className="rounded object-contain"
+                        className="rounded object-cover w-[200px] h-[200px]"
                       />
                     )}
                     <p>{step.text}</p>

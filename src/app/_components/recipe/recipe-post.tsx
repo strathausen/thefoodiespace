@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { truncate } from "lodash";
 import { Container } from "ui";
-import { FaKitchenSet } from "react-icons/fa6";
 import { RecipePostDropdown } from "components/recipe/recipe-post-dropdown";
 import { RecipeLikeButton } from "components/recipe/recipe-like-button";
 import { BookmarkButton } from "components/buttons/bookmark-button";
 import { RecipeComments } from "./recipe-comments";
 import { FollowButton } from "components/buttons/follow-button";
+import { RecipeInlineDetails } from "./recipe-inline-details";
 
 type Props = {
   id: string;
@@ -20,10 +20,10 @@ type Props = {
   profileId: string;
   likeCount: number;
   commentCount: number;
-  isMine?: boolean; // ignored
   liked: boolean;
   publishedAt: Date;
   myComments: { text: string; id: string; createdAt: Date }[];
+  ingredients: PrismaJson.RecipeIngredient[];
 };
 
 export const RecipePost = (props: Props) => {
@@ -72,9 +72,10 @@ export const RecipePost = (props: Props) => {
                 src={props.imageUrl}
               />
             </Link>
-            <button className="absolute bottom-5 right-0 rounded-l-xl bg-white/40 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur transition hover:bg-white/70">
-              <FaKitchenSet />
-            </button>
+            <RecipeInlineDetails
+              recipeId={props.id}
+              ingredients={props.ingredients}
+            />
           </div>
           <div className="flex flex-col gap-2 px-1">
             <div className="flex flex-row justify-between">
@@ -84,7 +85,9 @@ export const RecipePost = (props: Props) => {
                   likeCount={props.likeCount}
                   liked={props.liked}
                 />
-                <div className="font-semibold max-w-[330px] whitespace-nowrap overflow-hidden overflow-ellipsis">{props.title}</div>
+                <div className="max-w-[330px] overflow-hidden overflow-ellipsis whitespace-nowrap font-semibold">
+                  {props.title}
+                </div>
               </div>
               <div className="flex gap-2">
                 <BookmarkButton recipeId={props.id} />
