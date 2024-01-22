@@ -14,6 +14,7 @@ import { ProfileImage } from "./profile-image";
 import { type Session } from "next-auth";
 import { api } from "@/trpc/react";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 type Props = {
   session: Session | null;
@@ -73,7 +74,16 @@ export function NavBar(props: Props) {
                 pathName.startsWith(`/${link}`) ? "font-bold" : ""
               }`}
             >
-              {icon} <span className="text-sm sm:text-xl">{t(label)}</span>
+              {label === "notifications" ? (
+                props.session ? (
+                  icon
+                ) : (
+                  <FaBell />
+                )
+              ) : (
+                icon
+              )}{" "}
+              <span className="text-sm sm:text-xl">{t(label)}</span>
             </Link>
           ))}
           <Link
