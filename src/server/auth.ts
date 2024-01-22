@@ -47,18 +47,21 @@ export const authOptions: NextAuthOptions = {
       // if user image is set but it does not match 'utfs.io'
       // then we need to upload the image via uploadthing and update the url
       if (user.image && !/utfs.io/.test(user.image)) {
-        // upload image to uploadthing
-        const response = await fetch(user.image);
-        const blob = await response.blob();
-        const utRes = await ut.uploadFiles(blob);
-        await db.user.update({
-          where: {
-            id: user.id,
-          },
-          data: {
-            image: utRes.data?.url,
-          },
-        });
+        try {
+          // upload image to uploadthing
+          const response = await fetch(user.image);
+          const blob = await response.blob();
+          const utRes = await ut.uploadFiles(blob);
+          await db.user.update({
+            where: { id: user.id },
+            data: { image: utRes.data?.url },
+          });
+        } catch (error) {
+          await db.user.update({
+            where: { id: user.id },
+            data: { image: null },
+          });
+        }
       }
       return {
         ...session,
