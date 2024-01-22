@@ -5,6 +5,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
+import FacebookProvider from "next-auth/providers/facebook";
 import { Resend } from "resend";
 
 import { env } from "@/env.mjs";
@@ -69,6 +70,10 @@ export const authOptions: NextAuthOptions = {
           console.log({ error });
         }
       },
+    }),
+    FacebookProvider({
+      clientId: env.FACEBOOK_CLIENT_ID,
+      clientSecret: env.FACEBOOK_CLIENT_SECRET,
     }),
     /**
      * ...add more providers here.

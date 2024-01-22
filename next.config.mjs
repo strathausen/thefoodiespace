@@ -13,6 +13,9 @@ const config = {
       {
         hostname: "utfs.io",
       },
+      {
+        hostname: '*.fbsbx.com',
+      }
     ],
   },
 };
