@@ -43,7 +43,7 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    async session({ session, user }) {
+    async signIn({ user }) {
       // if user image is set but it does not match 'utfs.io'
       // then we need to upload the image via uploadthing and update the url
       if (user.image && !/utfs.io/.test(user.image)) {
@@ -63,13 +63,7 @@ export const authOptions: NextAuthOptions = {
           });
         }
       }
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: user.id,
-        },
-      };
+      return true;
     },
   },
   adapter: PrismaAdapter(db),
