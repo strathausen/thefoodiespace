@@ -81,7 +81,9 @@ export default async function RecipePage(props: Props) {
               </Link>
             </div>
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
-            <div className="mt-6 flex flex-row justify-between gap-4">
+            <div
+              className={`mt-6 flex flex-row ${recipe.text?.trim() ? "justify-between" : "justify-center"} gap-4`}
+            >
               <div className="flex flex-col">{recipe.text}</div>
               <Image
                 src={recipe.images[0]!}
@@ -92,42 +94,46 @@ export default async function RecipePage(props: Props) {
                 style={{ width: 300, height: 300 }}
               />
             </div>
-            <RecipeIngredients
-              ingredients={recipe.ingredients}
-              className="mt-6"
-              yield={recipe.info?.recipeYield}
-            />
+            {recipe.ingredients.length > 0 && (
+              <RecipeIngredients
+                ingredients={recipe.ingredients}
+                className="mt-6"
+                yield={recipe.info?.recipeYield}
+              />
+            )}
             {/* steps */}
-            <div className="mt-6">
-              <Heading
-                id="steps"
-                className="font-vollkorn text-xl font-semibold"
-              >
-                steps
-              </Heading>
-              <ol className="mt-3 list-inside list-decimal">
-                {recipe.steps.map((step, i) => (
-                  <li key={i} className="mb-5 mt-5 flex flex-col gap-2">
-                    <h3 className="font-vollkorn text-lg font-semibold">
-                      Step {i + 1}. {step.name}
-                    </h3>
-                    {step.images?.[0] && (
-                      <Image
-                        src={step.images[0]}
-                        width={200}
-                        height={200}
-                        alt={step.name!}
-                        className="rounded object-cover w-[200px] h-[200px]"
-                      />
-                    )}
-                    <p>{step.text}</p>
-                    {step.usedIngredients && (
-                      <p>used ingredients: {step.usedIngredients}</p>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </div>
+            {recipe.steps.length > 0 && (
+              <div className="mt-6">
+                <Heading
+                  id="steps"
+                  className="font-vollkorn text-xl font-semibold"
+                >
+                  steps
+                </Heading>
+                <ol className="mt-3 list-inside list-decimal">
+                  {recipe.steps.map((step, i) => (
+                    <li key={i} className="mb-5 mt-5 flex flex-col gap-2">
+                      <h3 className="font-vollkorn text-lg font-semibold">
+                        Step {i + 1}. {step.name}
+                      </h3>
+                      {step.images?.[0] && (
+                        <Image
+                          src={step.images[0]}
+                          width={200}
+                          height={200}
+                          alt={step.name!}
+                          className="h-[200px] w-[200px] rounded object-cover"
+                        />
+                      )}
+                      <p>{step.text}</p>
+                      {step.usedIngredients && (
+                        <p>used ingredients: {step.usedIngredients}</p>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
             <div className="mt-2 flex gap-3">
               <RecipeLikeButton
