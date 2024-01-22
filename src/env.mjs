@@ -47,7 +47,7 @@ export const env = createEnv({
     POSTGRES_PRISMA_URL:
       process.env.POSTGRES_PRISMA_URL ?? process.env.DATABASE_URL,
     POSTGRES_URL_NON_POOLING:
-      process.env.POSTGTRES_URL_NON_POOLING ?? process.env.DATABASE_URL,
+      process.env.POSTGRES_URL_NON_POOLING ?? process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
