@@ -29,6 +29,7 @@
     "@types/mdx": "^2.0.10",
     "@uploadthing/react": "^6.1.0",
     "@vercel/analytics": "^1.1.2",
+    "@vercel/speed-insights": "^1.0.6",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

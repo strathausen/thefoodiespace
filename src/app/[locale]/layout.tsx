@@ -4,6 +4,7 @@ import { Inter, Plus_Jakarta_Sans, Vollkorn } from "next/font/google";
 import { headers } from "next/headers";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { Footer } from "components/footer";
@@ -83,6 +84,7 @@ export default async function RootLayout({
           </TRPCReactProvider>
         </div>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
