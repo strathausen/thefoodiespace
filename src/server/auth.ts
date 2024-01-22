@@ -65,6 +65,13 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
+    session: ({ session, user }) => ({
+      ...session,
+      user: {
+        ...session.user,
+        id: user.id,
+      },
+    }),
   },
   adapter: PrismaAdapter(db),
   providers: [
