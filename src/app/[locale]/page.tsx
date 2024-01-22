@@ -7,7 +7,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8 lowercase">
           <div className="mx-auto max-w-2xl rounded-lg bg-white/30 p-6 shadow-md backdrop-blur-3xl">
             <h2 className="mb-4 text-center text-2xl font-bold text-accent">
-              🍳 Join the Culinary Revolution with TomatoVillage! 🌟
+              🍳 Join the Culinary Revolution with The Foodie Space! 🌟
             </h2>
             <p className="mb-4 text-justify">
               Here&apos;s a sneak peek at what&apos;s cooking:
@@ -39,7 +39,7 @@ export default function Home() {
 
             <p className="mb-4 text-center">
               ⏳ <strong>Coming Soon</strong>: We&apos;re stirring up something
-              special and can&apos;t wait to welcome you to TomatoVillage.
+              special and can&apos;t wait to welcome you to The Foodie Space.
             </p>
 
             <div className="text-center">

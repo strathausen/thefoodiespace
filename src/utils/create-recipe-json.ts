@@ -36,7 +36,7 @@ export function createRecipeJson(
         "@type": "HowToStep",
         name: step.name!,
         text: step.text!,
-        url: `https://www.tomatovillage.com/recipe/${recipe.id}/#step-${i + 1}`,
+        url: `https://www.thefoodie.space/recipe/${recipe.id}/#step-${i + 1}`,
         image: step.images ? step.images[0] : "",
       };
     }),

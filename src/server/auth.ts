@@ -62,8 +62,8 @@ export const authOptions: NextAuthOptions = {
           await resend.emails.send({
             from: "Tomato Village <noreply@tomatovillage.com>",
             to: params.identifier,
-            subject: "login to tomato village",
-            text: `login to tomato village: ${params.url}`,
+            subject: "login to the foodie space",
+            text: `login the foodie space: ${params.url}`,
           });
         } catch (error) {
           console.log({ error });

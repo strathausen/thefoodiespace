@@ -6,7 +6,7 @@ export function Footer() {
       <div className="mx-auto w-full max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
         <span className="text-sm sm:text-center">
           © 2023-{new Date().getFullYear()}{" "}
-          <a href="https://tomatovillage.com/" className="hover:underline">
+          <a href="https://www.thefoodie.space/" className="hover:underline">
             tomato village™
           </a>
           . all rights reserved.

@@ -32,7 +32,7 @@ const vollkorn = Vollkorn({
 });
 
 export const metadata = {
-  title: "tomatovillage",
+  title: "thefoodie.space",
   description: "food blogging community",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };

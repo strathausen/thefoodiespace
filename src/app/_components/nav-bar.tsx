@@ -14,7 +14,6 @@ import { ProfileImage } from "./profile-image";
 import { type Session } from "next-auth";
 import { api } from "@/trpc/react";
 import { useEffect } from "react";
-import { useSession } from "next-auth/react";
 
 type Props = {
   session: Session | null;

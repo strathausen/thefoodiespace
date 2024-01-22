@@ -11,7 +11,7 @@ export const ShareButton = (props: Props) => {
       className="flex items-center gap-1"
       onClick={() =>
         navigator.share({
-          title: "tomatovillage recipe",
+          title: "thefoodie.space recipe",
           url: `${window.location.origin}/recipe/${props.recipeId}`,
         })
       }
