@@ -23,9 +23,6 @@ export const env = createEnv({
       // VERCEL_URL doesn't include `https` so it cant be validated as a URL
       process.env.VERCEL ? z.string() : z.string().url(),
     ),
-    // Add ` on ID and SECRET if you want to make sure they're not empty
-    //DISCORD_CLIENT_ID: z.string(),
-    //DISCORD_CLIENT_SECRET: z.string(),
     RESEND_KEY: z.string(),
     UPLOADTHING_SECRET: z.string(),
     UPLOADTHING_APP_ID: z.string(),
