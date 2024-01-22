@@ -47,7 +47,6 @@ export default function MyRecipePage() {
                     profileName={r.createdBy.name!}
                     likeCount={r.likeCount}
                     commentCount={r.commentCount}
-                    isMine={false}
                     publishedAt={r.createdAt}
                     profileId={r.createdById}
                     liked={
