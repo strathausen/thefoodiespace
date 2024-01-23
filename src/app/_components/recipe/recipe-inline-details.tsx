@@ -12,7 +12,7 @@ export const RecipeInlineDetails = (props: Props) => {
   return (
     <>
       <div
-        className={`absolute bottom-0 top-0 w-full rounded-md bg-white/60 p-4 ${showDetails ? "opacity-100" : "opacity-0"} transition`}
+        className={`absolute bottom-0 top-0 w-full rounded-md bg-white/60 p-4 ${showDetails ? "opacity-100" : "pointer-events-none opacity-0"} transition`}
       >
         {props.ingredients.map((ingredient, index) => (
           <div key={index} className="flex items-center gap-2">

@@ -66,7 +66,9 @@ export default async function RecipePage(props: Props) {
                     <Image
                       width={28}
                       height={28}
-                      src={recipe.createdBy.image!}
+                      src={
+                        recipe.createdBy.image ?? "/default-profile-image.webp"
+                      }
                       alt="profile image"
                       className="h-[28px] w-[28px] rounded-lg object-cover shadow-md"
                     />
