@@ -61,7 +61,7 @@ export default async function UserPage({
         {userProfile.image && (
           <div className="flex justify-center">
             <Image
-              className="rounded-full object-cover"
+              className="rounded-lg object-cover shadow-md"
               src={userProfile.image ?? "/default-profile-image.webp"}
               alt={userProfile.name!}
               width={200}

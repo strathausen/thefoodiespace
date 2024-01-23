@@ -36,9 +36,9 @@ export const RecipePost = (props: Props) => {
               <Image
                 width={38}
                 height={38}
-                src={props.profileImageUrl}
+                src={props.profileImageUrl ?? "/default-profile-image.webp"}
                 alt="profile image"
-                className="mx-1 h-[38px] w-[38px] rounded-full object-cover shadow-md"
+                className="mx-1 h-[38px] w-[38px] rounded-lg object-cover shadow-md"
               />
             </Link>
             <div className="flex w-full justify-between">

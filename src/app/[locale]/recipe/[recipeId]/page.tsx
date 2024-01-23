@@ -68,7 +68,7 @@ export default async function RecipePage(props: Props) {
                       height={28}
                       src={recipe.createdBy.image!}
                       alt="profile image"
-                      className="h-[28px] w-[28px] rounded-full object-cover shadow-md"
+                      className="h-[28px] w-[28px] rounded-lg object-cover shadow-md"
                     />
                     <div className="max-w-[105px]">
                       <p>{recipe.createdBy.name}</p>

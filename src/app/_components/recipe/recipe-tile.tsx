@@ -52,7 +52,7 @@ export const RecipeTile = (props: Props) => {
                 height={28}
                 src={props.profileImageUrl}
                 alt="profile image"
-                className="mx-1 h-[28px] w-[28px] rounded-full object-cover shadow-md"
+                className="mx-1 h-[28px] w-[28px] rounded-lg object-cover shadow-md"
               />
             </Link>
             <div className="max-w-[105px]">

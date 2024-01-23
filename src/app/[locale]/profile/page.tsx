@@ -95,7 +95,7 @@ export default function ProfilePage() {
                     src={image ?? "/default-profile-image.webp"}
                     width={size}
                     height={size}
-                    className="rounded-full border-4 border-white object-cover shadow-md"
+                    className="rounded-lg border-4 border-white object-cover shadow-md"
                     style={{ width: size, height: size }}
                     alt="profile pic"
                   />

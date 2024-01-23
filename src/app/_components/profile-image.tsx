@@ -13,7 +13,7 @@ export const ProfileImage = (props: Props) => {
       width={size}
       height={size}
       alt="profile image"
-      className="rounded-full object-cover shadow"
+      className="rounded-lg object-cover shadow shadow-black/40"
       style={{ width: size, height: size }}
     />
   );

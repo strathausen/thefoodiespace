@@ -3,6 +3,7 @@ import Link from "next/link";
 import { api } from "@/trpc/react";
 import { truncate } from "lodash";
 import { useEffect } from "react";
+import { AuthPage } from "api/auth/auth-page";
 
 type NotificationContent = {
   reactor: {
@@ -79,49 +80,51 @@ export default function NotificationsPage() {
   }, [notificationsQuery.data]);
 
   return (
-    <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4 p-4">
-      <h1 className="font-vollkorn text-2xl">notifications</h1>
-      <div className="flex flex-col gap-2">
-        {notificationsQuery.data?.notifications.map((notification) => {
-          const content = notification.content as NotificationContent;
-          const className = notification.readAt ? "opacity-50" : "";
-          if (notification.type === "COMMENT") {
-            return (
-              <div key={notification.id} className={className}>
-                <p>
-                  💬 <UserLink user={content.commenter} /> commented on your
-                  recipe &quot;
-                  <RecipeLink recipe={content.recipe} href="comments" />
-                  &quot; : &quot;
-                  {truncate(content.text, { length: 100 })}&quot;
-                </p>
-              </div>
-            );
-          }
-          if (notification.type === "REACTION") {
-            return (
-              <div key={notification.id} className={className}>
-                <p>
-                  ❤ <UserLink user={content.reactor} /> liked your recipe
-                  &quot;
-                  <RecipeLink recipe={content.recipe} />
-                  &quot;
-                </p>
-              </div>
-            );
-          }
-          if (notification.type === "FOLLOW") {
-            return (
-              <div key={notification.id} className={className}>
-                <p>
-                  ✨ <UserLink user={content.reactor} /> started following you
-                </p>
-              </div>
-            );
-          }
-          return <div key={notification.id}>{notification.type}</div>;
-        })}
+    <AuthPage>
+      <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4 p-4">
+        <h1 className="font-vollkorn text-2xl">notifications</h1>
+        <div className="flex flex-col gap-2">
+          {notificationsQuery.data?.notifications.map((notification) => {
+            const content = notification.content as NotificationContent;
+            const className = notification.readAt ? "opacity-50" : "";
+            if (notification.type === "COMMENT") {
+              return (
+                <div key={notification.id} className={className}>
+                  <p>
+                    💬 <UserLink user={content.commenter} /> commented on your
+                    recipe &quot;
+                    <RecipeLink recipe={content.recipe} href="comments" />
+                    &quot; : &quot;
+                    {truncate(content.text, { length: 100 })}&quot;
+                  </p>
+                </div>
+              );
+            }
+            if (notification.type === "REACTION") {
+              return (
+                <div key={notification.id} className={className}>
+                  <p>
+                    ❤ <UserLink user={content.reactor} /> liked your recipe
+                    &quot;
+                    <RecipeLink recipe={content.recipe} />
+                    &quot;
+                  </p>
+                </div>
+              );
+            }
+            if (notification.type === "FOLLOW") {
+              return (
+                <div key={notification.id} className={className}>
+                  <p>
+                    ✨ <UserLink user={content.reactor} /> started following you
+                  </p>
+                </div>
+              );
+            }
+            return <div key={notification.id}>{notification.type}</div>;
+          })}
+        </div>
       </div>
-    </div>
+    </AuthPage>
   );
 }

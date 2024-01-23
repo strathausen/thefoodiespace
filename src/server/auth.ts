@@ -81,11 +81,11 @@ export const authOptions: NextAuthOptions = {
     //}),
     EmailProvider({
       server: "",
-      from: "Tomato Village <noreply@tomatovillage.com>",
+      from: "The Foodie Space <noreply@tomatovillage.com>",
       async sendVerificationRequest(params) {
         try {
           await resend.emails.send({
-            from: "Tomato Village <noreply@tomatovillage.com>",
+            from: "The Foodie Space <noreply@tomatovillage.com>",
             to: params.identifier,
             subject: "login to the foodie space",
             text: `login the foodie space: ${params.url}`,
@@ -96,6 +96,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     FacebookProvider({
+      allowDangerousEmailAccountLinking: true,
       clientId: env.FACEBOOK_CLIENT_ID,
       clientSecret: env.FACEBOOK_CLIENT_SECRET,
     }),
