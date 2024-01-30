@@ -27,6 +27,8 @@ export const RecipePostDropdown = (props: Props) => {
   ];
   const [isOpen, setIsOpen] = useState(false);
 
+  if (!session.data) return null;
+
   return (
     <div className="relative z-20 flex cursor-pointer flex-col gap-0.5 px-2 py-1">
       <button

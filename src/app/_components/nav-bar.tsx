@@ -6,6 +6,9 @@ import {
   FaBookBookmark,
   FaBowlRice,
   FaDoorOpen,
+  FaHeadset,
+  FaHorseHead,
+  FaPerson,
   FaPlus,
 } from "react-icons/fa6";
 import { useScopedI18n } from "locales/client";
@@ -97,8 +100,12 @@ export function NavBar(props: Props) {
                 : ""
             }`}
           >
-            <div className="-m-1">
-              <ProfileImage imageUrl={props.session?.user.image} size={28} />
+            <div className={props.session ? "-m-1" : ""}>
+              {props.session ? (
+                <ProfileImage imageUrl={props.session?.user.image} size={28} />
+              ) : (
+                <FaHorseHead />
+              )}
             </div>{" "}
             <span className="text-sm sm:text-xl">{t("profile")}</span>
           </Link>
