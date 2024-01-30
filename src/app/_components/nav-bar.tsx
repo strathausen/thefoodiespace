@@ -68,7 +68,7 @@ export function NavBar(props: Props) {
           {menuLinks.map(({ link, label, icon }) => (
             <Link
               key={link}
-              href={`/${link}`}
+              href={`/${link === "feed" && !props.session?.user ? "" : link}`}
               className={`flex flex-col items-center gap-3 drop-shadow-white hover:underline hover:decoration-accent sm:flex-row ${
                 pathName.startsWith(`/${link}`) ? "font-bold" : ""
               }`}

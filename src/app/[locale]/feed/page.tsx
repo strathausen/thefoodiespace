@@ -41,7 +41,7 @@ export default function MyRecipePage() {
                   <RecipePost
                     id={r.id}
                     imageUrl={r.images[0]!}
-                    title={r.name || r.id}
+                    title={r.name}
                     description={r.text!}
                     profileImageUrl={r.createdBy.image!}
                     profileName={r.createdBy.name!}
@@ -54,6 +54,7 @@ export default function MyRecipePage() {
                     }
                     myComments={r.comments}
                     ingredients={r.ingredients}
+                    locale={locale}
                   />
                 </div>
               </div>

@@ -1,52 +1,37 @@
-import { WaitlistForm } from "../_components/waitlist-form";
+import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/trpc/server";
+import { RecipePost } from "components/recipe/recipe-post";
+import { getCurrentLocale } from "locales/server";
 
-export default function Home() {
+export default async function Home() {
+  const feed = await api.recipe.publicFeed.query({});
+  const session = await getServerAuthSession();
+  const locale = getCurrentLocale();
+
   return (
     <main>
-      <div className="container flex flex-col items-center justify-center gap-12 px-4">
-        <div className="container mx-auto px-4 py-8 lowercase">
-          <div className="mx-auto max-w-2xl rounded-lg bg-white/30 p-6 shadow-md backdrop-blur-3xl">
-            <h2 className="mb-4 text-center text-2xl font-bold text-accent">
-              🍳 Join the Culinary Revolution with The Foodie Space! 🌟
-            </h2>
-            <p className="mb-4 text-justify">
-              Here&apos;s a sneak peek at what&apos;s cooking:
-            </p>
-
-            <ul className="mb-4 list-inside list-disc space-y-2">
-              <li>
-                <strong>Diverse Culinary Creations</strong>: Whether you&apos;re
-                a vegan, a meat-lover, or have a sweet tooth, there&apos;s
-                always something new to try.
-              </li>
-              <li>
-                <strong>Show and Tell</strong>: Don&apos;t just follow recipes;
-                showcase your own!
-              </li>
-              <li>
-                <strong>Remix Recipes</strong>: Found a recipe that you love but
-                want to add your twist? Remix it!
-              </li>
-              <li>
-                <strong>Connect with Food Lovers</strong>: Follow your favorite
-                home chefs, exchange tips, and build your foodie network.
-              </li>
-              <li>
-                <strong>Safe and Inclusive Space</strong>: cooking is for
-                everyone.
-              </li>
-            </ul>
-
-            <p className="mb-4 text-center">
-              ⏳ <strong>Coming Soon</strong>: We&apos;re stirring up something
-              special and can&apos;t wait to welcome you to The Foodie Space.
-            </p>
-
-            <div className="text-center">
-              <WaitlistForm />
-            </div>
+      <div className="container flex flex-col items-center justify-center gap-3 px-4 mt-5">
+        {feed.map((r) => (
+          <div key={r.id} className="mx-auto flex justify-center">
+            <RecipePost
+              id={r.id}
+              imageUrl={r.images[0]!}
+              title={r.name}
+              description={r.text!}
+              profileImageUrl={r.createdBy.image!}
+              profileName={r.createdBy.name!}
+              likeCount={r.likeCount}
+              commentCount={r.commentCount}
+              publishedAt={r.createdAt}
+              profileId={r.createdById}
+              liked={false}
+              myComments={[]}
+              ingredients={r.ingredients}
+              user={session?.user}
+              locale={locale}
+            />
           </div>
-        </div>
+        ))}
       </div>
     </main>
   );

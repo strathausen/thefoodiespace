@@ -57,6 +57,24 @@ export const recipeRouter = createTRPCRouter({
     });
   }),
 
+  publicFeed: publicProcedure
+    .input(
+      z.object({
+        take: z.number().default(10),
+        skip: z.number().default(0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const recipes = await ctx.db.recipe.findMany({
+        where: { status: "PUBLISHED" },
+        take: input.take,
+        skip: input.skip,
+        orderBy: { id: "desc" },
+        select,
+      });
+      return recipes;
+    }),
+
   // show followed recipes from the last two days (or since last login?)
   // if scrolled down further, show more recent recipes that are featured
   // parameter for older recipes.... (cursor?)
@@ -122,15 +140,14 @@ export const recipeRouter = createTRPCRouter({
       ? { id: input, OR }
       : { id: input, status: "PUBLISHED" as const };
     if (!userId) {
-      const recipe = await ctx.db.recipe
-        .findUniqueOrThrow({
-          where,
-          select: { steps: true, status: true, ...select },
-        });
-      return ({
+      const recipe = await ctx.db.recipe.findUniqueOrThrow({
+        where,
+        select: { steps: true, status: true, ...select },
+      });
+      return {
         ...recipe,
         comments: [] as Omit<Comment, "userId" | "recipeId">[],
-      });
+      };
     }
     return ctx.db.recipe.findUniqueOrThrow({
       where,

@@ -33,12 +33,12 @@ export const ImageUpload = ({ image, setImage, onUploadError }: Props) => {
           }
         }}
         onUploadError={onUploadError}
-        appearance={{
-          label:
-            "bg-white/40 text-3xl border-primary rounded-lg h-[50px] w-[50px] hover:bg-white/80",
-          container: "border-none",
-        }}
-        content={{ button: "upload photo", label: "📷" }}
+        // appearance={{
+        //   label:
+        //     "bg-white/40 text-3xl border-primary rounded-lg h-[50px] w-[50px] hover:bg-white/80",
+        //   container: "border-none",
+        // }}
+        // content={{ button: "upload photo", label: "📷" }}
       />
     </div>
   );

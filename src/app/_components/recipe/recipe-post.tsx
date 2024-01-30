@@ -9,6 +9,11 @@ import { BookmarkButton } from "components/buttons/bookmark-button";
 import { RecipeComments } from "./recipe-comments";
 import { FollowButton } from "components/buttons/follow-button";
 import { RecipeInlineDetails } from "./recipe-inline-details";
+import { type Session } from "next-auth";
+import {
+  ServerClientEmbed,
+  ServerClientEmbedPrompt,
+} from "components/server-client-embed";
 
 type Props = {
   id: string;
@@ -24,21 +29,23 @@ type Props = {
   publishedAt: Date;
   myComments: { text: string; id: string; createdAt: Date }[];
   ingredients: PrismaJson.RecipeIngredient[];
+  user?: Session["user"];
+  locale: string;
 };
 
 export const RecipePost = (props: Props) => {
   return (
     <div className="m-auto mb-4 mt-4">
       <Container>
-        <div className="flex flex-col gap-3 p-2">
-          <div className="mt-1 flex items-center gap-2">
+        <div className="flex flex-col gap-2 p-2">
+          <div className="flex items-center gap-2">
             <Link href={`/user/${props.profileId}`}>
               <Image
-                width={38}
-                height={38}
+                width={42}
+                height={40}
                 src={props.profileImageUrl ?? "/default-profile-image.webp"}
                 alt="profile image"
-                className="mx-1 h-[38px] w-[38px] rounded-lg object-cover shadow-md"
+                className="h-[40px] w-[42px] rounded-lg object-cover object-center"
               />
             </Link>
             <div className="flex w-full justify-between">
@@ -49,33 +56,39 @@ export const RecipePost = (props: Props) => {
                 >
                   <p>{props.profileName}</p>
                   <div className="text-sm text-green-950/50">
-                    <FollowButton userId={props.profileId} />
+                    <ServerClientEmbed locale={props.locale}>
+                      <FollowButton userId={props.profileId} />
+                    </ServerClientEmbed>
                   </div>
                 </Link>
                 <p className="text-xs text-green-950/60">
                   {dayjs(props.publishedAt).format("D MMM YYYY")}
                 </p>
               </div>
-              <RecipePostDropdown
-                recipeId={props.id}
-                profileId={props.profileId}
-              />
+              <ServerClientEmbed locale={props.locale}>
+                <RecipePostDropdown
+                  recipeId={props.id}
+                  profileId={props.profileId}
+                />
+              </ServerClientEmbed>
             </div>
           </div>
           <div className="relative">
             <Link href={`/recipe/${props.id}`}>
               <Image
-                className="h-[400px] w-[400px] rounded-md object-cover"
+                className="h-[400px] w-[400px] rounded-md object-cover object-center"
                 height={400}
                 width={400}
                 alt="description tbd"
                 src={props.imageUrl}
               />
             </Link>
-            <RecipeInlineDetails
-              recipeId={props.id}
-              ingredients={props.ingredients}
-            />
+            {!!props.ingredients.length && (
+              <RecipeInlineDetails
+                recipeId={props.id}
+                ingredients={props.ingredients}
+              />
+            )}
           </div>
           <div className="flex flex-col gap-2 px-1">
             <div className="flex flex-row justify-between">
@@ -99,11 +112,15 @@ export const RecipePost = (props: Props) => {
               </div>
             </Link>
           </div>
-          <RecipeComments
-            recipeId={props.id}
-            comments={props.myComments}
-            commentCount={props.commentCount}
-          />
+          {props.user && (
+            <ServerClientEmbedPrompt locale={props.locale}>
+              <RecipeComments
+                recipeId={props.id}
+                comments={props.myComments}
+                commentCount={props.commentCount}
+              />
+            </ServerClientEmbedPrompt>
+          )}
         </div>
       </Container>
     </div>
