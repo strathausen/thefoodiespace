@@ -118,7 +118,7 @@ export default async function RecipePage(props: Props) {
                       <h3 className="font-vollkorn text-lg font-semibold">
                         Step {i + 1}. {step.name}
                       </h3>
-                      <div className="flex">
+                      <div className="flex gap-4">
                         {step.images?.[0] && (
                           <Image
                             src={step.images[0]}
