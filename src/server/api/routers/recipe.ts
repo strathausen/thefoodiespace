@@ -66,7 +66,7 @@ export const recipeRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const recipes = await ctx.db.recipe.findMany({
-        where: { status: "PUBLISHED" },
+        where: { status: "PUBLISHED", featured: true },
         take: input.take,
         skip: input.skip,
         orderBy: { id: "desc" },
