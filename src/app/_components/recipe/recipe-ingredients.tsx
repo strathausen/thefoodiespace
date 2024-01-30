@@ -120,7 +120,7 @@ export const RecipeIngredients = ({
       </Heading>
       <div className="mt-2 text-center">
         {recipeYield && !yieldNumber && <span>yield: {recipeYield}</span>}
-        {yieldNumber && yieldUnit && (
+        {yieldNumber && (
           <span>
             yield:{" "}
             <input

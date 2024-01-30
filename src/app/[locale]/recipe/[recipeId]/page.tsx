@@ -118,18 +118,22 @@ export default async function RecipePage(props: Props) {
                       <h3 className="font-vollkorn text-lg font-semibold">
                         Step {i + 1}. {step.name}
                       </h3>
-                      {step.images?.[0] && (
-                        <Image
-                          src={step.images[0]}
-                          width={200}
-                          height={200}
-                          alt={step.name!}
-                          className="h-[200px] w-[200px] rounded object-cover"
-                        />
-                      )}
-                      <p>{step.text}</p>
+                      <div className="flex">
+                        {step.images?.[0] && (
+                          <Image
+                            src={step.images[0]}
+                            width={200}
+                            height={200}
+                            alt={step.name!}
+                            className="h-[200px] w-[200px] rounded object-cover"
+                          />
+                        )}
+                        <p>{step.text}</p>
+                      </div>
                       {step.usedIngredients && (
-                        <p>used ingredients: {step.usedIngredients}</p>
+                        <p className="text-stone-950/50">
+                          used ingredients: {step.usedIngredients}
+                        </p>
                       )}
                     </li>
                   ))}
