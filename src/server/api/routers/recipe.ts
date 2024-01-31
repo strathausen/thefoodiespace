@@ -112,7 +112,7 @@ export const recipeRouter = createTRPCRouter({
     }),
 
   // published recipes by user
-  userFeed: protectedProcedure
+  userFeed: publicProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -122,7 +122,12 @@ export const recipeRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { take, skip, userId } = input;
-      const where = { status: "PUBLISHED" as const, createdById: userId };
+      const where =
+        ctx.session?.user.id === userId
+          ? {
+              createdById: userId,
+            }
+          : { status: "PUBLISHED" as const, createdById: userId };
       const recipes = await ctx.db.recipe.findMany({
         where,
         take,
