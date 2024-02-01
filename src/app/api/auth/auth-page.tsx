@@ -34,7 +34,7 @@ export function AuthPrompts({ children }: { children: React.ReactNode }) {
 export function AuthPage({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="flex min-h-screen flex-col items-center">
         <ShowLoginButton>{children}</ShowLoginButton>
       </div>
     </SessionProvider>

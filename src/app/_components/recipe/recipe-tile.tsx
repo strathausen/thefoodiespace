@@ -12,6 +12,7 @@ type Props = {
   profileName: string;
   profileId: string;
   showEdit?: boolean;
+  published?: boolean;
 };
 
 // just a rounded picture, below it the name and profile picture of the user who posted the recipe
@@ -19,7 +20,12 @@ type Props = {
 export const RecipeTile = (props: Props) => {
   return (
     <Container>
-      <div className="flex flex-col gap-3 p-2">
+      <div className="relative flex flex-col gap-3 p-2">
+        {(!props.published ?? true) && (
+          <div className="pointer-events-none absolute inset-0 z-50 m-auto flex rounded-xl bg-white/60 p-4 font-vollkorn text-2xl font-semibold">
+            <div className="m-auto">Unpublished</div>
+          </div>
+        )}
         <Link href={`/recipe/${props.id}`}>
           <p className="-mb-2 overflow-hidden overflow-ellipsis whitespace-nowrap font-vollkorn text-lg font-semibold text-stone-950/70">
             {props.title}

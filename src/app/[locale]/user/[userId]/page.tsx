@@ -97,6 +97,7 @@ export default async function UserPage({
               profileName={userProfile.name!}
               profileId={userProfile.id}
               showEdit={true}
+              published={!!recipe.publishedAt}
             />
           ))}
         </div>

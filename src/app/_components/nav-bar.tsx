@@ -6,9 +6,7 @@ import {
   FaBookBookmark,
   FaBowlRice,
   FaDoorOpen,
-  FaHeadset,
   FaHorseHead,
-  FaPerson,
   FaPlus,
 } from "react-icons/fa6";
 import { useScopedI18n } from "locales/client";

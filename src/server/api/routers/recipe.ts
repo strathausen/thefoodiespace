@@ -115,7 +115,7 @@ export const recipeRouter = createTRPCRouter({
   userFeed: publicProcedure
     .input(
       z.object({
-        userId: z.string(),
+        userId: z.string().min(1),
         take: z.number().default(10),
         skip: z.number().default(0),
       }),
@@ -124,9 +124,7 @@ export const recipeRouter = createTRPCRouter({
       const { take, skip, userId } = input;
       const where =
         ctx.session?.user.id === userId
-          ? {
-              createdById: userId,
-            }
+          ? { createdById: userId }
           : { status: "PUBLISHED" as const, createdById: userId };
       const recipes = await ctx.db.recipe.findMany({
         where,
