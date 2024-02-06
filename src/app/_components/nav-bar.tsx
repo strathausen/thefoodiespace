@@ -60,15 +60,25 @@ export function NavBar(props: Props) {
 
   return (
     <div className="absolute bottom-0 z-50 flex h-screen max-h-[80px] w-full flex-row bg-white/60 pb-4 pt-2 text-sm backdrop-blur-sm backdrop-brightness-110 sm:top-0 sm:max-h-none sm:w-fit sm:flex-col sm:bg-transparent sm:pl-6 sm:backdrop-blur-none sm:backdrop-brightness-100">
-      <div title="tomato village" className="hidden sm:block">
-        <Link href="/" className="text-accent">
-          <p className="pb-3 font-vollkorn text-xl">thefoodie.space</p>
-          <Image
-            alt="cat in a planet rice bowl"
-            src="/logo.png"
-            width={48}
-            height={48}
-          />
+      <div title="tomato village" className="hidden sm:block mt-2">
+        <Link href="/" className="flex items-center gap-2">
+          <div>
+            <Image
+              alt="cat in a planet rice bowl"
+              src="/logo.png"
+              width={48}
+              height={48}
+            />
+          </div>
+          <p className="font-vollkorn text-2xl" style={{ lineHeight: 0.6 }}>
+            <span className="text-lg pl-3" style={{ lineHeight: 0.65 }}>
+              the
+            </span>
+            <br />
+            foodie
+            <br />
+            <span className="pl-2">space</span>
+          </p>
         </Link>
       </div>
       <div className="mt-2 flex flex-1 flex-col justify-between font-vollkorn text-xl sm:mt-6">

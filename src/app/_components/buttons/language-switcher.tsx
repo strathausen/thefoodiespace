@@ -16,7 +16,9 @@ export const LanguageSwitcher = () => {
       className="relative text-primary-darker"
       onClick={() => setShowLanguage(!showLanguage)}
     >
-      <FaLanguage />
+      <div className="flex items-center gap-4">
+        <FaLanguage /> {locale}
+      </div>
       {showLanguage && (
         <div className="absolute bottom-0 left-0 -mb-1 ml-8 flex flex-row gap-2 rounded bg-white/60 px-3 py-1 shadow">
           {locales.map((lang) => (
