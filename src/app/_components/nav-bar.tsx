@@ -62,7 +62,7 @@ export function NavBar(props: Props) {
     <div className="absolute bottom-0 z-50 flex h-screen max-h-[80px] w-full flex-row bg-white/60 pb-4 pt-2 text-sm backdrop-blur-sm backdrop-brightness-110 sm:top-0 sm:max-h-none sm:w-fit sm:flex-col sm:bg-transparent sm:pl-6 sm:backdrop-blur-none sm:backdrop-brightness-100">
       <div title="tomato village" className="hidden sm:block">
         <Link href="/" className="text-accent">
-          <p className="font-vollkorn text-xl pb-3">thefoodie.space</p>
+          <p className="pb-3 font-vollkorn text-xl">thefoodie.space</p>
           <Image
             alt="cat in a planet rice bowl"
             src="/logo.png"
@@ -115,11 +115,19 @@ export function NavBar(props: Props) {
             <span className="text-sm sm:text-xl">{t("profile")}</span>
           </Link>
         </div>
-        <div className="hidden sm:block">
+        <div className="hidden text-primary-darker sm:block">
+          <div className="pb-3">
+            <Link
+              href="https://www.zupafeed.com/campaign/clsa7g66k0007u2z77f2g0e4o"
+              target="_blank"
+            >
+              give me feedback 🔥
+            </Link>
+          </div>
           <LanguageSwitcher />
           <Link
             href={props.session ? "/api/auth/signout" : "/api/auth/signin"}
-            className="flex items-center gap-4 rounded-sm text-primary-darker transition"
+            className="flex items-center gap-4 rounded-sm transition"
           >
             <FaDoorOpen /> {props.session ? t("logout") : t("login")}
           </Link>
