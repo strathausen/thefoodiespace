@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import {
   FaBell,
   FaBookBookmark,
@@ -60,8 +61,14 @@ export function NavBar(props: Props) {
   return (
     <div className="absolute bottom-0 z-50 flex h-screen max-h-[80px] w-full flex-row bg-white/60 pb-4 pt-2 text-sm backdrop-blur-sm backdrop-brightness-110 sm:top-0 sm:max-h-none sm:w-fit sm:flex-col sm:bg-transparent sm:pl-6 sm:backdrop-blur-none sm:backdrop-brightness-100">
       <div title="tomato village" className="hidden sm:block">
-        <Link href="/" className="gap-3 text-2xl text-accent">
-          <p className="font-vollkorn drop-shadow-hard">thefoodie.space</p>
+        <Link href="/" className="text-accent">
+          <p className="font-vollkorn text-xl pb-3">thefoodie.space</p>
+          <Image
+            alt="cat in a planet rice bowl"
+            src="/logo.png"
+            width={48}
+            height={48}
+          />
         </Link>
       </div>
       <div className="mt-2 flex flex-1 flex-col justify-between font-vollkorn text-xl sm:mt-6">
