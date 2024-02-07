@@ -33,13 +33,15 @@ export const RecipeTile = (props: Props) => {
         </Link>
         <div className="group relative">
           <Link href={`/recipe/${props.id}`}>
-            <Image
-              className="m-auto h-[200px] w-[200px] rounded-md object-cover"
-              height={200}
-              width={200}
-              src={props.imageUrl}
-              alt="recipe image"
-            />
+            {props.imageUrl && (
+              <Image
+                className="m-auto h-[200px] w-[200px] rounded-md object-cover"
+                height={200}
+                width={200}
+                src={props.imageUrl}
+                alt="recipe image"
+              />
+            )}
           </Link>
           {props.showEdit && (
             <Link
@@ -56,7 +58,7 @@ export const RecipeTile = (props: Props) => {
               <Image
                 width={28}
                 height={28}
-                src={props.profileImageUrl}
+                src={props.profileImageUrl ?? "/default-profile.webp"}
                 alt="profile image"
                 className="mx-1 h-[28px] w-[28px] rounded-lg object-cover shadow-md"
               />

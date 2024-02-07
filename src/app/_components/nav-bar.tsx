@@ -66,12 +66,12 @@ export function NavBar(props: Props) {
             <Image
               alt="cat in a planet rice bowl"
               src="/logo.png"
-              width={48}
-              height={48}
+              width={52}
+              height={52}
             />
           </div>
           <p className="font-vollkorn text-2xl" style={{ lineHeight: 0.6 }}>
-            <span className="text-lg pl-3" style={{ lineHeight: 0.65 }}>
+            <span className="text-lg relative" style={{ lineHeight: 0.65,left:12 }}>
               the
             </span>
             <br />
@@ -131,7 +131,7 @@ export function NavBar(props: Props) {
               href="https://www.zupafeed.com/campaign/clsa7g66k0007u2z77f2g0e4o"
               target="_blank"
             >
-              give me feedback 🔥
+              feed me feedback 🔥
             </Link>
           </div>
           <LanguageSwitcher />

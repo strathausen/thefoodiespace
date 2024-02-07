@@ -58,18 +58,16 @@ export default async function UserPage({
             {userProfile.pronouns}
           </p>
         )}
-        {userProfile.image && (
-          <div className="flex justify-center">
-            <Image
-              className="rounded-lg object-cover shadow-md"
-              src={userProfile.image ?? "/default-profile-image.webp"}
-              alt={userProfile.name!}
-              width={200}
-              height={200}
-              style={{ width: 200, height: 200 }}
-            />
-          </div>
-        )}
+        <div className="flex justify-center">
+          <Image
+            className="rounded-lg object-cover shadow-md"
+            src={userProfile.image ?? "/default-profile.webp"}
+            alt={userProfile.name!}
+            width={200}
+            height={200}
+            style={{ width: 200, height: 200 }}
+          />
+        </div>
         <div>
           {userProfile.links.map((link) => {
             // if link doesn't have http or https, add https

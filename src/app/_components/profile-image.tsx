@@ -9,7 +9,7 @@ export const ProfileImage = (props: Props) => {
   const { size, imageUrl } = props;
   return (
     <Image
-      src={imageUrl ?? "/default-profile-image.webp"}
+      src={imageUrl ?? "/default-profile.webp"}
       width={size}
       height={size}
       alt="profile image"

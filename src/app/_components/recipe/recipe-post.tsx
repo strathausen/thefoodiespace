@@ -43,7 +43,7 @@ export const RecipePost = (props: Props) => {
               <Image
                 width={42}
                 height={40}
-                src={props.profileImageUrl ?? "/default-profile-image.webp"}
+                src={props.profileImageUrl ?? "/default-profile.webp"}
                 alt="profile image"
                 className="h-[40px] w-[42px] rounded-lg object-cover object-center"
               />
@@ -75,13 +75,15 @@ export const RecipePost = (props: Props) => {
           </div>
           <div className="relative">
             <Link href={`/recipe/${props.id}`}>
-              <Image
-                className="h-[400px] w-[400px] rounded-md object-cover object-center"
-                height={400}
-                width={400}
-                alt="description tbd"
-                src={props.imageUrl}
-              />
+              {props.imageUrl && (
+                <Image
+                  className="h-[400px] w-[400px] rounded-md object-cover object-center"
+                  height={400}
+                  width={400}
+                  alt="description tbd"
+                  src={props.imageUrl}
+                />
+              )}
             </Link>
             {!!props.ingredients.length && (
               <RecipeInlineDetails

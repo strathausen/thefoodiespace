@@ -92,7 +92,7 @@ export default function ProfilePage() {
               >
                 <div className="mb-2 flex justify-center">
                   <Image
-                    src={image ?? "/default-profile-image.webp"}
+                    src={image ?? "/default-profile.webp"}
                     width={size}
                     height={size}
                     className="rounded-lg border-4 border-white object-cover shadow-md"

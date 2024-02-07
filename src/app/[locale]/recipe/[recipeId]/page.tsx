@@ -66,9 +66,7 @@ export default async function RecipePage(props: Props) {
                     <Image
                       width={28}
                       height={28}
-                      src={
-                        recipe.createdBy.image ?? "/default-profile-image.webp"
-                      }
+                      src={recipe.createdBy.image ?? "/default-profile.webp"}
                       alt="profile image"
                       className="h-[28px] w-[28px] rounded-lg object-cover shadow-md"
                     />
@@ -87,14 +85,16 @@ export default async function RecipePage(props: Props) {
               className={`mt-6 flex flex-row ${recipe.text?.trim() ? "justify-between" : "justify-center"} gap-4`}
             >
               <div className="flex flex-col">{recipe.text}</div>
-              <Image
-                src={recipe.images[0]!}
-                width={300}
-                height={300}
-                alt={recipe.name}
-                className="rounded object-cover"
-                style={{ width: 300, height: 300 }}
-              />
+              {recipe.images?.[0] && (
+                <Image
+                  src={recipe.images[0]}
+                  width={300}
+                  height={300}
+                  alt={recipe.name}
+                  className="rounded object-cover"
+                  style={{ width: 300, height: 300 }}
+                />
+              )}
             </div>
             {recipe.ingredients.length > 0 && (
               <RecipeIngredients
