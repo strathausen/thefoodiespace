@@ -70,7 +70,7 @@ export default async function RecipePage(props: Props) {
                       alt="profile image"
                       className="h-[28px] w-[28px] rounded-lg object-cover shadow-md"
                     />
-                    <div className="max-w-[105px]">
+                    <div>
                       <p>{recipe.createdBy.name}</p>
                     </div>
                     <ServerClientEmbed locale={locale}>

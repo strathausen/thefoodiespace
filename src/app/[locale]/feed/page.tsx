@@ -4,7 +4,7 @@ import { AuthPage } from "api/auth/auth-page";
 import { RecipePost } from "components/recipe/recipe-post";
 import { useCurrentLocale, useI18n } from "locales/client";
 import { useState } from "react";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function MyRecipePage() {
   const [explore, setExplore] = useState(false);
@@ -13,7 +13,7 @@ export default function MyRecipePage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const locale = useCurrentLocale();
 
-  // const session = useSession();
+  const session = useSession();
   const { data: recipes } = api.recipe.feed.useQuery({ explore });
 
   return (
@@ -54,6 +54,7 @@ export default function MyRecipePage() {
                     }
                     myComments={r.comments}
                     ingredients={r.ingredients}
+                    user={session.data?.user}
                     locale={locale}
                   />
                 </div>
