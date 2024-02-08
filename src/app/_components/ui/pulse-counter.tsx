@@ -11,6 +11,7 @@ type Props = {
   onClick?: () => Promise<void>;
 };
 
+// TODO this is only really used by the like button...maybe we don't need this component?
 export const PulseCounter = (props: Props) => {
   const [active, setActive] = useState(props.active);
   const [count, setCount] = useState(props.count);
@@ -40,8 +41,8 @@ export const PulseCounter = (props: Props) => {
         try {
           await props.onClick();
         } catch (e) {
-          setActive(!active);
-          setCount(active ? count - 1 : count + 1);
+          setActive(active);
+          setCount(count);
         }
       }}
     >

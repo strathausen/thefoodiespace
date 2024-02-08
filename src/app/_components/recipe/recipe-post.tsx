@@ -10,10 +10,7 @@ import { RecipeComments } from "./recipe-comments";
 import { FollowButton } from "components/buttons/follow-button";
 import { RecipeInlineDetails } from "./recipe-inline-details";
 import { type Session } from "next-auth";
-import {
-  ServerClientEmbed,
-  ServerClientEmbedPrompt,
-} from "components/server-client-embed";
+import { FaRegBookmark } from "react-icons/fa6";
 
 type Props = {
   id: string;
@@ -56,21 +53,17 @@ export const RecipePost = (props: Props) => {
                 >
                   <p>{props.profileName}</p>
                   <div className="text-sm text-green-950/50">
-                    <ServerClientEmbed locale={props.locale}>
-                      <FollowButton userId={props.profileId} />
-                    </ServerClientEmbed>
+                    {props.user && <FollowButton userId={props.profileId} />}
                   </div>
                 </Link>
                 <p className="text-xs text-green-950/60">
                   {dayjs(props.publishedAt).format("D MMM YYYY")}
                 </p>
               </div>
-              <ServerClientEmbed locale={props.locale}>
-                <RecipePostDropdown
-                  recipeId={props.id}
-                  profileId={props.profileId}
-                />
-              </ServerClientEmbed>
+              <RecipePostDropdown
+                recipeId={props.id}
+                profileId={props.profileId}
+              />
             </div>
           </div>
           <div className="relative">
@@ -93,20 +86,20 @@ export const RecipePost = (props: Props) => {
             )}
           </div>
           <div className="flex flex-col gap-2 px-1">
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-row justify-end gap-3">
-                <RecipeLikeButton
-                  recipeId={props.id}
-                  likeCount={props.likeCount}
-                  liked={props.liked}
-                />
-                <div className="max-w-[330px] overflow-hidden overflow-ellipsis whitespace-nowrap font-semibold">
-                  {props.title}
-                </div>
+            <div className="flex items-center  space-x-4">
+              <RecipeLikeButton
+                recipeId={props.id}
+                likeCount={props.likeCount}
+                liked={props.liked}
+              />
+              <div className="w-0 flex-1 truncate font-semibold">
+                {props.title}
               </div>
-              <div className="flex gap-2">
+              {props.user ? (
                 <BookmarkButton recipeId={props.id} />
-              </div>
+              ) : (
+                <FaRegBookmark title="sign in to bookmark" />
+              )}
             </div>
             <Link href={`/recipe/${props.id}`}>
               <div className="max-w-[392px]">
@@ -114,14 +107,22 @@ export const RecipePost = (props: Props) => {
               </div>
             </Link>
           </div>
-          {props.user && (
-            <ServerClientEmbedPrompt locale={props.locale}>
-              <RecipeComments
-                recipeId={props.id}
-                comments={props.myComments}
-                commentCount={props.commentCount}
-              />
-            </ServerClientEmbedPrompt>
+          {props.user ? (
+            <RecipeComments
+              recipeId={props.id}
+              comments={props.myComments}
+              commentCount={props.commentCount}
+            />
+          ) : (
+            <div className="text-center text-sm text-gray-500">
+              <Link
+                href="/api/auth/signin"
+                className="underline decoration-accent"
+              >
+                Sign in
+              </Link>{" "}
+              to leave a comment
+            </div>
           )}
         </div>
       </Container>

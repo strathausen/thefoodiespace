@@ -13,7 +13,7 @@ export const RecipeInlineDetails = (props: Props) => {
   return (
     <>
       <div
-        className={`absolute bottom-0 top-0 w-full rounded-md bg-white/60 p-4 ${showDetails ? "opacity-100" : "pointer-events-none opacity-0"} backdrop-blur-sm transition`}
+        className={`absolute bottom-0 top-0 w-full rounded-md bg-white/60 p-4 ${showDetails ? "opacity-100" : "pointer-events-none opacity-0"} backdrop-blur transition`}
       >
         {props.ingredients.map((ingredient, index) => (
           <div
@@ -27,7 +27,7 @@ export const RecipeInlineDetails = (props: Props) => {
         ))}
       </div>
       <button
-        className={`absolute right-0 top-5 rounded-l-xl bg-white/40 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur transition hover:bg-white/70`}
+        className={`absolute right-0 top-5 rounded-l-xl bg-white/40 pb-3 pl-4 pr-3 pt-3 text-2xl backdrop-blur-xl transition hover:bg-white/70`}
         onClick={() => setShowDetails(!showDetails)}
       >
         {showDetails ? <FaX /> : <FaKitchenSet />}

@@ -16,6 +16,8 @@ import {
 import { createRecipeJson } from "@/utils/create-recipe-json";
 import { Heading } from "components/typography/Heading2";
 import { RecipeIngredients } from "components/recipe/recipe-ingredients";
+import { getServerAuthSession } from "@/server/auth";
+import { FaPen, FaRegBookmark } from "react-icons/fa6";
 
 type Props = {
   params: {
@@ -38,6 +40,7 @@ export async function generateMetadata({
 
 export default async function RecipePage(props: Props) {
   const recipe = await api.recipe.get.query(props.params.recipeId);
+  const session = await getServerAuthSession();
   const locale = getCurrentLocale();
 
   if (!recipe) {
@@ -53,10 +56,18 @@ export default async function RecipePage(props: Props) {
       />
       <main className="m-auto my-6 flex w-full max-w-2xl flex-col">
         <Container>
-          <div className="p-6">
+          <div className="relative p-6">
             <h1 className="text-center font-vollkorn text-3xl font-semibold">
               {recipe.name}
             </h1>
+            {recipe.createdById === session?.user?.id && (
+              <Link
+                href={`/editor/${recipe.id}`}
+                className="absolute right-3 top-3 flex items-center gap-2"
+              >
+                <FaPen /> edit recipe
+              </Link>
+            )}
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
             <div className="flex flex-row justify-center gap-2">
               <p>by</p>
@@ -73,9 +84,12 @@ export default async function RecipePage(props: Props) {
                     <div>
                       <p>{recipe.createdBy.name}</p>
                     </div>
-                    <ServerClientEmbed locale={locale}>
-                      <FollowButton userId={recipe.createdBy.id} />
-                    </ServerClientEmbed>
+                    {session?.user &&
+                      session.user.id !== recipe.createdById && (
+                        <ServerClientEmbed locale={locale}>
+                          <FollowButton userId={recipe.createdBy.id} />
+                        </ServerClientEmbed>
+                      )}
                   </div>
                 </div>
               </Link>
@@ -141,7 +155,7 @@ export default async function RecipePage(props: Props) {
               </div>
             )}
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
-            <div className="mt-2 flex gap-3">
+            <div className="mt-2 flex items-center justify-center gap-3">
               <RecipeLikeButton
                 recipeId={recipe.id}
                 likeCount={recipe.likeCount}
@@ -151,7 +165,11 @@ export default async function RecipePage(props: Props) {
                   ).length
                 }
               />
-              <BookmarkButton recipeId={recipe.id} />
+              {session?.user ? (
+                <BookmarkButton recipeId={recipe.id} />
+              ) : (
+                <FaRegBookmark title="sign in to bookmark" />
+              )}
             </div>
             <hr className="mb-3 mt-3 border-t-2 border-stone-950" />
             <div className="flex flex-col items-center">

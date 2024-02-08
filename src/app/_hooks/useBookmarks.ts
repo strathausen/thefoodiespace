@@ -27,7 +27,6 @@ export const useBookmarks = () => {
   return {
     recipeIds: data?.items.map((f) => f.recipe.id) ?? [],
     bookmarks: data?.items ?? [],
-    refetch,
     isFetched,
     bookmark,
     unbookmark,

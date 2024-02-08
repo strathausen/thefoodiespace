@@ -14,7 +14,7 @@ export default function MyRecipePage() {
   const locale = useCurrentLocale();
 
   const session = useSession();
-  const { data: recipes } = api.recipe.feed.useQuery({ explore });
+  const { data: recipes, isLoading } = api.recipe.feed.useQuery({ explore });
 
   return (
     <main className="">
@@ -33,7 +33,7 @@ export default function MyRecipePage() {
             explore
           </button>
         </div>
-        <div className="m-auto mt-4">
+        <div className="mx-auto mt-4">
           {recipes?.map((r) => {
             return (
               <div key={r.id} className="mb-2">
@@ -63,7 +63,7 @@ export default function MyRecipePage() {
           })}
           {!recipes?.length && (
             <div className="text-center text-2xl font-bold">
-              no recipes found
+              {isLoading ? "loading... 🐌" : "no recipes found"}
             </div>
           )}
         </div>

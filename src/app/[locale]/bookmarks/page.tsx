@@ -20,6 +20,8 @@ export default function BookmarksPage() {
                   profileImageUrl={recipe.createdBy.image!}
                   profileName={recipe.createdBy.name!}
                   title={recipe.name}
+                  published={true}
+                  loggedIn={true}
                 />
               </div>
             ))}

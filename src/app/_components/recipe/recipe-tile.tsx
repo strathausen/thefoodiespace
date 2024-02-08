@@ -1,7 +1,7 @@
 import { BookmarkButton } from "components/buttons/bookmark-button";
 import Image from "next/image";
 import Link from "next/link";
-import { FaPen } from "react-icons/fa6";
+import { FaPen, FaRegBookmark } from "react-icons/fa6";
 import { Container } from "ui/container";
 
 type Props = {
@@ -12,12 +12,14 @@ type Props = {
   profileName: string;
   profileId: string;
   showEdit?: boolean;
-  published?: boolean;
+  published: boolean;
+  loggedIn: boolean;
 };
 
 // just a rounded picture, below it the name and profile picture of the user who posted the recipe
 // along with the user name
 export const RecipeTile = (props: Props) => {
+  const loggedIn = props.loggedIn ?? false;
   return (
     <Container>
       <div className="relative flex flex-col gap-3 p-2">
@@ -72,7 +74,11 @@ export const RecipeTile = (props: Props) => {
               </Link>
             </div>
           </div>
-          <BookmarkButton recipeId={props.id} />
+          {loggedIn ? (
+            <BookmarkButton recipeId={props.id} />
+          ) : (
+            <FaRegBookmark />
+          )}
         </div>
       </div>
     </Container>

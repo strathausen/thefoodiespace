@@ -29,10 +29,7 @@ export const BookmarkButton = ({ recipeId }: Props) => {
   }, [isBookmarked, recipeId, recipeIds]);
 
   return (
-    <button
-      className="flex items-center gap-1 transition hover:scale-125"
-      onClick={onToggleBookmark}
-    >
+    <button className="transition hover:scale-125" onClick={onToggleBookmark}>
       {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
     </button>
   );

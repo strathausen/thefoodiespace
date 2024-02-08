@@ -3,18 +3,17 @@ import React from "react";
 import { useFollowings } from "hooks/useFollowings";
 import { FaUserPlus } from "react-icons/fa";
 import { FaUserMinus } from "react-icons/fa6";
-import { useSession } from "next-auth/react";
 
 type Props = {
+  myUserId?: string;
   userId: string;
 };
 
-export const FollowButton = ({ userId }: Props) => {
+export const FollowButton = ({ userId, myUserId }: Props) => {
   const { ids, follow, unfollow, isFetched } = useFollowings();
   const isFollowing = ids.includes(userId);
-  const session = useSession();
 
-  if (session.data?.user?.id === userId) return null;
+  if (myUserId === userId) return null;
 
   return (
     <div className="transition hover:scale-125">

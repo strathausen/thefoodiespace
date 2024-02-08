@@ -164,7 +164,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     setSteps(recipe.steps as RecipeStep[]); // TODO fix the typing issue here
     setRecipeInfos((infos) => {
       return infos.map((info) => {
-        const value = recipe.info[info.key]!
+        const value = recipe.info[info.key]!;
         return { ...info, value };
       });
     });
@@ -210,11 +210,13 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     if (!id) return;
     await publishMutation.mutateAsync({ id });
     await get.refetch();
+    router.refresh();
   };
   const onUnpublish = async () => {
     if (!id) return;
     await unpublishMutation.mutateAsync({ id });
     await get.refetch();
+    router.refresh();
   };
 
   const ActionBar = () => (

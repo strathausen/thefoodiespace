@@ -7,13 +7,21 @@ export const useFollowings = () => {
   const unfollowMutation = api.follow.unfollow.useMutation();
 
   const follow = async (id: string) => {
-    await followMutation.mutateAsync({ id });
-    await refetch();
+    try {
+      await followMutation.mutateAsync({ id });
+      await refetch();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const unfollow = async (id: string) => {
-    await unfollowMutation.mutateAsync({ id });
-    await refetch();
+    try {
+      await unfollowMutation.mutateAsync({ id });
+      await refetch();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return {

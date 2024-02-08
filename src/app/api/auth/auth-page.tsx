@@ -14,7 +14,7 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
     );
   }
   return (
-    <div className="text-text">
+    <div className="text-text m-auto">
       Not logged in, please{" "}
       <Link className="underline decoration-accent" href="/api/auth/signin">
         sign in

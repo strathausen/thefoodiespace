@@ -48,9 +48,11 @@ export default async function UserPage({
         <h1 className="flex items-baseline justify-center font-vollkorn text-2xl">
           {userProfile.name}
           <span className="relative left-2 w-0 text-lg text-stone-700/60">
-            <ServerClientEmbed locale={params.locale}>
-              <FollowButton userId={userProfile.id} />
-            </ServerClientEmbed>
+            {session?.user && session.user.id !== userProfile.id && (
+              <ServerClientEmbed locale={params.locale}>
+                <FollowButton userId={userProfile.id} />
+              </ServerClientEmbed>
+            )}
           </span>
         </h1>
         {userProfile.pronouns && (
@@ -96,6 +98,7 @@ export default async function UserPage({
               profileId={userProfile.id}
               showEdit={true}
               published={!!recipe.publishedAt}
+              loggedIn={!!session?.user}
             />
           ))}
         </div>

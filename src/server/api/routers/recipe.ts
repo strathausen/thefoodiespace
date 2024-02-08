@@ -28,6 +28,7 @@ const select = {
   likeCount: true,
   commentCount: true,
   publishedAt: true,
+  status: true,
 };
 
 const selectWithUser = (userId: string) => {
@@ -258,7 +259,7 @@ export const recipeRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.recipe.update({
         where: { id: input.id },
-        data: { status: "DRAFT" },
+        data: { status: "DRAFT", publishedAt: null },
       });
     }),
 });

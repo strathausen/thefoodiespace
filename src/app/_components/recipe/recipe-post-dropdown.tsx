@@ -1,17 +1,16 @@
 "use client";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
 type Props = {
+  userId?: string;
   recipeId: string;
   profileId: string;
 };
 
 export const RecipePostDropdown = (props: Props) => {
-  const session = useSession();
-  const isMine = session.data?.user?.id === props.profileId;
+  const isMine = props.userId === props.profileId;
 
   const options = [
     {
@@ -27,7 +26,7 @@ export const RecipePostDropdown = (props: Props) => {
   ];
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!session.data) return null;
+  if (!props.userId) return null;
 
   return (
     <div className="relative z-20 flex cursor-pointer flex-col gap-0.5 px-2 py-1">
