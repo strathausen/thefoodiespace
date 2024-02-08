@@ -146,7 +146,7 @@ export const recipeRouter = createTRPCRouter({
     if (!userId) {
       const recipe = await ctx.db.recipe.findUniqueOrThrow({
         where,
-        select: { steps: true, status: true, ...select },
+        select: { steps: true, ...select },
       });
       return {
         ...recipe,
@@ -155,7 +155,7 @@ export const recipeRouter = createTRPCRouter({
     }
     return ctx.db.recipe.findUniqueOrThrow({
       where,
-      select: { steps: true, status: true, ...selectWithUser(userId) },
+      select: { steps: true, ...selectWithUser(userId) },
     });
   }),
 

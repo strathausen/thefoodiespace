@@ -10,9 +10,9 @@ generator json {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL")
+    directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 enum Role {
@@ -200,6 +200,14 @@ model Recipe {
     commentCount Int @default(0) @map("comment_count")
     shareCount   Int @default(0) @map("share_count")
 
+    aiSummary     String?   @map("ai_summary")
+    aiIndex       String?   @map("ai_index")
+    aiTags        String[]  @map("ai_tags")
+    aiRatings     String[]  @map("ai_ratings") // ok, spam, nsfw, offtopic, offensive
+    aiImageTexts  String[]  @map("ai_image_texts")
+    aiProcessedAt DateTime? @map("ai_processed_at") // if it's less than updatedAt, it needs to be reprocessed
+    textIndex     String?   @map("text_index")
+
     reactions     Reaction[]
     bookmarks     Bookmark[]
     comments      Comment[]
@@ -272,6 +280,8 @@ model Comment {
 
     recipe   Recipe @relation(fields: [recipeId], references: [id])
     recipeId String @map("recipe_id")
+
+    aiRatings String[] @map("ai_ratings") // ok, spam, nsfw, offtopic, offensive
 
     @@map("comments")
 }
