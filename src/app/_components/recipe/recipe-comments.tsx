@@ -32,7 +32,16 @@ export const RecipeComments = (props: Props) => {
     { recipeId: props.recipeId },
     { enabled: false },
   );
-  const { user } = session.data!;
+
+  useEffect(() => {
+    if (allComments.data) {
+      setComments(allComments.data);
+    }
+  }, [allComments.data]);
+
+  if (!session.data) return null;
+
+  const { user } = session.data;
 
   async function onCommentSubmit() {
     if (!comment.trim() || !user) {
@@ -62,12 +71,6 @@ export const RecipeComments = (props: Props) => {
     setCommentCount((c) => c - 1);
     await deleteComment.mutateAsync(id);
   }
-
-  useEffect(() => {
-    if (allComments.data) {
-      setComments(allComments.data);
-    }
-  }, [allComments.data]);
 
   const hasComments =
     commentCount - comments.filter(isMine(session.data?.user.id)).length > 0;

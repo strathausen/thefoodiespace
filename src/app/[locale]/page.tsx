@@ -2,15 +2,20 @@ import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import { RecipePost } from "components/recipe/recipe-post";
 import { getCurrentLocale } from "locales/server";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const feed = await api.recipe.publicFeed.query({});
   const session = await getServerAuthSession();
   const locale = getCurrentLocale();
 
+  if (session?.user) {
+    redirect("/feed");
+  }
+
   return (
     <main>
-      <div className="container flex flex-col items-center justify-center gap-3 px-4 mt-5">
+      <div className="container mt-5 flex flex-col items-center justify-center gap-3 px-4">
         {feed.map((r) => (
           <div key={r.id} className="mx-auto flex justify-center">
             <RecipePost
@@ -27,7 +32,7 @@ export default async function Home() {
               liked={false}
               myComments={[]}
               ingredients={r.ingredients}
-              user={session?.user}
+              user={undefined}
               locale={locale}
             />
           </div>
