@@ -10,10 +10,10 @@ generator json {
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("POSTGRES_PRISMA_URL")
-    directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
 }
+    //directUrl = env("POSTGRES_URL_NON_POOLING")
 
 enum Role {
     ADMIN
@@ -201,7 +201,7 @@ model Recipe {
     shareCount   Int @default(0) @map("share_count")
 
     aiSummary     String?   @map("ai_summary")
-    aiIndex       String?   @map("ai_index")
+    aiIndex       String?   @map("ai_index") // keywords, tags, etc, used for semantic search
     aiTags        String[]  @map("ai_tags")
     aiRatings     String[]  @map("ai_ratings") // ok, spam, nsfw, offtopic, offensive
     aiImageTexts  String[]  @map("ai_image_texts")
@@ -272,6 +272,7 @@ model Comment {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
+    banned    Boolean? @default(false)
 
     text String
 
