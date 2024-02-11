@@ -52,11 +52,11 @@ const recipeNamesAndDescriptions = {
     "ok, spam, nsfw, profane, irrelevant, not a recipe, etc. comma separated",
 };
 
-export async function getRecipeData(
-  recipe: Recipe,
-): Promise<typeof recipeNamesAndDescriptions> {
-  return {
-    foo: "bar",
-    summary: "summary in two sentences",
-  };
-}
+// export async function getRecipeData(
+//   recipe: Recipe,
+// ): Promise<typeof recipeNamesAndDescriptions> {
+//   return {
+//     foo: "bar",
+//     summary: "summary in two sentences",
+//   };
+// }
