@@ -3,7 +3,7 @@ export const ServerLoginButton = () => {
     <div className="flex min-h-screen flex-col items-center justify-center text-text">
       Not logged in, please{" "}
       <a className="underline decoration-accent" href="/api/auth/signin">
-        sign in
+        sign in 🥙
       </a>
     </div>
   );
