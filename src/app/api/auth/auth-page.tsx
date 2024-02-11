@@ -7,7 +7,7 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
   if (session.status === "loading") {
     return (
       <div className="flex flex-col items-center justify-center text-text">
-        Loading...
+        Loading session...
       </div>
     );
   }
@@ -17,8 +17,9 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
       <div className="m-auto text-text">
         Not logged in, please{" "}
         <Link className="underline decoration-accent" href="/api/auth/signin">
-          sign in ✨
+          sign in
         </Link>
+        ✨<pre>{JSON.stringify(session, null, 2)}</pre>
       </div>
     );
   }
