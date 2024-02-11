@@ -12,12 +12,12 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (session.status === "unauthenticated" || !session.data?.user) {
+  if (!session.data?.user) {
     return (
       <div className="m-auto text-text">
         Not logged in, please{" "}
         <Link className="underline decoration-accent" href="/api/auth/signin">
-          sign in
+          sign in ✨
         </Link>
       </div>
     );
