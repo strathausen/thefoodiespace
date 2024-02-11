@@ -1,6 +1,5 @@
 "use client";
 import { api } from "@/trpc/react";
-import { AuthPage } from "api/auth/auth-page";
 import { RecipePost } from "components/recipe/recipe-post";
 import { useCurrentLocale, useI18n } from "locales/client";
 import { useState } from "react";
@@ -18,7 +17,6 @@ export default function MyRecipePage() {
 
   return (
     <main className="">
-      <AuthPage>
         <div className="mt-8 flex justify-center font-vollkorn text-2xl">
           <button
             className={`rounded-md px-4 py-2 text-gray-800 ${explore ? "opacity-50" : ""}`}
@@ -67,7 +65,6 @@ export default function MyRecipePage() {
             </div>
           )}
         </div>
-      </AuthPage>
     </main>
   );
 }
