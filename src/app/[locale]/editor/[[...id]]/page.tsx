@@ -100,7 +100,7 @@ const inputClassName = "w-full rounded shadow px-2 py-1";
 export default function RecipePage({ params }: { params: { id: string[] } }) {
   const id = params.id ? params.id[0] : undefined;
   const [text, setText] = useState<string>("");
-  const [name, setName] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [sourceUrl, setSourceUrl] = useState<string>("");
   const [steps, setSteps] = useState<RecipeStep[]>([{ ...emptyRecipeStep }]);
   const [images, setImages] = useState<string[]>([]);
@@ -121,7 +121,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   const saveRecipe = async () => {
     await create.mutateAsync({
       id,
-      name,
+      title,
       text,
       sourceUrl,
       images,
@@ -155,7 +155,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     if (!get.isSuccess || !recipe) {
       return;
     }
-    setName(recipe.name);
+    setTitle(recipe.title);
     setText(recipe.text ?? "");
     setSourceUrl(recipe.sourceUrl ?? "");
     setImages(recipe.images);
@@ -246,9 +246,9 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
         </button> */}
         <button
           className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
-          disabled={create.isLoading || !name}
+          disabled={create.isLoading || !title}
           onClick={saveRecipe}
-          title={!name ? "name is required" : ""}
+          title={!title ? "name is required" : ""}
         >
           💾 {id ? "update" : "create"} recipe
         </button>
@@ -285,8 +285,8 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
                 <input
                   className={inputClassName}
                   placeholder="give it a punchy title"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
                 <input
                   className={inputClassName}

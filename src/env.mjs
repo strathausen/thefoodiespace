@@ -29,6 +29,7 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: z.string(),
     FACEBOOK_CLIENT_ID: z.string(),
     FACEBOOK_CLIENT_SECRET: z.string(),
+    OPENAI_API_KEY: z.string(),
   },
 
   /**
@@ -58,6 +59,7 @@ export const env = createEnv({
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
     FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -7,7 +7,7 @@ export function createRecipeJson(
   return {
     "@context": "https://schema.org",
     "@type": "Recipe",
-    name: recipe.name,
+    name: recipe.title,
     image: recipe.images,
     author: {
       "@type": "Person",

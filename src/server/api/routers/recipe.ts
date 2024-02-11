@@ -10,7 +10,7 @@ import { sendReactionNotification } from "@/server/services/notification-service
 
 const select = {
   id: true,
-  name: true,
+  title: true,
   text: true,
   images: true,
   info: true,

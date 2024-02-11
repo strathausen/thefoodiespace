@@ -6,9 +6,7 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
 
   if (session.status === "loading") {
     return (
-      <div className="flex flex-col items-center justify-center text-text">
-        Loading session...
-      </div>
+      <div className="flex flex-col items-center justify-center text-text"></div>
     );
   }
 

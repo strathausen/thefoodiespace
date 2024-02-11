@@ -10,7 +10,7 @@ export async function Feed() {
           {feed.map((recipe) => (
             // <FeedItem key={recipe.id} item={recipe} />
             <div key={recipe.id}>
-              <h1>{recipe.name}</h1>
+              <h1>{recipe.title}</h1>
               {/* <p>{recipe.}</p> */}
             </div>
           ))}

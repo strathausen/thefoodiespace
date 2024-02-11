@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const RecipeValidator = z.object({
   id: z.string().optional(),
-  name: z.string(),
+  title: z.string(),
   text: z.string().optional(),
   images: z.array(z.string()).optional(),
   sourceUrl: z.string().optional(),

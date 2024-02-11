@@ -10,7 +10,7 @@ export async function sendCommentNotification(
       id: true,
       text: true,
       createdAt: true,
-      recipe: { select: { id: true, name: true, createdById: true } },
+      recipe: { select: { id: true, title: true, createdById: true } },
       user: { select: { id: true, name: true, handle: true } },
     },
   });
@@ -37,7 +37,7 @@ export async function sendReactionNotification(db: PrismaClient, id: number) {
     select: {
       id: true,
       createdAt: true,
-      recipe: { select: { id: true, name: true, createdById: true } },
+      recipe: { select: { id: true, title: true, createdById: true } },
       user: { select: { id: true, name: true, handle: true } },
     },
   });

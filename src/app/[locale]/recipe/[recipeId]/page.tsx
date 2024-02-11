@@ -33,7 +33,7 @@ export async function generateMetadata({
     return null;
   }
   return {
-    title: recipe.name,
+    title: recipe.title,
     description: recipe.text,
   };
 }
@@ -58,7 +58,7 @@ export default async function RecipePage(props: Props) {
         <Container>
           <div className="relative p-6">
             <h1 className="text-center font-vollkorn text-3xl font-semibold">
-              {recipe.name}
+              {recipe.title}
             </h1>
             {recipe.createdById === session?.user?.id && (
               <Link
@@ -104,7 +104,7 @@ export default async function RecipePage(props: Props) {
                   src={recipe.images[0]}
                   width={300}
                   height={300}
-                  alt={recipe.name}
+                  alt={recipe.title}
                   className="rounded object-cover"
                   style={{ width: 300, height: 300 }}
                 />

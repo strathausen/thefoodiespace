@@ -2,11 +2,12 @@ import { OpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { RunnableSequence } from "@langchain/core/runnables";
-import { type Recipe } from "@prisma/client";
+import { env } from "@/env.mjs";
 
 export const openAIModel = new OpenAI({
   modelName: "gpt-4-turbo-preview",
   temperature: 0,
+  openAIApiKey: env.OPENAI_API_KEY,
 });
 
 // rate comments on recipes: relevance, helpfulness, kindness, spammyness, profanity, etc.

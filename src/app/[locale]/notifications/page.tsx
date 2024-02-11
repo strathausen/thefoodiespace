@@ -19,7 +19,7 @@ type NotificationContent = {
   text: string;
   recipe: {
     id: string;
-    name: string;
+    title: string;
   };
 };
 
@@ -51,7 +51,7 @@ const RecipeLink = ({
       href={`/recipe/${recipe.id}${href ? "#" + href : ""}`}
       className="font-semibold"
     >
-      {recipe.name}
+      {recipe.title}
     </Link>
   );
 };

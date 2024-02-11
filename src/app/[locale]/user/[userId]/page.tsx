@@ -90,7 +90,7 @@ export default async function UserPage({
               key={recipe.id}
               id={recipe.id}
               imageUrl={recipe.images[0]!}
-              title={recipe.name}
+              title={recipe.title}
               profileImageUrl={
                 userProfile.image ?? "/default-profile-image.webp"
               }

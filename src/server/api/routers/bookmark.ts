@@ -71,7 +71,7 @@ export const bookmarkRouter = createTRPCRouter({
           recipe: {
             select: {
               id: true,
-              name: true,
+              title: true,
               images: true,
               createdBy: { select: { id: true, name: true, image: true } },
             },
