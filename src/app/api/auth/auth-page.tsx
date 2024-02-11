@@ -19,7 +19,7 @@ function ShowLoginButton({ children }: { children: React.ReactNode }) {
         <Link className="underline decoration-accent" href="/api/auth/signin">
           sign in
         </Link>
-        ✨<pre>{JSON.stringify(session, null, 2)}</pre>
+        ✨
       </div>
     );
   }

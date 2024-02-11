@@ -96,8 +96,8 @@ export default async function UserPage({
               }
               profileName={userProfile.name!}
               profileId={userProfile.id}
-              showEdit={true}
-              published={!!recipe.publishedAt}
+              showEdit={userProfile.id === session?.user?.id}
+              published={recipe.status === "PUBLISHED"}
               loggedIn={!!session?.user}
             />
           ))}
