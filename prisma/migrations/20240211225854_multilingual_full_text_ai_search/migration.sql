@@ -13,9 +13,11 @@ CREATE TYPE "ModerationStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
 -- DropIndex
 DROP INDEX "recipes_name_idx";
 
+ALTER TABLE "recipes" RENAME COLUMN "name" TO "title";
+
 -- AlterTable
-ALTER TABLE "recipes" DROP COLUMN "ai_index",
-DROP COLUMN "name",
+ALTER TABLE "recipes"
+DROP COLUMN "ai_index",
 DROP COLUMN "text_index",
 ADD COLUMN     "ai_index_de" TEXT,
 ADD COLUMN     "ai_index_en" TEXT,
@@ -31,8 +33,7 @@ ADD COLUMN     "text_index_es" tsvector,
 ADD COLUMN     "text_index_fr" tsvector,
 ADD COLUMN     "text_index_id" tsvector,
 ADD COLUMN     "text_index_it" tsvector,
-ADD COLUMN     "text_index_ro" tsvector,
-ADD COLUMN     "title" TEXT NOT NULL;
+ADD COLUMN     "text_index_ro" tsvector;
 
 -- DropEnum
 DROP TYPE "PostType";
