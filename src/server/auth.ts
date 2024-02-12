@@ -1,3 +1,4 @@
+import axios from "axios";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import {
   getServerSession,
@@ -6,6 +7,9 @@ import {
 } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google";
+import InstagramProvider from "next-auth/providers/instagram";
+import { type FacebookProfile } from "next-auth/providers/facebook";
 import { Resend } from "resend";
 import { UTApi } from "uploadthing/server";
 
@@ -52,15 +56,9 @@ export const authOptions: NextAuthOptions = {
           const response = await fetch(user.image);
           const blob = await response.blob();
           const utRes = await ut.uploadFiles(blob);
-          await db.user.update({
-            where: { id: user.id },
-            data: { image: utRes.data?.url },
-          });
+          user.image = utRes.data?.url;
         } catch (error) {
-          await db.user.update({
-            where: { id: user.id },
-            data: { image: null },
-          });
+          user.image = null;
         }
       }
       return true;
@@ -75,10 +73,6 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(db),
   providers: [
-    //DiscordProvider({
-    //clientId: env.DISCORD_CLIENT_ID,
-    //clientSecret: env.DISCORD_CLIENT_SECRET,
-    //}),
     EmailProvider({
       server: "",
       from: "The Foodie Space <noreply@tomatovillage.com>",
@@ -99,6 +93,32 @@ export const authOptions: NextAuthOptions = {
       allowDangerousEmailAccountLinking: true,
       clientId: env.FACEBOOK_CLIENT_ID,
       clientSecret: env.FACEBOOK_CLIENT_SECRET,
+      // Make sure the profile is a high res picture
+      async profile(profile: FacebookProfile, tokens) {
+        // Profile id
+        const { id } = profile;
+        // Access token
+        const { access_token } = tokens;
+        // Graph API URL to return a large picture
+        const url = `https://graph.facebook.com/v10.0/${id}/picture?type=large&access_token=${access_token}`;
+        // GET req via axios
+        const response = await axios.get(url);
+        // Get the url for the large picture
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        const { responseUrl } = response.request.res as { responseUrl: string };
+        // Return customised next-auth user session
+        return {
+          id: profile.id,
+          name: profile.name as string,
+          email: profile.email as string,
+          image: responseUrl,
+        };
+      },
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     /**
      * ...add more providers here.
