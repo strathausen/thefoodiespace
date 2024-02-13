@@ -10,6 +10,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import InstagramProvider from "next-auth/providers/instagram";
 import { type FacebookProfile } from "next-auth/providers/facebook";
+import { type GoogleProfile } from "next-auth/providers/google";
 import { Resend } from "resend";
 import { UTApi } from "uploadthing/server";
 
@@ -119,6 +120,14 @@ export const authOptions: NextAuthOptions = {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
+      profile(profile: GoogleProfile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture.replace("=s96-c", "=s400-c"), // high res profile pic
+        };
+      },
     }),
     /**
      * ...add more providers here.

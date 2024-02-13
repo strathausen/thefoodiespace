@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "next build",
+    "index:prod": ". ./.env.production && tsx src/tools/index-all-recipes.ts",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "migrate:prod": ". ./.env.production && prisma migrate deploy",
@@ -32,6 +34,7 @@
     "@uploadthing/react": "^6.1.0",
     "@vercel/analytics": "^1.1.2",
     "@vercel/speed-insights": "^1.0.6",
+    "algoliasearch": "^4.22.1",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "langchain": "^0.1.16",
@@ -45,6 +48,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^5.0.1",
+    "react-instantsearch": "^7.5.5",
     "resend": "^2.1.0",
     "superjson": "^2.2.1",
     "uploadthing": "^6.1.1",
@@ -69,6 +73,7 @@
     "prisma-json-types-generator": "^3.0.3",
     "schema-dts": "^1.1.2",
     "tailwindcss": "^3.3.3",
+    "tsx": "^4.7.1",
     "typescript": "^5.1.6"
   },
   "ct3aMetadata": {

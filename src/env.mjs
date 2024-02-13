@@ -32,6 +32,9 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     OPENAI_API_KEY: z.string(),
+    ALGOLIA_APP_ID: z.string(),
+    ALGOLIA_READ_API_KEY: z.string(),
+    ALGOLIA_WRITE_API_KEY: z.string(),
   },
 
   /**
@@ -40,7 +43,8 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_ALGOLIA_APP_ID: z.string(),
+    NEXT_PUBLIC_ALGOLIA_READ_API_KEY: z.string(),
   },
 
   /**
@@ -64,6 +68,11 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
+    ALGOLIA_READ_API_KEY: process.env.ALGOLIA_READ_API_KEY,
+    ALGOLIA_WRITE_API_KEY: process.env.ALGOLIA_WRITE_API_KEY,
+    NEXT_PUBLIC_ALGOLIA_APP_ID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+    NEXT_PUBLIC_ALGOLIA_READ_API_KEY: process.env.NEXT_PUBLIC_ALGOLIA_READ_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

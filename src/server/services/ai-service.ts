@@ -36,7 +36,6 @@ export async function rateComment(comment: string, recipeSummary: string) {
 }
 
 const result = await rateComment("This cake is amazing!", "a delicious cake");
-console.log(result.foobarxx);
 
 /**
  * my use cases for the AI service
