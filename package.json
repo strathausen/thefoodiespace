@@ -8,7 +8,7 @@
     "build": "next build",
     "index:prod": ". ./.env.production && tsx src/tools/index-all-recipes.ts",
     "generate": "prisma generate",
-    "migrate": "prisma migrate dev",
+    "migrate": ". ./.env.local && prisma migrate dev",
     "migrate:prod": ". ./.env.production && prisma migrate deploy",
     "studio": "prisma studio",
     "dev": "next dev",

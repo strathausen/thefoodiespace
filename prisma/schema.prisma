@@ -10,9 +10,8 @@ generator json {
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("POSTGRES_PRISMA_URL")
-    directUrl = env("POSTGRES_URL_NON_POOLING")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -167,23 +166,22 @@ model Notification {
 }
 
 model Recipe {
-    id          String           @id @default(cuid())
-    cursor      String?          @unique @default(cuid()) // actually: the server will generate this using publish timestamp + id
+    id          String     @id @default(cuid())
+    cursor      String?    @unique @default(cuid()) // actually: the server will generate this using publish timestamp + id
     title       String
     text        String?
-    featured    Boolean?         @default(false) // is it visible on the front page feed and search results?
-    moderation  ModerationStatus @default(PENDING)
-    sourceUrl   String?          @map("source_url")
-    createdAt   DateTime         @default(now()) @map("created_at")
-    updatedAt   DateTime         @updatedAt @map("updated_at")
+    featured    Boolean?   @default(false) // is it visible on the front page feed and search results?
+    sourceUrl   String?    @map("source_url")
+    createdAt   DateTime   @default(now()) @map("created_at")
+    updatedAt   DateTime   @updatedAt @map("updated_at")
     images      String[]
     /// [RecipeStep]
     steps       Json[]
     /// [RecipeIngredient]
     ingredients Json[]
     /// [RecipeInfos]
-    info        Json             @default("{}")
-    status      PostStatus       @default(DRAFT)
+    info        Json       @default("{}")
+    status      PostStatus @default(DRAFT)
 
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String @map("created_by")
@@ -195,6 +193,10 @@ model Recipe {
     likeCount    Int @default(0) @map("like_count")
     commentCount Int @default(0) @map("comment_count")
     shareCount   Int @default(0) @map("share_count")
+
+    moderation       ModerationStatus @default(PENDING)
+    moderationReason String?          @map("moderation_reason")
+    aiKeywords       String[]         @map("ai_keywords")
 
     reactions     Reaction[]
     bookmarks     Bookmark[]
@@ -260,7 +262,6 @@ model Comment {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")
-    banned    Boolean? @default(false)
 
     text String
 
@@ -270,7 +271,9 @@ model Comment {
     recipe   Recipe @relation(fields: [recipeId], references: [id])
     recipeId String @map("recipe_id")
 
-    aiRatings String[] @map("ai_ratings") // ok, spam, nsfw, offtopic, offensive
+    aiRatings        String[]         @map("ai_ratings") // ok, spam, nsfw, offtopic, offensive
+    moderation       ModerationStatus @default(PENDING)
+    moderationReason String?          @map("moderation_reason")
 
     @@map("comments")
 }

@@ -8,7 +8,9 @@ const algoliaClient = algoliasearch(
 );
 const algoliaIndex = algoliaClient.initIndex("recipes");
 
-export async function indexRecipe(recipe: Recipe & { createdBy: User }) {
+export async function indexRecipe(
+  recipe: Recipe & { createdBy: User; keywords?: string[] },
+) {
   await algoliaIndex.saveObject({
     objectID: recipe.id,
     ...recipe,

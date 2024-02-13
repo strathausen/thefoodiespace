@@ -6,7 +6,7 @@ export default function BookmarksPage() {
   const { bookmarks } = useBookmarks();
   return (
     <main>
-      <div className="my-auto mt-10 max-w-2xl">
+      <div className="mx-auto mt-10 max-w-2xl">
         <h1 className="font-vollkorn text-2xl">my bookmarks</h1>
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {bookmarks.map(({ recipe }) => (

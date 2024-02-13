@@ -56,8 +56,12 @@ export const commentRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { recipeId, take, skip } = input;
+      const userId = ctx.session?.user?.id;
+      const where = userId
+        ? { recipeId, OR: [{ moderation: "APPROVED" }, { userId }] }
+        : { recipeId, moderation: "APPROVED" };
       return ctx.db.comment.findMany({
-        where: { recipeId },
+        where,
         take,
         skip,
         orderBy: { createdAt: "desc" },

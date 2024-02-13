@@ -5,8 +5,15 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import { RecipeValidator } from "@/validators";
-import { type Comment } from "@prisma/client";
+import {
+  type Recipe,
+  type Comment,
+  type User,
+  type PrismaClient,
+} from "@prisma/client";
 import { sendReactionNotification } from "@/server/services/notification-service";
+import { reviewRecipe } from "@/server/services/ai-recipe-review";
+import { indexRecipe, unindexRecipe } from "@/server/services/search-service";
 
 const select = {
   id: true,
@@ -47,11 +54,32 @@ const getSelect = (userId: string | undefined) => {
   return userId ? selectWithUser(userId) : select;
 };
 
+// review the recipe and update its index on algolia
+const reviewAndIndex = async (
+  recipe: Recipe & { createdBy: User },
+  db: PrismaClient,
+) => {
+  const review = await reviewRecipe(recipe);
+  await db.recipe.update({
+    where: { id: recipe.id },
+    data: {
+      moderation: review.moderation as "APPROVED" | "REJECTED",
+      moderationReason: review.reason,
+      aiKeywords: review.keywords.split(/[, ]/),
+    },
+  });
+  if (review.moderation === "APPROVED") {
+    await indexRecipe(recipe);
+  } else {
+    await unindexRecipe(recipe.id);
+  }
+};
+
 export const recipeRouter = createTRPCRouter({
   list: publicProcedure.query(({ ctx }) => {
     const userId = ctx.session?.user?.id;
     return ctx.db.recipe.findMany({
-      where: { status: "PUBLISHED", featured: true },
+      where: { status: "PUBLISHED", moderation: "APPROVED" },
       take: 10,
       orderBy: { createdAt: "desc" },
       select: getSelect(userId),
@@ -67,7 +95,7 @@ export const recipeRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const recipes = await ctx.db.recipe.findMany({
-        where: { status: "PUBLISHED", featured: true },
+        where: { status: "PUBLISHED", moderation: "APPROVED" },
         take: input.take,
         skip: input.skip,
         orderBy: { id: "desc" },
@@ -77,7 +105,7 @@ export const recipeRouter = createTRPCRouter({
     }),
 
   // show followed recipes from the last two days (or since last login?)
-  // if scrolled down further, show more recent recipes that are featured
+  // if scrolled down further, show more recent recipes that are approved
   // parameter for older recipes.... (cursor?)
   feed: protectedProcedure
     .input(
@@ -199,11 +227,18 @@ export const recipeRouter = createTRPCRouter({
         {} as Record<string, string>,
       );
       if (input.id) {
-        return await ctx.db.recipe.update({
+        const recipe = await ctx.db.recipe.update({
           where: { id: input.id },
           data: { createdById, ...update, info },
+          include: { createdBy: true },
         });
+        // we only review published recipes, to save resources
+        if (recipe.status === "PUBLISHED") {
+          await reviewAndIndex(recipe, ctx.db);
+        }
+        return recipe;
       }
+      // new recipes aren't published by default and thus don't need a review
       return await ctx.db.recipe.create({
         data: {
           createdById,
@@ -248,10 +283,13 @@ export const recipeRouter = createTRPCRouter({
   publish: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.recipe.update({
+      const recipe = await ctx.db.recipe.update({
         where: { id: input.id },
         data: { status: "PUBLISHED", publishedAt: new Date() },
+        include: { createdBy: true },
       });
+      await reviewAndIndex(recipe, ctx.db);
+      return recipe;
     }),
 
   unpublish: protectedProcedure

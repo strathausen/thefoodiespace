@@ -226,8 +226,9 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
           <button
             className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
             onClick={onPublish}
+            disabled={publishMutation.isLoading}
           >
-            publish
+            {publishMutation.isLoading ? "publishing..." : "publish"}
           </button>
         )}
         {get.data?.status === "PUBLISHED" && (
@@ -258,7 +259,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
 
   return (
     <main>
-      <div className="max-w-xxl my-10">
+      <div className="mx-auto max-w-3xl">
         <div className="flex justify-between">
           <h1 className="mt-6 font-vollkorn text-2xl">{t("title")}</h1>
           <ActionBar />
