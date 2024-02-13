@@ -113,7 +113,7 @@ export default async function RecipePage(props: Props) {
             {recipe.ingredients.length > 0 && (
               <RecipeIngredients
                 ingredients={recipe.ingredients}
-                className="mt-6"
+                className="mx-0 mt-6 sm:mx-10"
                 yield={recipe.info?.recipeYield}
               />
             )}

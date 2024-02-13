@@ -82,10 +82,16 @@ const IngredientField = ({
     }
   }
   return (
-    <span>
-      {ingredient.name} ({quantity})
-      {ingredient.unit ? ` ${ingredient.unit}` : ""}
-    </span>
+    <div className="flex gap-2">
+      <span className="font-semibold">{quantity}</span>
+      <span className="text-stone-950/60">{ingredient.unit ? ` ${ingredient.unit}` : ""}</span>
+      <span>{ingredient.name}</span>
+      {ingredient.notes && (
+        <span className="ml-2 text-sm text-stone-950/50">
+          {ingredient.notes}
+        </span>
+      )}
+    </div>
   );
 };
 
@@ -136,16 +142,12 @@ export const RecipeIngredients = ({
       </div>
       <ul className="mt-3 list-inside list-disc">
         {ingredients.map((ingredient, i) => (
-          <li key={i} className="">
-            <IngredientField
-              ingredient={ingredient}
-              originalYield={originalYield}
-              yieldNumber={yieldNumber}
-            />
-            <span className="ml-2 text-sm text-stone-950/50">
-              {ingredient.notes}
-            </span>
-          </li>
+          <IngredientField
+            key={i}
+            ingredient={ingredient}
+            originalYield={originalYield}
+            yieldNumber={yieldNumber}
+          />
         ))}
       </ul>
     </div>
