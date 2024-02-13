@@ -3,27 +3,35 @@ import { StructuredOutputParser } from "langchain/output_parsers";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { aiModel } from "./ai-service";
 
-// rate comments on recipes: relevance, helpfulness, kindness, spammyness, profanity, etc.
-const parser = StructuredOutputParser.fromNamesAndDescriptions({
+type ParserInstructions = typeof parserInstructions;
+
+const parserInstructions = {
   ratings:
     "a list of keywords rating the comment, e.g. relevant, helpful, kind, rude, spam etc.",
   moderation: "either APPROVED or REJECTED",
   reason:
-    "why the comment was approved or rejected, e.g. 'too spammy', 'off topic', 'profane', etc.",
-});
+    "why the comment was approved or rejected, e.g. 'too spammy', 'profane', etc.",
+};
+
+const parser =
+  StructuredOutputParser.fromNamesAndDescriptions(parserInstructions);
 
 const prompt = PromptTemplate.fromTemplate(
-  "We have this recipe {recipeSummary}. Can you judge this comment {comment}? \n {formatInstructions}",
+  `Can you rate this comment "{comment}" by "{commenter}"? \n {formatInstructions}`,
 );
 
 const chain = RunnableSequence.from([prompt, aiModel, parser]);
 
 const formatInstructions = parser.getFormatInstructions();
 
-export async function rateComment(comment: string, recipeSummary: string) {
-  return chain.invoke({
-    comment,
-    recipeSummary,
+export async function reviewComment(
+  commenter: string,
+  comment: string,
+): Promise<ParserInstructions> {
+  const result = await chain.invoke({
+    comment: comment.replaceAll('"', " "),
+    commenter: commenter.replaceAll('"', " "),
     formatInstructions,
   });
+  return result as ParserInstructions;
 }

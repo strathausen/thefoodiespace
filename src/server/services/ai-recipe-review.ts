@@ -5,6 +5,8 @@ import { RunnableSequence } from "@langchain/core/runnables";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { omit } from "lodash";
 
+type ParserInstructions = typeof parserInstructions;
+
 const parserInstructions = {
   keywords:
     "relevant words and synonyms that can be used for a semantic search index",
@@ -24,13 +26,15 @@ const chain = RunnableSequence.from([prompt, aiModel, parser]);
 
 const formatInstructions = parser.getFormatInstructions();
 
-export async function reviewRecipe(recipe: Recipe) {
+export async function reviewRecipe(
+  recipe: Recipe,
+): Promise<ParserInstructions> {
   try {
     const result = await chain.invoke({
       recipeJson: JSON.stringify(omit(recipe, "moderation")),
       formatInstructions,
     });
-    return result as typeof parserInstructions;
+    return result as ParserInstructions;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     console.log(e);

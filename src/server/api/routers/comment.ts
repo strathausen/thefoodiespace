@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 import { sendCommentNotification } from "@/server/services/notification-service";
+import { reviewComment } from "@/server/services/ai-comment-review";
 
 export const commentRouter = createTRPCRouter({
   addComment: protectedProcedure
@@ -11,16 +12,24 @@ export const commentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const commenter = await ctx.db.user.findUniqueOrThrow({
+        where: { id: ctx.session.user.id },
+        select: { id: true, name: true, image: true },
+      });
+      const review = await reviewComment(commenter.name!, input.text);
       const comment = await ctx.db.comment.create({
         data: {
           text: input.text,
+          moderation: review.moderation as "APPROVED" | "REJECTED",
+          moderationReason: review.reason,
           recipe: { connect: { id: input.recipeId } },
           user: { connect: { id: ctx.session.user.id } },
         },
       });
-      sendCommentNotification(ctx.db, comment.id).catch((err) => {
-        console.error(err);
-      });
+      if (review.moderation === "APPROVED")
+        sendCommentNotification(ctx.db, comment.id).catch((err) => {
+          console.error(err);
+        });
       return comment;
     }),
 
@@ -58,8 +67,8 @@ export const commentRouter = createTRPCRouter({
       const { recipeId, take, skip } = input;
       const userId = ctx.session?.user?.id;
       const where = userId
-        ? { recipeId, OR: [{ moderation: "APPROVED" }, { userId }] }
-        : { recipeId, moderation: "APPROVED" };
+        ? { recipeId, OR: [{ moderation: "APPROVED" as const }, { userId }] }
+        : { recipeId, moderation: "APPROVED" as const };
       return ctx.db.comment.findMany({
         where,
         take,
