@@ -296,6 +296,7 @@ export const recipeRouter = createTRPCRouter({
   unpublish: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      await unindexRecipe(input.id);
       return ctx.db.recipe.update({
         where: { id: input.id },
         data: { status: "DRAFT", publishedAt: null },
