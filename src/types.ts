@@ -1,29 +1,3 @@
-export type RecipeFeedItem = {
-  id: number;
-  title: string;
-  media: { type: "image" | "video"; url: string }[];
-  author: {
-    name: string;
-    avatar: string;
-  };
-  reactions: {
-    type:
-      | "like"
-      | "love"
-      | "haha"
-      | "wow"
-      | "sad"
-      | "angry"
-      | "thankful"
-      | "cooked"
-      | "tried"
-      | "saved"
-      | "pride";
-    count: number;
-    liked?: boolean;
-  }[];
-};
-
 export type RecipeStep = {
   images?: string[];
   name?: string;
