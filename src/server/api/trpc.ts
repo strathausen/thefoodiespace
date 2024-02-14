@@ -128,5 +128,3 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
-
-export const config = { maxDuration: 180 }; // This function can run for a maximum of 1 minute
