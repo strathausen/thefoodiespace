@@ -29,7 +29,7 @@ export default function RecipePage() {
             )}
             {importFromText.isLoading && (
               <div className="text-primary">
-                importing...✨ this could take a while...&apos; please don&apos;t go
+                importing...✨ this could take a while...🐌 please don&apos;t go
                 away! 🙏
               </div>
             )}
