@@ -14,6 +14,7 @@ import {
 import { sendReactionNotification } from "@/server/services/notification-service";
 import { reviewRecipe } from "@/server/services/ai-recipe-review";
 import { indexRecipe, unindexRecipe } from "@/server/services/search-service";
+import { extractRecipe } from "@/server/services/ai-recipe-text-extract";
 
 const select = {
   id: true,
@@ -299,5 +300,20 @@ export const recipeRouter = createTRPCRouter({
         where: { id: input.id },
         data: { status: "DRAFT", publishedAt: null },
       });
+    }),
+
+  importFromText: protectedProcedure
+    .input(z.object({ text: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const createdById = ctx.session.user.id;
+      const recipeData = await extractRecipe(input.text);
+      const recipe = await ctx.db.recipe.create({
+        data: {
+          createdById,
+          ...recipeData,
+        },
+        include: { createdBy: true },
+      });
+      return recipe;
     }),
 });

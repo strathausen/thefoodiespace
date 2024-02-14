@@ -6,6 +6,7 @@ import { RecipeStepEditor } from "components/recipe/recipe-step-editor";
 import { useRouter } from "next/navigation";
 import { ImageUpload } from "@/app/_components/image-upload";
 import { useScopedI18n } from "locales/client";
+import Link from "next/link";
 
 // https://developers.google.com/search/docs/appearance/structured-data/recipe#supply-tool
 
@@ -121,7 +122,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   const saveRecipe = async () => {
     await create.mutateAsync({
       id,
-      title,
+      title: title || "untitled",
       text,
       sourceUrl,
       images,
@@ -218,44 +219,50 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     router.refresh();
   };
 
-  const ActionBar = () => (
-    <div className="mb-4 mt-4 flex justify-between">
-      <div></div>
-      <div className="flex gap-4">
-        {get.data?.status === "DRAFT" && (
+  const ActionBar = () => {
+    const className =
+      "rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50";
+    return (
+      <div className="mb-4 mt-4 flex justify-between">
+        <div></div>
+        <div className="flex gap-4">
+          {!id && (
+            <Link className={className} href="/editor/import">
+              create from text
+            </Link>
+          )}
+          {get.data?.status === "DRAFT" && (
+            <button
+              className={className}
+              onClick={onPublish}
+              disabled={publishMutation.isLoading || !title || !images.length}
+              title={
+                !title
+                  ? "title is required"
+                  : !images.length
+                    ? "image is required"
+                    : ""
+              }
+            >
+              {publishMutation.isLoading ? "publishing..." : "publish"}
+            </button>
+          )}
+          {get.data?.status === "PUBLISHED" && (
+            <button className={className} onClick={onUnpublish}>
+              unpublish
+            </button>
+          )}
           <button
-            className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
-            onClick={onPublish}
-            disabled={publishMutation.isLoading}
+            className={className}
+            disabled={create.isLoading}
+            onClick={saveRecipe}
           >
-            {publishMutation.isLoading ? "publishing..." : "publish"}
+            💾 {id ? "update" : "create"} recipe
           </button>
-        )}
-        {get.data?.status === "PUBLISHED" && (
-          <button
-            className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
-            onClick={onUnpublish}
-          >
-            unpublish
-          </button>
-        )}
-        {/* <button
-          title="not yet implemented"
-          className="cursor-not-allowed rounded bg-red-300/50 px-2 py-1 text-red-800 shadow disabled:opacity-50"
-        >
-          archive
-        </button> */}
-        <button
-          className="rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50"
-          disabled={create.isLoading || !title}
-          onClick={saveRecipe}
-          title={!title ? "name is required" : ""}
-        >
-          💾 {id ? "update" : "create"} recipe
-        </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <main>
@@ -274,6 +281,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
             <div className="flex flex-row gap-2">
               <ImageUpload
                 image={images[0]}
+                required
                 setImage={(image) => {
                   if (image) {
                     setImages([image]);
@@ -284,7 +292,11 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
               />
               <div className="flex grow flex-col gap-2">
                 <input
-                  className={inputClassName}
+                  className={
+                    inputClassName +
+                    (!title ? " m-[-1px] border border-red-500" : "")
+                  }
+                  required
                   placeholder="give it a punchy title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}

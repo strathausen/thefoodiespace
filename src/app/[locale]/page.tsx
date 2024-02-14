@@ -20,7 +20,7 @@ export default async function Home() {
           <div key={r.id} className="mx-auto flex justify-center">
             <RecipePost
               id={r.id}
-              imageUrl={r.images[0]!}
+              imageUrl={r.images[0] ?? "/lonely-plate.webp"}
               title={r.title}
               description={r.text!}
               profileImageUrl={r.createdBy.image!}

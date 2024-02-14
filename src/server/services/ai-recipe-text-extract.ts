@@ -45,7 +45,9 @@ const promptTemplate = PromptTemplate.fromTemplate(template);
 
 const chain = promptTemplate.pipe(aiModel);
 
-export async function extractRecipe(recipeText: string): Promise<Recipe> {
+export async function extractRecipe(
+  recipeText: string,
+): Promise<Omit<Recipe, "createdAt" | "createdBy" | "createdById">> {
   const result = await chain.invoke({
     recipeText,
     formatInstructions: JSON.stringify(recipeFormatExample),
@@ -53,27 +55,27 @@ export async function extractRecipe(recipeText: string): Promise<Recipe> {
   return JSON.parse(result.replace("```json", "").replace("```", "")) as Recipe;
 }
 
-// await extractRecipe(`
-// First proper meal I've cooked after eating Greek food for almost a month is my grandma's Beijing Zha Jiang Mian. Nothing will ever be more nostalgic and satisfying than this huge bowl of fried black beans sauce over wheat noodles and juicy cucumbers.
+/* await extractRecipe(`
+First proper meal I've cooked after eating Greek food for almost a month is my grandma's Beijing Zha Jiang Mian. Nothing will ever be more nostalgic and satisfying than this huge bowl of fried black beans sauce over wheat noodles and juicy cucumbers.
 
-// Serves 2 people:
-// 250gr minced pork or beef
-// 1 onion
-// 3-4 cloves of garlic
-// 2 tbsp black bean paste
-// 200ml water
-// Toppings: green onions and cucumber
+Serves 2 people:
+250gr minced pork or beef
+1 onion
+3-4 cloves of garlic
+2 tbsp black bean paste
+200ml water
+Toppings: green onions and cucumber
 
-// 1. Chop garlic and onion.
-// 2. Stir fry the meat until the edges are crispy.
-// 3. Add garlic and onion, continue to stir fry until translucent.
-// 4. Add black bean paste and mix very well in the pan, continue frying until everything is well incorporated.
-// 5. Add water and simmer until the sauce thickens.
-// 6. Boil noodles in hot water.
-// 7. Chop green onions and cucumber.
-// 8. Serve: Noodles first, sauce, cucumber and green onions.
+1. Chop garlic and onion.
+2. Stir fry the meat until the edges are crispy.
+3. Add garlic and onion, continue to stir fry until translucent.
+4. Add black bean paste and mix very well in the pan, continue frying until everything is well incorporated.
+5. Add water and simmer until the sauce thickens.
+6. Boil noodles in hot water.
+7. Chop green onions and cucumber.
+8. Serve: Noodles first, sauce, cucumber and green onions.
 
-// Enjoooooy!
+Enjoooooy!
 
-
-// `);
+ `);
+*/

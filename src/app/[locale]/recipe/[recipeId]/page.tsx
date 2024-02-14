@@ -99,16 +99,14 @@ export default async function RecipePage(props: Props) {
               className={`mt-6 flex flex-row ${recipe.text?.trim() ? "justify-between" : "justify-center"} gap-4`}
             >
               <div className="flex flex-col">{recipe.text}</div>
-              {recipe.images?.[0] && (
-                <Image
-                  src={recipe.images[0]}
-                  width={300}
-                  height={300}
-                  alt={recipe.title}
-                  className="rounded object-cover"
-                  style={{ width: 300, height: 300 }}
-                />
-              )}
+              <Image
+                src={recipe.images[0] ?? "/lonely-plate.webp"}
+                width={300}
+                height={300}
+                alt={recipe.title}
+                className="rounded object-cover"
+                style={{ width: 300, height: 300 }}
+              />
             </div>
             {recipe.ingredients.length > 0 && (
               <RecipeIngredients
@@ -145,7 +143,7 @@ export default async function RecipePage(props: Props) {
                         <p>{step.text}</p>
                       </div>
                       {step.usedIngredients && (
-                        <p className="text-stone-950/50">
+                        <p className="text-sm text-stone-950/50">
                           used ingredients: {step.usedIngredients}
                         </p>
                       )}

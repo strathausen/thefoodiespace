@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { env } from "@/env.mjs";
 import { type Recipe } from "@prisma/client";
+import { AskName } from "./ask-name";
 
 const searchClient = algoliasearch(
   env.NEXT_PUBLIC_ALGOLIA_APP_ID,
@@ -43,7 +44,7 @@ const SearchComponent = ({
       <div className="m-auto flex justify-center">
         <RecipePost
           id={hit.objectID}
-          imageUrl={hit.images[0]!}
+          imageUrl={hit.images[0] ?? "/lonely-plate.webp"}
           title={hit.title}
           description={hit.text!}
           profileImageUrl={hit.createdBy.image!}
@@ -81,11 +82,7 @@ const SearchComponent = ({
   );
 };
 
-export default function MyRecipePage({
-  params,
-}: {
-  params: { slug?: string[] };
-}) {
+export default function FeedPage({ params }: { params: { slug?: string[] } }) {
   const page = params.slug?.[0] ?? "feed";
   const explore = page === "explore";
   const search = page === "search";
@@ -98,23 +95,26 @@ export default function MyRecipePage({
     { explore },
     { enabled: !search },
   );
+  if (!session.data?.user.name) {
+    return <AskName />;
+  }
   return (
     <main className="">
       <div className="mt-8 flex justify-center font-vollkorn text-2xl">
         <Link
-          className={`rounded-md px-4 py-2 text-gray-800 ${page === "feed" ? "" : "opacity-50"}`}
+          className={`rounded-md px-4 py-2 text-gray-800 decoration-accent hover:underline ${page === "feed" ? "" : "opacity-50"}`}
           href="/feed"
         >
           my feed
         </Link>
         <Link
-          className={`rounded-md px-4 py-2 text-gray-800 ${page === "explore" ? "" : "opacity-50"}`}
+          className={`rounded-md px-4 py-2 text-gray-800 decoration-accent hover:underline ${page === "explore" ? "" : "opacity-50"}`}
           href="/feed/explore"
         >
           explore
         </Link>
         <Link
-          className={`rounded-md px-4 py-2 text-gray-800 ${page === "search" ? "" : "opacity-50"}`}
+          className={`rounded-md px-4 py-2 text-gray-800 decoration-accent hover:underline ${page === "search" ? "" : "opacity-50"}`}
           href="/feed/search"
         >
           search
@@ -132,7 +132,7 @@ export default function MyRecipePage({
                 <div className="m-auto flex justify-center">
                   <RecipePost
                     id={r.id}
-                    imageUrl={r.images[0]!}
+                    imageUrl={r.images[0] ?? "/lonely-plate.webp"}
                     title={r.title}
                     description={r.text!}
                     profileImageUrl={r.createdBy.image!}
@@ -155,8 +155,18 @@ export default function MyRecipePage({
           })
         )}
         {!recipes?.length && !search && (
-          <div className="text-center text-2xl font-bold">
-            {isLoading ? "loading... 🐌" : "no recipes found"}
+          <div className="mb-4 mt-4 text-center font-semibold text-gray-800/50">
+            {isLoading ? "loading... 🐌" : "no recipes in your feed yet"}
+          </div>
+        )}
+        {!recipes?.length && page === "feed" && (
+          <div className="mt-2 text-center">
+            <Link
+              href="/feed/explore"
+              className="text-center text-xl font-semibold text-gray-800 underline decoration-accent"
+            >
+              explore new creators to follow! 🌟
+            </Link>
           </div>
         )}
       </div>

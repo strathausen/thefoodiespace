@@ -24,11 +24,12 @@ type Props = {
 const BellDot = () => {
   const unreadNotificationsQuery = api.notification.getUnreadCount.useQuery();
 
+  // TODO use useQuery for that?
   useEffect(() => {
     if (unreadNotificationsQuery.data) {
       const timeout = setInterval(() => {
         unreadNotificationsQuery.refetch().catch((e) => console.error(e));
-      }, 1200);
+      }, 1700);
       return () => {
         clearInterval(timeout);
       };

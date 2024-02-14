@@ -6,14 +6,22 @@ const size = 240;
 
 type Props = {
   image: string | undefined;
+  required?: boolean;
   setImage: (image: string | undefined) => void;
   size?: number;
   onUploadError?: (error: Error) => void;
 };
 
-export const ImageUpload = ({ image, setImage, onUploadError }: Props) => {
+export const ImageUpload = ({
+  image,
+  setImage,
+  onUploadError,
+  required,
+}: Props) => {
   return (
-    <div className="h-[240px] w-[240px] rounded bg-white/30 shadow">
+    <div
+      className={`h-[240px] w-[240px] rounded bg-white/30 shadow ${!image && required && "border border-red-500"}`}
+    >
       <div className="absolute mb-2 flex justify-center">
         {image && (
           <Image

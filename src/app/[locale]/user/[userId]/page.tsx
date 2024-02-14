@@ -89,7 +89,7 @@ export default async function UserPage({
             <RecipeTile
               key={recipe.id}
               id={recipe.id}
-              imageUrl={recipe.images[0]!}
+              imageUrl={recipe.images[0] ?? "/lonely-plate.webp"}
               title={recipe.title}
               profileImageUrl={
                 userProfile.image ?? "/default-profile-image.webp"

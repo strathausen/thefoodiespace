@@ -13,7 +13,7 @@ export default function BookmarksPage() {
             <div key={recipe.id}>
               <RecipeTile
                 id={recipe.id}
-                imageUrl={recipe.images[0]!}
+                imageUrl={recipe.images[0] ?? "/lonely-plate.webp"}
                 profileId={recipe.createdBy.id}
                 profileImageUrl={recipe.createdBy.image!}
                 profileName={recipe.createdBy.name!}

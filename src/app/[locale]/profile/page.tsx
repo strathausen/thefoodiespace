@@ -63,7 +63,7 @@ export default function ProfilePage() {
 
   return (
     <main>
-      <div className="my-auto mt-10 w-full max-w-xl">
+      <div className="mx-auto mt-10 w-full max-w-xl">
         <Container>
           <div className="relative p-4">
             <h1 className="pb-4 text-center font-vollkorn text-xl">

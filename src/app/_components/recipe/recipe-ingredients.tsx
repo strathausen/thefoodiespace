@@ -82,9 +82,11 @@ const IngredientField = ({
     }
   }
   return (
-    <div className="flex gap-2">
-      <span className="font-semibold">{quantity}</span>
-      <span className="text-stone-950/60">{ingredient.unit ? ` ${ingredient.unit}` : ""}</span>
+    <div className="flex items-center gap-2">
+      <span className="w-10 text-right font-semibold">{quantity}</span>
+      <span className="min-w-14 text-stone-950/60">
+        {ingredient.unit ? ` ${ingredient.unit}` : ""}
+      </span>
       <span>{ingredient.name}</span>
       {ingredient.notes && (
         <span className="ml-2 text-sm text-stone-950/50">
