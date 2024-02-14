@@ -29,14 +29,15 @@ export default function RecipePage() {
             )}
             {importFromText.isLoading && (
               <div className="text-primary">
-                importing...✨ this could take a while...🐌 please don&quot;t go away! 🙏
+                importing...✨ this could take a while...&apos; please don&apos;t go
+                away! 🙏
               </div>
             )}
             <section>
               <div className="flex min-h-72 flex-row gap-2">
                 <textarea
                   disabled={importFromText.isLoading}
-                  className="h-full w-full rounded px-2 py-1 shadow"
+                  className="h-full min-h-72 w-full rounded px-2 py-1 shadow"
                   placeholder="just copy and paste the recipe here!"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
