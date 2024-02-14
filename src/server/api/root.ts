@@ -25,4 +25,4 @@ export const appRouter = createTRPCRouter({
 // export type definition of API
 export type AppRouter = typeof appRouter;
 
-export const config = { maxDuration: 180 }; // This function can run for a maximum of 1 minute
+export const maxDuration = 180; // This function can run for a maximum of 2 minutes
