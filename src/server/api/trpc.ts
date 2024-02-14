@@ -129,4 +129,4 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 
-export const maxDuration = 60; // This function can run for a maximum of 1 minute
+export const config = { maxDuration: 180 }; // This function can run for a maximum of 1 minute
