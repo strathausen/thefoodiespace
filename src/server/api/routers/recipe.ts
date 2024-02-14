@@ -76,8 +76,6 @@ const reviewAndIndex = async (
   }
 };
 
-export const maxDuration = 60; // This function can run for a maximum of 1 minute
-
 export const recipeRouter = createTRPCRouter({
   list: publicProcedure.query(({ ctx }) => {
     const userId = ctx.session?.user?.id;
