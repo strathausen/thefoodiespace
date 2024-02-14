@@ -159,7 +159,7 @@ export default function FeedPage({ params }: { params: { slug?: string[] } }) {
             {isLoading ? "loading... 🐌" : "no recipes in your feed yet"}
           </div>
         )}
-        {!recipes?.length && page === "feed" && (
+        {!recipes?.length && page === "feed" && !isLoading && (
           <div className="mt-2 text-center">
             <Link
               href="/feed/explore"
