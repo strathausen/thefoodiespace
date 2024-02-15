@@ -7,7 +7,7 @@ import { FaRegPaperPlane, FaTrash } from "react-icons/fa6";
 
 type Props = {
   recipeId: string;
-  commentCount: number;
+  commentCount?: number;
   comments: {
     text: string;
     id: string;
@@ -36,6 +36,7 @@ export const RecipeComments = (props: Props) => {
   useEffect(() => {
     if (allComments.data) {
       setComments(allComments.data);
+      setCommentCount(allComments.data.length);
     }
   }, [allComments.data]);
 
@@ -50,7 +51,7 @@ export const RecipeComments = (props: Props) => {
     const text = comment.trim();
     setComments((c) => [{ text, id: "temp", temporary: true, user }, ...c]);
     setComment("");
-    setCommentCount((c) => c + 1);
+    setCommentCount((c) => (c === undefined ? undefined : c + 1));
     try {
       const newComment = await createComment.mutateAsync({
         recipeId: props.recipeId,
@@ -60,7 +61,7 @@ export const RecipeComments = (props: Props) => {
         c.map((c) => (c.id === "temp" ? { ...newComment, user } : c)),
       );
     } catch (e) {
-      setCommentCount((c) => c - 1);
+      setCommentCount((c) => (c === undefined ? undefined : c - 1));
       setComments((c) => c.filter((c) => c.id !== "temp"));
       setComment(text);
     }
@@ -68,11 +69,12 @@ export const RecipeComments = (props: Props) => {
 
   async function onDeleteComment(id: string) {
     setComments((c) => c.filter((c) => c.id !== id));
-    setCommentCount((c) => c - 1);
+    setCommentCount((c) => (c === undefined ? undefined : c - 1));
     await deleteComment.mutateAsync(id);
   }
 
   const hasComments =
+    commentCount === undefined ||
     commentCount - comments.filter(isMine(session.data?.user.id)).length > 0;
 
   return (
@@ -90,8 +92,14 @@ export const RecipeComments = (props: Props) => {
               setShowAllComments(true);
             }}
           >
-            show {commentCount} comment
-            {commentCount === 1 ? "" : "s"}
+            {commentCount === undefined ? (
+              <span>load comments</span>
+            ) : (
+              <span>
+                show {commentCount} comment
+                {commentCount === 1 ? "" : "s"}
+              </span>
+            )}
           </button>
         ))}
       <div className="flex w-full flex-col">

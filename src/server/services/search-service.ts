@@ -1,6 +1,7 @@
 import algoliasearch from "algoliasearch";
 import { type User, type Recipe } from "@prisma/client";
 import { env } from "@/env.mjs";
+import { omit } from "lodash";
 
 const algoliaClient = algoliasearch(
   env.ALGOLIA_APP_ID,
@@ -13,7 +14,7 @@ export async function indexRecipe(
 ) {
   await algoliaIndex.saveObject({
     objectID: recipe.id,
-    ...recipe,
+    ...omit(recipe, "commentCount"),
   });
 }
 

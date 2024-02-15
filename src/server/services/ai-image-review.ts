@@ -37,6 +37,10 @@ export async function transcribeImage(imageUrl: string) {
       };
     }
   }
+  return {
+    text: "no response",
+    error: true,
+  }
 }
 
 // console.log(

@@ -20,13 +20,13 @@ export type RecipeInfo = {
   recipeYield?: string;
   recipeCategory?: string;
   recipeCuisine?: string;
-  'nutrition.calories'?: string
+  "nutrition.calories"?: string;
 };
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace PrismaJson {
-    type RecipeSteps = RecipeStep[];
+    type AltImages = Record<string, string>; // url -> alt text
     type RecipeIngredient = {
       quantity: string;
       unit: string;
@@ -35,7 +35,7 @@ declare global {
     };
     type RecipeInfos = RecipeInfo;
     type RecipeStep = {
-      images?: string[] | string;
+      images?: string[];
       name?: string;
       text?: string;
       usedIngredients?: string;

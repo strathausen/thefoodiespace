@@ -47,7 +47,9 @@ const chain = promptTemplate.pipe(aiModel);
 
 export async function extractRecipe(
   recipeText: string,
-): Promise<Omit<Recipe, "createdAt" | "createdBy" | "createdById">> {
+): Promise<
+  Omit<Recipe, "createdAt" | "createdBy" | "createdById" | "originalText">
+> {
   const result = await chain.invoke({
     recipeText,
     formatInstructions: JSON.stringify(recipeFormatExample),

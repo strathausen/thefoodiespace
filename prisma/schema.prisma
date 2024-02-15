@@ -106,18 +106,21 @@ model Session {
 }
 
 model User {
-    id            String         @id @default(cuid())
+    id            String           @id @default(cuid())
     name          String?
-    handle        String?        @unique
-    email         String?        @unique
-    emailVerified DateTime?      @map("email_verified")
+    handle        String?          @unique
+    email         String?          @unique
+    emailVerified DateTime?        @map("email_verified")
     image         String?
-    role          Role           @default(USER)
+    role          Role             @default(USER)
     pronouns      String?
-    showPronouns  Boolean?       @default(false) @map("show_pronouns")
+    showPronouns  Boolean?         @default(false) @map("show_pronouns") // not used yet
     bio           String?
     links         String[]
-    internalScore Int?           @default(0) @map("internal_score")
+    internalScore Int?             @default(0) @map("internal_score") // not used yet, for internal ranking
+    moderation    ModerationStatus @default(PENDING)
+
+    // relations
     accounts      Account[]
     sessions      Session[]
     reactions     Reaction[]
@@ -176,6 +179,8 @@ model Recipe {
     createdAt   DateTime   @default(now()) @map("created_at")
     updatedAt   DateTime   @updatedAt @map("updated_at")
     images      String[]
+    /// [AltImages]
+    altImages   Json?      @map("alt_images")
     /// [RecipeStep]
     steps       Json[]
     /// [RecipeIngredient]
@@ -187,8 +192,8 @@ model Recipe {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String @map("created_by")
 
-    deletedAt   DateTime?
-    publishedAt DateTime?
+    deletedAt   DateTime? @map("deleted_at") // not used yet
+    publishedAt DateTime? @map("published_at") // for information only, not used for filtering
 
     // computed fields, updated by triggers
     likeCount    Int @default(0) @map("like_count")
@@ -198,6 +203,7 @@ model Recipe {
     moderation       ModerationStatus @default(PENDING)
     moderationReason String?          @map("moderation_reason")
     aiKeywords       String[]         @map("ai_keywords")
+    originalText     String?          @map("original_text") // if the recipe was created by AI, this is the original text
 
     reactions     Reaction[]
     bookmarks     Bookmark[]
@@ -272,7 +278,6 @@ model Comment {
     recipe   Recipe @relation(fields: [recipeId], references: [id])
     recipeId String @map("recipe_id")
 
-    aiRatings        String[]         @map("ai_ratings") // ok, spam, nsfw, offtopic, offensive
     moderation       ModerationStatus @default(PENDING)
     moderationReason String?          @map("moderation_reason")
 
