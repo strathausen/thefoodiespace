@@ -15,6 +15,7 @@ export async function indexRecipe(
   await algoliaIndex.saveObject({
     objectID: recipe.id,
     ...omit(recipe, "commentCount"),
+    commentCount: undefined,
   });
 }
 
