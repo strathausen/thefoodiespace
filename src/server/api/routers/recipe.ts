@@ -67,7 +67,7 @@ const reviewAndIndex = async (
     data: {
       moderation: review.moderation as "APPROVED" | "REJECTED",
       moderationReason: review.reason,
-      aiKeywords: review.keywords.split(', '),
+      aiKeywords: review.keywords.split(", "),
     },
   });
   if (review.moderation === "APPROVED") {
@@ -314,6 +314,7 @@ export const recipeRouter = createTRPCRouter({
           createdById,
           originalText: input.text,
           ...recipeData,
+          altImages: {},
         },
         include: { createdBy: true },
       });
