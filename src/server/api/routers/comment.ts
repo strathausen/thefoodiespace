@@ -14,9 +14,12 @@ export const commentRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const commenter = await ctx.db.user.findUniqueOrThrow({
         where: { id: ctx.session.user.id },
-        select: { id: true, name: true, image: true },
+        select: { id: true, name: true, image: true, role: true },
       });
-      const review = await reviewComment(commenter.name!, input.text);
+      const reviewNeeded = commenter.role === "USER";
+      const review = reviewNeeded
+        ? await reviewComment(commenter.name!, input.text)
+        : { moderation: "APPROVED" as const, reason: "is admin or moderator" };
       const comment = await ctx.db.comment.create({
         data: {
           text: input.text,
