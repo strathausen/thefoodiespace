@@ -2,7 +2,7 @@ import { inngest } from "./client";
 import { db } from "@/server/db";
 import { transcribeImage } from "@/server/services/ai-image-review";
 
-export const reviewRecipeImage = inngest.createFunction(
+export const reviewRecipeImages = inngest.createFunction(
   { id: "recipe-image-function" },
   { event: "recipe/updated" },
   async ({ event }) => {
@@ -47,7 +47,6 @@ export const reviewRecipeImage = inngest.createFunction(
         };
       }),
     );
-    const goodImages = altTexts.filter((t) => !t.alt.error);
     const hasErrors = altTexts.some((t) => t.alt.error);
     await db.recipe.update({
       where: { id: recipeId },
@@ -55,7 +54,7 @@ export const reviewRecipeImage = inngest.createFunction(
         ...(hasErrors ? { moderation: "REJECTED" } : {}),
         altImages: {
           ...altImages,
-          ...Object.fromEntries(goodImages.map((t) => [t.url, t.alt.text!])),
+          ...Object.fromEntries(altTexts.map((t) => [t.url, t.alt.text!])),
         },
       },
     });
