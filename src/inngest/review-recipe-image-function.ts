@@ -47,34 +47,18 @@ export const reviewRecipeImage = inngest.createFunction(
         };
       }),
     );
-    // const badImages = altTexts.filter((t) => t.alt.error).map((t) => t.url);
     const goodImages = altTexts.filter((t) => !t.alt.error);
     const hasErrors = altTexts.some((t) => t.alt.error);
-
-    //  remove bad images, add good images
-    // const images = [
-    //   ...new Set([...recipe.images, ...goodImages.map((t) => t.url)]),
-    // ].filter((i) => !badImages.includes(i));
-    // const steps = recipe.steps.map((s) => ({
-    //   ...s,
-    //   images: s.images
-    //     ? [...s.images].filter((i) => !badImages.includes(i))
-    //     : [],
-    // }));
-    // save alt texts and updated image sets
     await db.recipe.update({
       where: { id: recipeId },
       data: {
-        // TODO for now, we want to avoid overwriting the images and steps in case they are updated in the meantime
-        // images,
-        // steps,
-        moderation: hasErrors ? "PENDING" : recipe.moderation,
+        ...(hasErrors ? { moderation: "REJECTED" } : {}),
         altImages: {
           ...altImages,
           ...Object.fromEntries(goodImages.map((t) => [t.url, t.alt.text!])),
         },
       },
     });
-    return { event, body: "Hello, World!" };
+    return { event, body: `new images processed: ${newImages.join(", ")}` };
   },
 );
