@@ -139,7 +139,11 @@ export default async function RecipePage(props: Props) {
                             src={step.images[0]}
                             width={200}
                             height={200}
-                            alt={step.name!}
+                            alt={
+                              (step.images[0] &&
+                                recipe.altImages?.[step.images[0]]) ??
+                              step.name!
+                            }
                             className="h-[200px] w-[200px] rounded object-cover"
                           />
                         )}
