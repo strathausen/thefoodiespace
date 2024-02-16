@@ -21,9 +21,10 @@ export async function transcribeImage(imageUrl: string) {
         },
       ],
     });
-    return {
-      text: response.choices[0]?.message.content ?? "no response",
-    };
+    const text =
+      response.choices[0]?.message.content?.replace(/^Alt text[: ]*/i, "") ??
+      "no alt text could be generated"; // TODO handle this better, does it even happen?
+    return { text };
   } catch (e) {
     if (e instanceof Error) {
       return {
@@ -40,7 +41,7 @@ export async function transcribeImage(imageUrl: string) {
   return {
     text: "no response",
     error: true,
-  }
+  };
 }
 
 // console.log(
