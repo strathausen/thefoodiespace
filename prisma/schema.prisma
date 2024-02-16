@@ -117,7 +117,6 @@ model User {
     showPronouns  Boolean?         @default(false) @map("show_pronouns") // not used yet
     bio           String?
     links         String[]
-    internalScore Int?             @default(0) @map("internal_score") // not used yet, for internal ranking
     moderation    ModerationStatus @default(PENDING)
 
     // relations
