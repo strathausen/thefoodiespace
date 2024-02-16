@@ -36,6 +36,9 @@ export const reviewRecipeImage = inngest.createFunction(
     const newImages = altImages
       ? imageUrls.filter((i) => !altImages[i])
       : imageUrls;
+    if (newImages.length === 0) {
+      return { event, body: "no new images" };
+    }
     const altTexts = await Promise.all(
       newImages.map(async (image) => {
         return {
