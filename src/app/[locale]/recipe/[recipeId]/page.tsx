@@ -103,7 +103,10 @@ export default async function RecipePage(props: Props) {
                 src={recipe.images[0] ?? "/lonely-plate.webp"}
                 width={300}
                 height={300}
-                alt={recipe.title}
+                alt={
+                  (recipe.images[0] && recipe.altImages?.[recipe.images[0]]) ??
+                  recipe.title
+                }
                 className="rounded object-cover"
                 style={{ width: 300, height: 300 }}
               />

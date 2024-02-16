@@ -45,6 +45,7 @@ const SearchComponent = ({
         <RecipePost
           id={hit.objectID}
           imageUrl={hit.images[0] ?? "/lonely-plate.webp"}
+          altImages={hit.altImages}
           title={hit.title}
           description={hit.text!}
           profileImageUrl={hit.createdBy.image!}
@@ -133,6 +134,7 @@ export default function FeedPage({ params }: { params: { slug?: string[] } }) {
                   <RecipePost
                     id={r.id}
                     imageUrl={r.images[0] ?? "/lonely-plate.webp"}
+                    altImages={r.altImages}
                     title={r.title}
                     description={r.text!}
                     profileImageUrl={r.createdBy.image!}

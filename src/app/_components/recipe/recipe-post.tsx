@@ -28,6 +28,7 @@ type Props = {
   ingredients: PrismaJson.RecipeIngredient[];
   user?: Session["user"];
   locale: string;
+  altImages: Record<string, string> | null;
 };
 
 export const RecipePost = (props: Props) => {
@@ -73,7 +74,7 @@ export const RecipePost = (props: Props) => {
                   className="h-[400px] w-[400px] rounded-md object-cover object-center"
                   height={400}
                   width={400}
-                  alt="description tbd"
+                  alt={props.altImages?.[props.imageUrl] ?? props.title}
                   src={props.imageUrl}
                 />
               )}

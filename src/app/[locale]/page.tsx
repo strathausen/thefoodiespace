@@ -21,6 +21,7 @@ export default async function Home() {
             <RecipePost
               id={r.id}
               imageUrl={r.images[0] ?? "/lonely-plate.webp"}
+              altImages={r.altImages}
               title={r.title}
               description={r.text!}
               profileImageUrl={r.createdBy.image!}
