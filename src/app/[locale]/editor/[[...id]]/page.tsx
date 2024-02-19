@@ -4,7 +4,7 @@ import type { RecipeStep } from "@/types";
 import { useEffect, useState } from "react";
 import { RecipeStepEditor } from "components/recipe/recipe-step-editor";
 import { useRouter } from "next/navigation";
-import { ImageUpload } from "@/app/_components/image-upload";
+import { ImageUpload } from "components/image-upload";
 import { useScopedI18n } from "locales/client";
 import Link from "next/link";
 

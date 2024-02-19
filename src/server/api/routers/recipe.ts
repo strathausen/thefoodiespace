@@ -15,6 +15,7 @@ import { sendReactionNotification } from "@/server/services/notification-service
 import { reviewRecipe } from "@/server/services/ai-recipe-review";
 import { indexRecipe, unindexRecipe } from "@/server/services/search-service";
 import { extractRecipe } from "@/server/services/ai-recipe-text-extract";
+import { inngest } from "@/inngest/client";
 
 const select = {
   id: true,
@@ -235,9 +236,13 @@ export const recipeRouter = createTRPCRouter({
           include: { createdBy: true },
         });
         // we only review published recipes, to save resources
-        if (recipe.status === "PUBLISHED") {
+        if (recipe.status === "PUBLISHED" && recipe.moderation !== "REJECTED") {
           await reviewAndIndex(recipe, ctx.db);
         }
+        await inngest.send({
+          name: "recipe/updated",
+          data: { recipeId: recipe.id },
+        });
         return recipe;
       }
       // new recipes aren't published by default and thus don't need a review

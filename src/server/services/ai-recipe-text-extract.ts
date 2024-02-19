@@ -54,7 +54,15 @@ export async function extractRecipe(
     recipeText,
     formatInstructions: JSON.stringify(recipeFormatExample),
   });
-  return JSON.parse(result.replace("```json", "").replace("```", "")) as Recipe;
+  const recipe = JSON.parse(
+    result.replace("```json", "").replace("```", ""),
+  ) as Recipe;
+  recipe.steps.forEach((step) => {
+    if (step.usedIngredients && /^none$/i.test(step.usedIngredients)) {
+      delete step.usedIngredients;
+    }
+  });
+  return recipe;
 }
 
 /* await extractRecipe(`

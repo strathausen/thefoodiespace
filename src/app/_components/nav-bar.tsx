@@ -11,7 +11,7 @@ import {
   FaPlus,
 } from "react-icons/fa6";
 import { useScopedI18n } from "locales/client";
-import { LanguageSwitcher } from "components/buttons/language-switcher";
+// import { LanguageSwitcher } from "components/buttons/language-switcher";
 import { ProfileImage } from "./profile-image";
 import { type Session } from "next-auth";
 import { api } from "@/trpc/react";
@@ -135,7 +135,7 @@ export function NavBar(props: Props) {
               feed me feedback 🔥
             </Link>
           </div>
-          <LanguageSwitcher />
+          {/* <LanguageSwitcher /> */}
           <Link
             href={props.session ? "/api/auth/signout" : "/api/auth/signin"}
             className="flex items-center gap-4 rounded-sm transition"
