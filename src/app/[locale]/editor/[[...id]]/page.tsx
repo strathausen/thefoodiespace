@@ -223,8 +223,8 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
     const className =
       "rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50";
     return (
-      <div className="mb-4 mt-4 flex justify-between">
-        <div>
+      <div className="m-4 flex justify-between">
+        <div className="flex gap-4">
           {id && (
             <Link className={className} href={`/recipe/${id}`}>
               view
