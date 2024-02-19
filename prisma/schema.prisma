@@ -106,18 +106,28 @@ model Session {
 }
 
 model User {
-    id            String           @id @default(cuid())
+    id            String    @id @default(cuid())
     name          String?
-    handle        String?          @unique
-    email         String?          @unique
-    emailVerified DateTime?        @map("email_verified")
+    handle        String?   @unique
+    email         String?   @unique
+    emailVerified DateTime? @map("email_verified")
     image         String?
-    role          Role             @default(USER)
+    imageAlt      String?   @map("image_alt")
+    role          Role      @default(USER)
     pronouns      String?
-    showPronouns  Boolean?         @default(false) @map("show_pronouns") // not used yet
+    showPronouns  Boolean?  @default(false) @map("show_pronouns") // not used yet
     bio           String?
+    location      String?
     links         String[]
-    moderation    ModerationStatus @default(PENDING)
+    createdAt     DateTime  @default(now()) @map("created_at")
+    updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+    lastSeen      DateTime? @map("last_seen")
+    locales       String[]
+    locale        String?
+
+    // moderation
+    moderation       ModerationStatus @default(PENDING)
+    moderationReason String?          @map("moderation_reason")
 
     // relations
     accounts      Account[]
