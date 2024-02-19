@@ -224,7 +224,13 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
       "rounded bg-primary/20 px-2 py-1 text-primary shadow disabled:opacity-50";
     return (
       <div className="mb-4 mt-4 flex justify-between">
-        <div></div>
+        <div>
+          {id && (
+            <Link className={className} href={`/recipe/${id}`}>
+              view
+            </Link>
+          )}
+        </div>
         <div className="flex gap-4">
           {!id && (
             <Link className={className} href="/editor/import">
@@ -267,7 +273,7 @@ export default function RecipePage({ params }: { params: { id: string[] } }) {
   return (
     <main>
       <div className="mx-auto max-w-3xl">
-        <div className="flex justify-between">
+        <div>
           <h1 className="mt-6 font-vollkorn text-2xl">{t("title")}</h1>
           <ActionBar />
         </div>
