@@ -2,7 +2,7 @@ import { inngest } from "./client";
 import { db } from "@/server/db";
 import { transcribeImage } from "@/server/services/ai-transcribe-image";
 
-export const reviewRecipeImages = inngest.createFunction(
+export const reviewRecipeImagesFunction = inngest.createFunction(
   { id: "recipe-image-function" },
   { event: "recipe/updated" },
   async ({ event }) => {

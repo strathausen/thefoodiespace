@@ -1,2 +1,2 @@
-export { reviewUserFunction } from "./review-user-function";
-export { reviewRecipeImages } from "./review-recipe-images-function";
+export * from "./review-user-function";
+export * from "./review-recipe-images-function";
